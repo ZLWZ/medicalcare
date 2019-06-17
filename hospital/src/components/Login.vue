@@ -64,15 +64,15 @@
                   th.open4();
                 }
               },data => {
+                th.loadings = false;
                 this.$message({
                   message: '请检查网络设置',
                   type: 'error'
                 });
-                th.loadings = false;
               })
             } else {
-              console.log('error submit!!');
               th.loadings = false;
+              console.log('error submit!!');
               return false;
             }
           });

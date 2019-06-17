@@ -14,10 +14,12 @@ spring:
       min-idle: 5                                           # 数据库连接池的最小维持连接数
       initial-size: 5                                       # 初始化连接数
       max-total: 5                                          # 最大连接数
-      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+      max-wait-millis: 20000                                  # 等待连接获取的最大超时时间
   redis:
     host: 62.234.54.171
     port: 6379
+
+
 
 mybatis:      # mybatis配置文件所在路径
   type-aliases-package: com.medicalcare.entity    # 所有Entity别名类所在包
