@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.RoleMapper">
+    <select id="selPageRole" resultType="com.medicalcare.entity.Role">
+      select * from role
+      <where>
+          <if test="rname != null and rname != ''">
+            and rname like concat('%',#{rname},'%')
+          </if>
+          <if test="startTime != null">
+              and creation_time &gt;= #{startTime}
+          </if>
+          <if test="endingTime != null">
+              and creation_time &lt;= #{endingTime}
+          </if>
+      </where>
+      limit #{page},5
+    </select>
+    <!--id查询 角色-->
+    <select id="selRoleId" resultType="com.medicalcare.entity.Role" parameterType="long">
+      select * from role where rid = #{rid}
+    </select>
+    <update id="updateRoleId">
+      update role set `rname` = #{role.rname},`describe` = #{role.describe},`change_time` = #{role.changeTime}
+      where `rid` = #{role.rid}
+    </update>
+</mapper>

@@ -1,0 +1,11 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: MEDICALCARE-CONSUMER
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7001/eureka      #服务注册中信地址，含有BASIC认证的用户名和密码
+

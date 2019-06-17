@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.UserMapper">
+
+    <resultMap id="selUserMap" type="com.medicalcare.entity.User">
+        <id property="uid" column="uid"></id>
+        <result property="uname" column="uname"></result>
+        <result property="acount" column="acount"></result>
+        <result property="address" column="address"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="password" column="password"></result>
+        <result property="idcard" column="idcard"></result>
+        <result property="phone" column="phone"></result>
+        <result property="joindate" column="joindate"></result>
+        <result property="detials" column="detials"></result>
+        <result property="did" column="did"></result>
+        <result property="eid" column="eid"></result>
+        <association property="education" javaType="com.medicalcare.entity.Education">
+            <id property="eid" column="eid"></id>
+            <result property="ename" column="ename"></result>
+        </association>
+        <association property="department" javaType="com.medicalcare.entity.Department">
+            <id property="did" column="did"></id>
+            <result property="dname" column="dname"></result>
+        </association>
+        <collection property="roleList" ofType="com.medicalcare.entity.Role">
+            <id property="rid" column="rid"></id>
+            <result property="rname" column="rname"></result>
+        </collection>
+        <collection property="menuList" ofType="com.medicalcare.entity.Menu">
+            <id property="mid" column="mid"></id>
+            <result property="mname" column="mname"></result>
+            <result property="link" column="link"></result>
+            <result property="parend" column="parend"></result>
+            <result property="icon" column="icon"></result>
+        </collection>
+    </resultMap>
+    <select id="selUser" resultMap="selUserMap">
+      select u.*,r.*,m.* from `user` as u inner join  user_role as ur on u.uid = ur.uid
+      inner join role as r on r.`rid` = ur.`rid` inner join menu_role as mr on r.`rid` = mr.`rid` inner join menu as m
+      on m.mid = mr.mid where acount = #{name} and m.parend = 0 and u.state = 1 order by m.mid
+    </select>
+
+    <select id="getAllUser" resultMap="selUserMap">
+        select u.*,e.*,d.*,r.* from user u
+        inner join department d on u.did = d.did
+        inner join education e on u.eid = e.eid
+        inner join  user_role as ur on u.uid = ur.uid
+        inner join role as r on r.`rid` = ur.`rid`
+        <where>
+            <if test="uname != null and uname != ''">
+                and u.uname like "%"#{uname}"%"
+            </if>
+            <if test="did != null and did != 0">
+                and u.did = #{did}
+            </if>
+            and u.uid != '060212'
+            and u.state = 1
+        </where>
+        order by u.uid
+        limit #{current},#{size}
+    </select>
+    <select id="getAlluId" resultType="java.lang.String">
+        select uid from user
+    </select>
+
+
+
+</mapper>

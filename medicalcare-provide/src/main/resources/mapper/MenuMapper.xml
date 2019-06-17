@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.MenuMapper">
+
+    <select id="selMenuList" resultType="com.medicalcare.entity.Menu">
+    select * from menu where parend = #{param2} and `mid` in (
+	select mr.mid from `user` as u inner join  user_role as ur on u.uid = ur.uid
+      inner join role as r on r.`rid` = ur.`rid` inner join menu_role as mr on r.`rid` = mr.`rid`
+      inner join menu as m on m.mid = mr.mid where acount = #{param1} and u.state = 1
+    )
+    </select>
+
+    <resultMap id="selMenuAndRoleListMap" type="com.medicalcare.entity.Menu">
+        <id property="mid" column="mid"></id>
+        <result property="parend" column="parend"></result>
+        <result property="icon" column="icon"></result>
+        <result property="link" column="link"></result>
+        <result property="mname" column="mname"></result>
+        <collection property="menus" select="selMenuAndRoleList" column="{rid=rid,parend=mid}"></collection>
+    </resultMap>
+    <select id="selMenuAndRoleList" resultMap="selMenuAndRoleListMap" >
+     select * from (select r.rid,m.* from role as r inner join menu_role as mr on r.rid = mr.rid inner join menu as m on mr.mid = m.mid) as menu where
+      parend = #{parend} and rid = #{rid} order by `mid`
+    </select>
+
+    <resultMap id="selAllMenuMap" type="com.medicalcare.entity.Menu">
+        <id property="mid" column="mid"></id>
+        <result property="parend" column="parend"></result>
+        <result property="icon" column="icon"></result>
+        <result property="link" column="link"></result>
+        <result property="mname" column="mname"></result>
+        <collection property="menus" select="selAllMenu" column="{parend=mid}"></collection>
+    </resultMap>
+    <select id="selAllMenu" resultMap="selAllMenuMap" >
+      select * from menu where parend = #{parend} order by mid
+    </select>
+
+    <resultMap id="selHaveAllMap" type="com.medicalcare.entity.Menu">
+        <id property="mid" column="mid"></id>
+        <result property="parend" column="parend"></result>
+        <result property="icon" column="icon"></result>
+        <result property="link" column="link"></result>
+        <result property="mname" column="mname"></result>
+    </resultMap>
+    <select id="selHaveAll" resultMap="selHaveAllMap">
+      select r.rid,m.* from role as r inner join menu_role as mr on r.rid = mr.rid inner join menu as m on mr.mid = m.mid where r.rid = #{rid} order by m.mid
+    </select>
+</mapper>
