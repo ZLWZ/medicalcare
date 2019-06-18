@@ -10,9 +10,4 @@ public interface UserRoleService {
     List<UserRole> selAllRid(long rid);
 
     boolean delAllRid(long rid);
-
-
-    boolean updataeUserRole(UserRole userRole);
-
-    boolean deleteById(String uid);
 }

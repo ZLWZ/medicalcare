@@ -15,7 +15,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/manager")
-@CrossOrigin
 public class InfoManagerController {
     @Resource
     private InfoManagerService infoManagerService;
