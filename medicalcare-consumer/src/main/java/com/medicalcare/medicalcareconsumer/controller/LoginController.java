@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 @RestController
+@CrossOrigin
 public class LoginController {
     @Resource
     private LoginService loginService;

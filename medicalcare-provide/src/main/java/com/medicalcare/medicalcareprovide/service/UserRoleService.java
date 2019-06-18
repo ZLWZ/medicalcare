@@ -25,4 +25,9 @@ public interface UserRoleService {
      * @return
      */
     boolean delAllRid(long rid);
+
+
+    boolean updataeUserRole(UserRole userRole);
+
+    boolean deleteById(String uid);
 }

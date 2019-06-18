@@ -16,7 +16,7 @@ public interface UserService {
     /**
      * 得到除root外的用户信息+分页+条件
      */
-    PageResult<User> getAllUser(Integer current, Integer size, String uname, String did);
+    PageResult<User> getAllUser(String uid,Integer current, Integer size, String uname, String did);
 
     /**
      * 添加用户

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/manager")
+@CrossOrigin
 public class DutyController {
     @Autowired
     private DutyService dutyService;

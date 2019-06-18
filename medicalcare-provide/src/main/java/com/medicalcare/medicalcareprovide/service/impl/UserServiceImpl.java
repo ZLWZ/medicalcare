@@ -29,16 +29,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult<User> getAllUser(Integer current, Integer size, String uname, String did) {
+    public PageResult<User> getAllUser(String uid,Integer current, Integer size, String uname, String did) {
         PageResult<User> pageResult = new PageResult<User>();
-        pageResult.setRows(userMapper.getAllUser((current-1)*size,size,uname,did.equals("")||did == null?0:Integer.parseInt(did)));
+        pageResult.setRows(userMapper.getAllUser(uid,(current-1)*size,size,uname,did.equals("")||did == null?0:Integer.parseInt(did)));
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
-        queryWrapper.notIn("uid","060212");
+        queryWrapper.lambda().notIn(User::getUid,"060212");
+        queryWrapper.lambda().between(User::getState,1,2);
         if(uname!=null&&!uname.equals("")){
-            queryWrapper.like("uname",uname);
+            queryWrapper.lambda().like(User::getUname,uname);
         }
         if(did!=null&&!did.equals("")) {
-            queryWrapper.eq("did", Integer.parseInt(did));
+            queryWrapper.lambda().eq(User::getDid, Integer.parseInt(did));
         }
         pageResult.setTotal(userMapper.selectCount(queryWrapper).longValue());
         return pageResult;
