@@ -26,4 +26,8 @@ public class DutyController {
     public boolean updateShift(@RequestBody Shift shift){
         return dutyService.updateShift(shift);
     }
+    @RequestMapping(value = "insertShift",method = RequestMethod.POST)
+    public boolean insertShift(@RequestBody Shift shift){
+        return dutyService.insertShift(shift);
+    }
 }
