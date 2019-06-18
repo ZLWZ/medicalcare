@@ -16,6 +16,7 @@
         <result property="detials" column="detials"></result>
         <result property="did" column="did"></result>
         <result property="eid" column="eid"></result>
+        <result property="state" column="state"></result>
         <association property="education" javaType="com.medicalcare.entity.Education">
             <id property="eid" column="eid"></id>
             <result property="ename" column="ename"></result>
@@ -36,12 +37,15 @@
             <result property="icon" column="icon"></result>
         </collection>
     </resultMap>
+
     <select id="selUser" resultMap="selUserMap">
       select u.*,r.*,m.* from `user` as u inner join  user_role as ur on u.uid = ur.uid
       inner join role as r on r.`rid` = ur.`rid` inner join menu_role as mr on r.`rid` = mr.`rid` inner join menu as m
       on m.mid = mr.mid where acount = #{name} and m.parend = 0 and u.state = 1 order by m.mid
     </select>
-
+    <update id="updateUserState">
+        update `user` set state = #{state} where uid = #{uid}
+    </update>
     <select id="getAllUser" resultMap="selUserMap">
         select u.*,e.*,d.*,r.* from user u
         inner join department d on u.did = d.did
@@ -56,7 +60,7 @@
                 and u.did = #{did}
             </if>
             and u.uid != '060212'
-            and u.state = 1
+            and (u.state = 1 or u.state = 2)
         </where>
         order by u.uid
         limit #{current},#{size}
@@ -65,6 +69,51 @@
         select uid from user
     </select>
 
-
+    <select id="getAllUserByuid" resultMap="selUserMap">
+        select u.uid,u.uname,u.sex,u.phone,d.did,d.dname,r.* from user u
+        inner join department d on u.did = d.did
+        inner join  user_role as ur on u.uid = ur.uid
+        inner join role as r on r.`rid` = ur.`rid`
+        <where>
+            u.uid in
+            <foreach item="item" collection="uids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+    <select id="getUserByRid" resultMap="selUserMap">
+        select u.uid,u.uname,u.phone,u.sex,r.*,d.did, d.dname from user u
+        inner join  user_role as ur on u.uid = ur.uid
+        inner join department d on u.did = d.did
+        inner join role as r on r.`rid` = ur.`rid`
+        <where>
+            r.rid in
+            <foreach collection="rids" open="(" separator="," close=")" item="rid" >
+                #{rid}
+            </foreach>
+            <if test="uid != null and uid != ''">
+                and u.uid = #{uid}
+            </if>
+        </where>
+    </select>
+    <select id="getAllIdcard" resultType="java.lang.String">
+        select idcard from `user`
+    </select>
+    <select id="getAllphone" resultType="java.lang.String">
+        select phone from `user`
+        <where>
+            <if test="uid != null and uid != ''">
+                uid != #{uid}
+            </if>
+        </where>
+    </select>
+    <select id="getAllacount" resultType="java.lang.String">
+        select acount from `user`
+        <where>
+            <if test="uid != null and uid != ''">
+                uid != #{uid}
+            </if>
+        </where>
+    </select>
 
 </mapper>

@@ -16,4 +16,18 @@ public interface UserMapper extends BaseMapper<User> {
 
     //得到所有uid
     List<String> getAlluId();
+
+
+    //得到所有身份证
+    List<String> getAllIdcard();
+    //得到所有手机号
+    List<String> getAllphone(@Param("uid") String uid);
+    //得到所有用户名
+    List<String> getAllacount(@Param("uid") String uid);
+    //根据uid获得4个基本信息和科室
+    List<User> getAllUserByuid(@Param("uids") List<String> uids);
+    //得到所有的护士医生
+    List<User> getUserByRid(@Param("uid") String uid,@Param("rids") Integer...rids);
+    //修改用户启用禁用状态
+    boolean updateUserState(@Param("uid") String uid,@Param("state") Long state);
 }
