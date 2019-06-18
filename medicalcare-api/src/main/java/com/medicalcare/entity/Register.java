@@ -1,6 +1,5 @@
 package com.medicalcare.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -27,9 +26,6 @@ public class Register implements Serializable {
   private double rprice;
   private long rstatic;
 
-  @TableField(exist = false)
-  private Department department;
-  @TableField(exist = false)
-  private User user;
+
 
 }

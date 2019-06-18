@@ -1,7 +1,6 @@
 package com.medicalcare.medicalcareprovide.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareprovide.mapper.UserMapper;
 import com.medicalcare.medicalcareprovide.service.UserService;
@@ -53,49 +52,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getAlluId() {
         return userMapper.getAlluId();
-    }
-
-
-
-    @Override
-    public boolean updateUser(User user) {
-        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<User>();
-        userUpdateWrapper.lambda().eq(User::getUid,user.getUid());
-        return userMapper.update(user,userUpdateWrapper)>0;
-    }
-
-    @Override
-    public boolean updateUserState(String uid, Long state) {
-        return userMapper.updateUserState(uid,state);
-    }
-
-    @Override
-    public boolean deleteUser(String uid) {
-        return userMapper.deleteById(uid)>0;
-    }
-
-    @Override
-    public List<User> getAllUserByuid(List<String> uids) {
-        return userMapper.getAllUserByuid(uids);
-    }
-
-    @Override
-    public List<User> getUserByRid(String uid) {
-        return userMapper.getUserByRid(uid,6,7);
-    }
-
-    @Override
-    public List<String> getAllID() {
-        return userMapper.getAllIdcard();
-    }
-
-    @Override
-    public List<String> getAllPhone(String uid) {
-        return userMapper.getAllphone(uid);
-    }
-
-    @Override
-    public List<String> getAllAcount(String uid) {
-        return userMapper.getAllacount(uid);
     }
 }
