@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="medicalcare-api" />
         <module name="medicalcare-consumer" />
         <module name="medicalcare-provide" />
         <module name="medicalcare-server" />
-        <module name="medicalcareapi" />
       </profile>
     </annotationProcessing>
   </component>
