@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<Role> {
 
-    public List<Role> selPageRole(@Param("page") long page,@Param("rname") String rname,
-                                  @Param("startTime") Date startTime,@Param("endingTime") Date endingTime);
+    public List<Role> selPageRole(@Param("page") long page, @Param("rname") String rname,
+                                  @Param("startTime") Date startTime, @Param("endingTime") Date endingTime);
 
 
     Role selRoleId(@Param("rid") long rid);

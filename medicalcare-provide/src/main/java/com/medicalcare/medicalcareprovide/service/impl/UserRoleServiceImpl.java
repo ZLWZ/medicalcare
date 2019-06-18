@@ -28,4 +28,18 @@ public class UserRoleServiceImpl implements UserRoleService {
     public boolean delAllRid(long rid) {
         return userRoleMapper.delete(new UpdateWrapper<UserRole>().lambda().eq(UserRole::getRid,rid)) > 0;
     }
+
+    @Override
+    public boolean updataeUserRole(UserRole userRole) {
+        UpdateWrapper<UserRole> userRoleUpdateWrapper = new UpdateWrapper<UserRole>();
+        userRoleUpdateWrapper.lambda().eq(UserRole::getUid,userRole.getUid());
+        return userRoleMapper.update(userRole,userRoleUpdateWrapper)>0;
+    }
+
+    @Override
+    public boolean deleteById(String uid) {
+        QueryWrapper<UserRole> queryWrapper = new QueryWrapper<UserRole>();
+        queryWrapper.lambda().eq(UserRole::getUid,uid);
+        return userRoleMapper.delete(queryWrapper)>0;
+    }
 }

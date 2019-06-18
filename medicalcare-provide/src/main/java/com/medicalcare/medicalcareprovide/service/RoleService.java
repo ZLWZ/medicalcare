@@ -12,7 +12,7 @@ public interface RoleService {
 
     long selCount(String rname, Date startTime, Date endingTime);
 
-    List<Role> selPageRple(long current,String rname, Date startTime, Date endingTime);
+    List<Role> selPageRple(long current, String rname, Date startTime, Date endingTime);
 
 
     Role selRoleId(long id);

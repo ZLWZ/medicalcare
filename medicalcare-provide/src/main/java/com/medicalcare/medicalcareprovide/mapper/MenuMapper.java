@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface MenuMapper extends BaseMapper<Menu> {
 
-    public List<Menu> selMenuList(String username,long menuId);
+    public List<Menu> selMenuList(String username, long menuId);
 
 
-    List<Menu> selMenuAndRoleList(@Param("rid") long rid,@Param("parend") long parend);
+    List<Menu> selMenuAndRoleList(@Param("rid") long rid, @Param("parend") long parend);
 
 
     List<Menu> selAllMenu(@Param("parend") long parend);

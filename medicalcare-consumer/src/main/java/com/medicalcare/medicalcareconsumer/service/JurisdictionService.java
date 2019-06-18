@@ -22,10 +22,10 @@ public interface JurisdictionService {
      * @return
      */
     @RequestMapping(value = "/selAllRole",method = RequestMethod.GET)
-    public Result selAllRole(@RequestParam(value = "rname",required = false) String rname,
-                             @RequestParam(value = "startTime",required = false) String startTime,
-                             @RequestParam(value = "endingTime",required = false) String endingTime,
-                             @RequestParam(value = "current",required = false) Integer current);
+    public Result selAllRole(@RequestParam(value = "rname", required = false) String rname,
+                             @RequestParam(value = "startTime", required = false) String startTime,
+                             @RequestParam(value = "endingTime", required = false) String endingTime,
+                             @RequestParam(value = "current", required = false) Integer current);
 
     /**
      * 按照id查询

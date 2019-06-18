@@ -9,7 +9,7 @@ public interface MenuService {
 
     List<Menu> selMenuList(String username, long menuId);
 
-    List<Menu> selMenuAndRoleList(long rid,long parend);
+    List<Menu> selMenuAndRoleList(long rid, long parend);
 
     List<Menu> selAllMenu(long parend);
 

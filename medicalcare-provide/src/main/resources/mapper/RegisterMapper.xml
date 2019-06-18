@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.RegisterMapper">
+    <resultMap id="getRegister" type="com.medicalcare.entity.Register">
+        <id column="rid" property="rid"></id>
+        <result column="rname" property="rname"></result>
+        <result column="idcard" property="idcard"></result>
+        <result column="did" property="did"></result>
+        <result column="uid" property="uid"></result>
+        <result column="redate" property="redate"></result>
+        <result column="rmoney" property="rmoney"></result>
+        <result column="rprice" property="rprice"></result>
+        <result column="rstatic" property="rstatic"></result>
+        <association property="department" javaType="com.medicalcare.entity.Department">
+            <id column="did" property="did"></id>
+            <result column="dname" property="dname"></result>
+        </association>
+        <association property="user" javaType="com.medicalcare.entity.User">
+            <id column="uid" property="uid"></id>
+            <result column="uname" property="uname"></result>
+        </association>
+    </resultMap>
+    <select id="getAllRegister" resultMap="getRegister">
+        select r.*,d.*,u.uid,u.uname from register r
+        inner join department d on r.did = d.did
+        inner join user u on u.uid = r.uid
+        <where>
+            r.rstatic = 1
+            <if test="rid != null and rid != ''">
+                and r.rid like "%"#{rid}"%"
+            </if>
+            <if test="rname != null and rname != ''">
+                and r.rname like "%"#{rname}"%"
+            </if>
+        </where>
+    </select>
+</mapper>
