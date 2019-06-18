@@ -11,4 +11,6 @@ public interface ShiftService {
     boolean updateShift(Shift shift);
     //添加值班信息表
     boolean insertShift(Shift shift);
+    //删除值班
+    boolean deleteShift(long sid);
 }

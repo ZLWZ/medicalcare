@@ -17,9 +17,9 @@
       <el-button class="filter-item" type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
    </div>
     <el-table ref="multipleTable" height="345" v-loading="loading" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
-      <el-table-column align="center" sortable prop="sid" label="序号">
+      <!--<el-table-column align="center" sortable prop="sid" label="序号">
         <template scope="scope">{{ scope.row.sid }}</template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column align="center" sortable prop="sdate" label="日期"></el-table-column>
       <el-table-column align="center" prop="dename" label="时段" width="150"></el-table-column>
       <el-table-column align="center" prop="uname" label="姓名"></el-table-column>
@@ -31,15 +31,16 @@
       <el-table-column align="center" label="操作">
         <template scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.sid)"></el-button>
+          <el-button size="small" type="danger" icon="el-icon-delete" circle @click="handel(scope.row.sid)"></el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 修改值班的表单 -->
     <el-dialog title="修改值班表" :visible.sync="dialogFormEditVisible" top="45px" width="35%">
       <el-form class="small-space" :rules="rules" :model="tableEdit" ref="tableEdit" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="序号" prop="sid">
+       <!-- <el-form-item label="序号" prop="sid">
           <el-input :disabled="true" style="width: 62%" v-model="tableEdit.sid"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="日期" prop="sdate">
           <el-date-picker v-model="tableEdit.sdate" value-format="yyyy-MM-dd" style="width: 62%" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
@@ -117,6 +118,14 @@
         <el-button type="primary" @click="resetForm">重置</el-button>
       </div>
     </el-dialog>
+    <!--删除值班信息-->
+    <el-dialog title="添加值班" :visible.sync="dialogDelVisible" top="290px" width="25%">
+      <p style="margin: -20px 0;">是否删除该条值班记录？</p>
+      <div slot="footer" class="dialog-footer" style="margin-top: -20px">
+        <el-button @click="quxiao">取 消</el-button>
+        <el-button type="primary" @click="handelyes">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -136,6 +145,7 @@
         uname: '',//姓名
         loading:true,
         sdate:'',
+        sid:'',
         did:'',
         department:[],//科室
         details:[],//时间段
@@ -169,6 +179,7 @@
         },
         dialogFormEditVisible: false,//修改模态框显示状态
         dialogFormVisible:false,
+        dialogDelVisible:false,
         rules: {
           did: [
             { required: true, message: '请选择时段', trigger: 'blur' }
@@ -183,6 +194,24 @@
       };
     },
     methods: {
+      //删除
+      handel(sid){
+        this.dialogDelVisible = true;
+        this.sid = sid
+      },
+      handelyes(){
+        this.$axios.get("/api/manager/deleteShift",{params:{sid:parseInt(this.sid)}})
+          .then((response)=>{
+            if(response.data){
+              this.$message({message: '删除成功！',type: 'success'});
+              this.loading = true;
+              this.flush(0);
+            }else{
+              this.$message('删除失败');
+            }
+            this.dialogDelVisible = false
+          })
+      },
       // 编辑
       handleEdit (sid) {
         this.dialogFormEditVisible = true;
@@ -212,6 +241,10 @@
       handelNo () {
         this.dialogFormVisible = false;
         this.$refs['addtable'].resetFields();
+      },
+      quxiao(){
+        this.dialogDelVisible = false;
+        this.$message('已取消操作');
       },
       // 重置
       resetForm () {

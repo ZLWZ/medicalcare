@@ -30,4 +30,8 @@ public class DutyController {
     public boolean insertShift(@RequestBody Shift shift){
         return dutyService.insertShift(shift);
     }
+    @RequestMapping(value = "deleteShift",method = RequestMethod.GET)
+    public boolean deleteShift(@RequestParam("sid") long sid){
+        return dutyService.deleteShift(sid);
+    }
 }

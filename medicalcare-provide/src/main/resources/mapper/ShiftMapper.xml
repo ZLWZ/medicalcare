@@ -20,5 +20,6 @@
         select s.sid,s.sdate,s.did sdid,s.uid,s.pid,d.*,p.* from shift s
 	    left join parti p on s.`pid` = p.`pid`
         inner join details d on s.did = d.did
+        order by s.sdate,s.did
     </select>
 </mapper>

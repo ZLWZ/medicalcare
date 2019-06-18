@@ -24,4 +24,6 @@ public interface DutyService {
     @RequestMapping(value = "insertShift",method = RequestMethod.POST)
     public boolean insertShift(@RequestBody Shift shift);
 
+    @RequestMapping(method = RequestMethod.GET, value="deleteShift")
+    public boolean deleteShift(@RequestParam("sid") long sid);
 }

@@ -29,4 +29,11 @@ public class ShiftServiceImpl implements ShiftService {
     public boolean insertShift(Shift shift) {
         return shiftMapper.insert(shift)>0;
     }
+
+    @Override
+    public boolean deleteShift(long sid) {
+        QueryWrapper<Shift> queryWrapper = new QueryWrapper<Shift>();
+        queryWrapper.lambda().eq(Shift::getSid,sid);
+        return shiftMapper.delete(queryWrapper)>0;
+    }
 }
