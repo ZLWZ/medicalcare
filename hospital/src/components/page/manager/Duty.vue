@@ -6,15 +6,13 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="uname"></el-input>
       <div class="clearance"></div>
-      <el-select v-model="sdate" @change="flush(0)" filterable clearable placeholder="请选择星期">
-        <el-option v-for="item in week" :key="item.sdate" :label="item.wname" :value="item.sdate"></el-option>
-      </el-select>
+      <el-date-picker v-model="sdate"  @change="chooseWeek" value-format="yyyy-MM-dd" type="date" placeholder="选择日期"></el-date-picker>
       <div class="clearance"></div>
-      <el-select v-model="did" @change="flush(0)" filterable clearable placeholder="请选择科室">
+      <el-select v-model="did" @change="chooseDepart" filterable clearable placeholder="请选择科室">
         <el-option v-for="item in department" :key="item.did" :label="item.dname" :value="item.did"></el-option>
       </el-select>
       <div class="clearance"></div>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="flush(0)">搜索</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="chaxun">搜索</el-button>
       <el-button class="filter-item" type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
    </div>
     <el-table ref="multipleTable" height="345" v-loading="loading" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
@@ -41,8 +39,8 @@
         <el-form-item label="序号" prop="sid">
           <el-input :disabled="true" style="width: 62%" v-model="tableEdit.sid"></el-input>
         </el-form-item>
-        <el-form-item label="日期" prop="sdata">
-          <el-input :disabled="true" style="width: 62%" v-model="tableEdit.sdata"></el-input>
+        <el-form-item label="日期" prop="sdate">
+          <el-date-picker v-model="tableEdit.sdate" value-format="yyyy-MM-dd" style="width: 62%" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="时段" prop="did">
           <el-select v-model="tableEdit.did" clearable placeholder="请选择时段">
@@ -104,18 +102,9 @@
         details:[],//时间段
         parti:[],//出勤
         user:[],//用户
-        week:[
-          {sdate:"星期一",wname:"星期一"},
-          {sdate:"星期二",wname:"星期二"},
-          {sdate:"星期三",wname:"星期三"},
-          {sdate:"星期四",wname:"星期四"},
-          {sdate:"星期五",wname:"星期五"},
-          {sdate:"星期六",wname:"星期六"},
-          {sdate:"星期日",wname:"星期日"}
-        ],
         tableEdit: {
           sid:'',
-          sdata:'',
+          sdate:'',
           did:'',
           pid:'',
           uid:'',
@@ -134,6 +123,9 @@
           ],
           uid:[
             { required: true, message: '请选择轮班人', trigger: 'blur' }
+          ],
+          sdate:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
           ]
         }
       };
@@ -150,9 +142,8 @@
             did:''
           }
         }).then((response) => {
-            console.log(response.data[0])
             this.tableEdit.sid=response.data[0].sid;
-            this.tableEdit.sdata=response.data[0].sdate;
+            this.tableEdit.sdate=response.data[0].sdate;
             this.tableEdit.did=response.data[0].did;
             this.tableEdit.pid=response.data[0].pid == 6 ?'':response.data[0].pid;
             this.tableEdit.uid=response.data[0].user.uid;
@@ -168,15 +159,18 @@
       // 编辑表单的提交
       handleEditSubmit (tableEdit) {
         this.$refs[tableEdit].validate((valid) => {
+          console.log(this.tableEdit.sdate)
           if (valid) {
             this.$axios.post('/api/manager/updateShift',{
               sid:parseInt(this.tableEdit.sid),
               did:parseInt(this.tableEdit.did),
               uid:this.tableEdit.uid,
+              sdate:this.tableEdit.sdate,
               pid:parseInt(this.tableEdit.pid==''?6:this.tableEdit.pid)
             }).then(response=>{
               if(response.data){
                 this.dialogFormEditVisible = false;
+                this.loading = true
                 this.$message({message: '修改成功！',type: 'success'});
                 this.flush(0);
               }else{
@@ -194,15 +188,6 @@
         this.did = '';
         this.sdate = '';
         this.loading = true;
-        this.$axios.get("")
-          .then((response)=>{
-            if(response.data){
-              this.$message({
-                message: '数据请求失败',
-                type: 'error'
-              });
-            }
-          })
         this.flush(0);
       },
       //得到对应用户信息
@@ -219,13 +204,28 @@
           this.tableEdit.user.uid = response.data.data[3][0].uid
         })
       },
+      //选择星期
+      chooseWeek(){
+        this.loading = true
+        this.flush(0)
+      },
+      //选择科室
+      chooseDepart(){
+        this.loading = true
+        this.flush(0)
+      },
+      //查询
+      chaxun(){
+        this.loading = true
+        this.flush(0)
+      },
       //加载数据
       flush(sid){
         this.$axios.get("/api/manager/getAllDuty",{
           params:{
             sid:sid,
             uname: this.uname,
-            sdate:this.sdate,
+            sdate:this.sdate == null ? '':this.sdate,
             did:this.did
           }
         }).then((response) => {             // mark
@@ -248,6 +248,7 @@
           this.loading = false;
         }, response => {
           this.$message({message: '数据请求失败',type: 'error'});
+          this.loading = false
         });
       }
     },
