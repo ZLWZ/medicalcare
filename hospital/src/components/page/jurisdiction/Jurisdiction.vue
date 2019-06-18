@@ -28,7 +28,7 @@
 
     <el-table ref="multipleTable" :data="table" border tooltip-effect="dark"  style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="序号"  width="50">
+      <el-table-column label="序号"  width="50" type="index">
         <template scope="scope">{{ scope.row.rid }}</template>
       </el-table-column>
       <el-table-column prop="rname" label="角色名称"  width="120"></el-table-column>
@@ -37,11 +37,9 @@
       <el-table-column prop="changeTime" label="修改时间" sortable align="center" show-overflow-tooltip ></el-table-column>
       <el-table-column align="center" label="操作">
         <template scope="scope">
-
           <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.rid, scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.rid, scope.row.index)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.rid, scope.row)"></el-button>
           <el-button icon="el-icon-search" circle @click="selectRoles(scope.row.rid)"></el-button>
-
         </template>
       </el-table-column>
     </el-table>
@@ -181,13 +179,16 @@
           type: 'warning'
         }).then(() => {
           this.$axios.delete("/api/jurisdiction/deleteRole/"+rid).then((data) => {
-            console.log(data)
             if(data.data.code == 10000){
               if(this.table.length == 1){
                 this.handleCurrentChange(this.currentPage - 1)
               }else{
                 if(this.currentPage == Math.ceil(this.total / this.pageSize)){
-                  this.table.splice(index,1);
+                  for(let i = 0 ; i < this.table.length ; i++){
+                    if(this.table[i].rid === rid ){
+                      this.table.splice(i,1)
+                    }
+                  }
                 }else{
                   this.handleCurrentChange(this.currentPage)
                 }

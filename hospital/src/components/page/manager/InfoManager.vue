@@ -10,7 +10,7 @@
         <el-option v-for="item in department1" :key="item.did" :label="item.dname" :value="item.did"></el-option>
       </el-select>
       <div class="clearance"></div>
-      <el-button class="filter-item" type="warning" icon="el-icon-search" @click="flush(0)">搜索</el-button>
+      <el-button class="filter-item" type="warning" icon="el-icon-search" @click="chaxun">搜索</el-button>
       <el-button class="filter-item" type="primary" @click="dialogFormVisible = true"  icon="el-icon-edit">添加</el-button>
       <!--<el-button class="filter-item" type="danger" @click="handleDelAll"  icon="el-icon-delete">全部删除</el-button>-->
     </div>
@@ -343,6 +343,7 @@
       handleEditSubmit (tableEdit) {
         this.$refs[tableEdit].validate((valid) => {
           if (valid) {
+            this.loading = true;
             this.$axios.post('/api/manager/updateUser',{
               uid: this.tableEdit.uid,
               uname:this.tableEdit.uname,
@@ -385,6 +386,7 @@
               if(response.data){
                 this.$message({type: 'success',message: '办理成功！！'});
                 this.dialogleave = false
+                this.loading = true;
                 this.flush(0)
               }else{
                 this.$message({type: 'success',message: '办理失败！！'});
@@ -419,6 +421,7 @@
           this.$axios.get('/api/manager/deleteAllUser',{params:{uids:uids}}).then(response=>{
             if(response.data){
               this.$message({type: 'success',message: '删除成功!'});
+              this.loading = true;
               this.flush(0)
             }else{
               this.$message.error('删除失败!');
@@ -433,19 +436,27 @@
         this.dialogFormVisible = false;
         this.$refs['form'].resetFields();
       },
+      //查询
+      chaxun(){
+        this.loading = true
+        this.flush(0)
+      },
       //总条数切换
       handleSizeChange (val) {
+        this.loading = true;
         this.size = val;
         this.current = 1;
         this.flush(0);
       },
       //科室查询
       seldid(){
+        this.loading = true;
         this.current = 1;
         this.flush(0);
       },
       //当前页切换
       handleCurrentChange (val) {
+        this.loading = true;
         this.current = val;
         this.flush(0);
       },
@@ -468,6 +479,7 @@
             }).then(response=>{
               if(response.data){
                 this.dialogFormVisible = false;
+                this.loading = true;
                 this.$message({message: '个人信息添加成功！',type: 'success'});
                 this.$refs['form'].resetFields();
                 this.flush(0);
@@ -496,6 +508,7 @@
                 params:{uid:uid,state:2}
               }).then((response)=>{
                 if(response.data){
+                  this.loading = true;
                   this.$message({type: 'success',message: '禁用成功!'});
                   this.flush(0);
                 }else{
@@ -514,6 +527,7 @@
                 params:{uid:uid,state:1}
               }).then((response)=>{
                 if(response.data){
+                  this.loading = true;
                   this.$message({type: 'success',message: '启用成功!'});
                   this.flush(0);
                 }else{

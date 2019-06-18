@@ -17,7 +17,7 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="flush(0)">搜索</el-button>
       <el-button class="filter-item" type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
    </div>
-    <el-table ref="multipleTable" height="345" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
+    <el-table ref="multipleTable" height="345" v-loading="loading" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
       <el-table-column align="center" sortable prop="sid" label="序号">
         <template scope="scope">{{ scope.row.sid }}</template>
       </el-table-column>
@@ -97,6 +97,7 @@
         },
         table: [],//展示表数据
         uname: '',//姓名
+        loading:true,
         sdate:'',
         did:'',
         department:[],//科室
@@ -192,6 +193,16 @@
         this.uname = '';
         this.did = '';
         this.sdate = '';
+        this.loading = true;
+        this.$axios.get("")
+          .then((response)=>{
+            if(response.data){
+              this.$message({
+                message: '数据请求失败',
+                type: 'error'
+              });
+            }
+          })
         this.flush(0);
       },
       //得到对应用户信息
@@ -234,11 +245,9 @@
             table.push(data)
           });
           this.table = table;
+          this.loading = false;
         }, response => {
-          this.$message({
-            message: '数据请求失败',
-            type: 'error'
-          });
+          this.$message({message: '数据请求失败',type: 'error'});
         });
       }
     },
