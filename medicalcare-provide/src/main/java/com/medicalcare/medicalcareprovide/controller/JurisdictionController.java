@@ -131,6 +131,11 @@ public class JurisdictionController {
         return new Result(ResultCode.SUCCESS);
     }
 
+    /**
+     * 删除角色
+     * @param rid
+     * @return
+     */
     @RequestMapping(value = "/deleteRole/{rid}",method = RequestMethod.DELETE)
     public Result deleteRole(@PathVariable(value = "rid") long rid){
         List<UserRole> userRoles = userRoleServiceImpl.selAllRid(rid);
