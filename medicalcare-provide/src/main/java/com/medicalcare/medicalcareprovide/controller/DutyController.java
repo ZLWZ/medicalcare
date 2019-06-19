@@ -59,6 +59,14 @@ public class DutyController {
     public boolean updateShift(@RequestBody Shift shift){
         return shiftServiceImpl.updateShift(shift);
     }
+    @RequestMapping(value = "insertShift",method = RequestMethod.POST)
+    public boolean insertShift(@RequestBody Shift shift){
+        return shiftServiceImpl.insertShift(shift);
+    }
+    @RequestMapping(value = "deleteShift",method = RequestMethod.GET)
+    public boolean deleteShift(@RequestParam("sid") long sid){
+        return shiftServiceImpl.deleteShift(sid);
+    }
     //根据传入参数获得对应值班数据
     private List<Shift> getDuty(List<Shift> allShift,String sid,String uname,String sdate,String did)  {
         if(sid!=null&&!sid.equals("0")){

@@ -9,4 +9,8 @@ public interface ShiftService {
     List<Shift> getAllShift();
     //跟新值班信息表
     boolean updateShift(Shift shift);
+    //添加值班信息表
+    boolean insertShift(Shift shift);
+    //删除值班
+    boolean deleteShift(long sid);
 }

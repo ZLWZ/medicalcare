@@ -6,21 +6,20 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="uname"></el-input>
       <div class="clearance"></div>
-      <el-select v-model="sdate" @change="flush(0)" filterable clearable placeholder="请选择星期">
-        <el-option v-for="item in week" :key="item.sdate" :label="item.wname" :value="item.sdate"></el-option>
-      </el-select>
+      <el-date-picker v-model="sdate"  @change="chooseWeek" value-format="yyyy-MM-dd" type="date" placeholder="选择日期"></el-date-picker>
       <div class="clearance"></div>
-      <el-select v-model="did" @change="flush(0)" filterable clearable placeholder="请选择科室">
+      <el-select v-model="did" @change="chooseDepart" filterable clearable placeholder="请选择科室">
         <el-option v-for="item in department" :key="item.did" :label="item.dname" :value="item.did"></el-option>
       </el-select>
       <div class="clearance"></div>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="flush(0)">搜索</el-button>
+      <el-button class="filter-item" type="warning" icon="el-icon-search" @click="chaxun">搜索</el-button>
+      <el-button class="filter-item" type="primary" @click="dialogFormVisible = true"  icon="el-icon-edit">添加</el-button>
       <el-button class="filter-item" type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
    </div>
     <el-table ref="multipleTable" height="345" v-loading="loading" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
-      <el-table-column align="center" sortable prop="sid" label="序号">
+      <!--<el-table-column align="center" sortable prop="sid" label="序号">
         <template scope="scope">{{ scope.row.sid }}</template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column align="center" sortable prop="sdate" label="日期"></el-table-column>
       <el-table-column align="center" prop="dename" label="时段" width="150"></el-table-column>
       <el-table-column align="center" prop="uname" label="姓名"></el-table-column>
@@ -32,17 +31,18 @@
       <el-table-column align="center" label="操作">
         <template scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.sid)"></el-button>
+          <el-button size="small" type="danger" icon="el-icon-delete" circle @click="handel(scope.row.sid)"></el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 编辑信息的表单 -->
+    <!-- 修改值班的表单 -->
     <el-dialog title="修改值班表" :visible.sync="dialogFormEditVisible" top="45px" width="35%">
       <el-form class="small-space" :rules="rules" :model="tableEdit" ref="tableEdit" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="序号" prop="sid">
+       <!-- <el-form-item label="序号" prop="sid">
           <el-input :disabled="true" style="width: 62%" v-model="tableEdit.sid"></el-input>
-        </el-form-item>
-        <el-form-item label="日期" prop="sdata">
-          <el-input :disabled="true" style="width: 62%" v-model="tableEdit.sdata"></el-input>
+        </el-form-item>-->
+        <el-form-item label="日期" prop="sdate">
+          <el-date-picker v-model="tableEdit.sdate" value-format="yyyy-MM-dd" style="width: 62%" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="时段" prop="did">
           <el-select v-model="tableEdit.did" clearable placeholder="请选择时段">
@@ -50,7 +50,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="姓名" prop="uid">
-          <el-select v-model="tableEdit.uid" clearable placeholder="选择轮班人" @change="seluser">
+          <el-select v-model="tableEdit.uid" clearable placeholder="选择轮班人" @change="seluser(tableEdit.uid,0)">
             <el-option v-for="item in user" :key="item.uid" :label="item.uname" :value="item.uid"></el-option>
           </el-select>
         </el-form-item>
@@ -80,6 +80,52 @@
         <el-button type="primary" @click="handleEditSubmit('tableEdit')">确 定</el-button>
       </div>
     </el-dialog>
+    <!--添加值班信息-->
+    <el-dialog title="添加值班" :visible.sync="dialogFormVisible" top="100px" width="35%">
+      <el-form class="small-space" :rules="rules" :model="addtable" ref="addtable" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
+        <el-form-item label="日期" prop="sdate">
+          <el-date-picker v-model="addtable.sdate" value-format="yyyy-MM-dd" style="width: 62%" type="date" placeholder="选择日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="时段" prop="did">
+          <el-select v-model="addtable.did" clearable placeholder="请选择时段">
+            <el-option v-for="item in details" :key="item.did" :label="item.dname" :value="item.did"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="姓名" prop="uid">
+          <el-select v-model="addtable.uid" clearable placeholder="选择轮班人" @change="seluser(addtable.uid,1)">
+            <el-option v-for="item in user" :key="item.uid" :label="item.uname" :value="item.uid"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="职称" prop="rname">
+          <el-input :disabled="true" style="width: 62%" v-model="addtable.user.rname"></el-input>
+        </el-form-item>
+        <el-form-item label="科室" prop="dname">
+          <el-input :disabled="true" style="width: 62%" v-model="addtable.user.dname"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="phone">
+          <el-input :disabled="true" style="width: 62%" v-model="addtable.user.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-radio-group v-model="addtable.user.sex">
+            <el-radio v-if="addtable.user.sex == 1" label="1">男</el-radio>
+            <el-radio v-if="addtable.user.sex == 2" label="2">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="handelNo">取 消</el-button>
+        <el-button type="primary" @click="submitForm('addtable')">确 定</el-button>
+        <el-button type="primary" @click="resetForm">重置</el-button>
+      </div>
+    </el-dialog>
+    <!--删除值班信息-->
+    <el-dialog title="添加值班" :visible.sync="dialogDelVisible" top="290px" width="25%">
+      <p style="margin: -20px 0;">是否删除该条值班记录？</p>
+      <div slot="footer" class="dialog-footer" style="margin-top: -20px">
+        <el-button @click="quxiao">取 消</el-button>
+        <el-button type="primary" @click="handelyes">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -99,23 +145,15 @@
         uname: '',//姓名
         loading:true,
         sdate:'',
+        sid:'',
         did:'',
         department:[],//科室
         details:[],//时间段
         parti:[],//出勤
         user:[],//用户
-        week:[
-          {sdate:"星期一",wname:"星期一"},
-          {sdate:"星期二",wname:"星期二"},
-          {sdate:"星期三",wname:"星期三"},
-          {sdate:"星期四",wname:"星期四"},
-          {sdate:"星期五",wname:"星期五"},
-          {sdate:"星期六",wname:"星期六"},
-          {sdate:"星期日",wname:"星期日"}
-        ],
         tableEdit: {
           sid:'',
-          sdata:'',
+          sdate:'',
           did:'',
           pid:'',
           uid:'',
@@ -127,18 +165,53 @@
             dname:''
           }
         },//修改表数据
+        addtable:{
+          sdate:'',
+          did:'',
+          uid:'',
+          user:{
+            uname:'',
+            sex:'',
+            phone:'',
+            rname:'',
+            dname:''
+          }
+        },
         dialogFormEditVisible: false,//修改模态框显示状态
+        dialogFormVisible:false,
+        dialogDelVisible:false,
         rules: {
           did: [
             { required: true, message: '请选择时段', trigger: 'blur' }
           ],
           uid:[
             { required: true, message: '请选择轮班人', trigger: 'blur' }
+          ],
+          sdate:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
           ]
         }
       };
     },
     methods: {
+      //删除
+      handel(sid){
+        this.dialogDelVisible = true;
+        this.sid = sid
+      },
+      handelyes(){
+        this.$axios.get("/api/manager/deleteShift",{params:{sid:parseInt(this.sid)}})
+          .then((response)=>{
+            if(response.data){
+              this.$message({message: '删除成功！',type: 'success'});
+              this.loading = true;
+              this.flush(0);
+            }else{
+              this.$message('删除失败');
+            }
+            this.dialogDelVisible = false
+          })
+      },
       // 编辑
       handleEdit (sid) {
         this.dialogFormEditVisible = true;
@@ -150,9 +223,8 @@
             did:''
           }
         }).then((response) => {
-            console.log(response.data[0])
             this.tableEdit.sid=response.data[0].sid;
-            this.tableEdit.sdata=response.data[0].sdate;
+            this.tableEdit.sdate=response.data[0].sdate;
             this.tableEdit.did=response.data[0].did;
             this.tableEdit.pid=response.data[0].pid == 6 ?'':response.data[0].pid;
             this.tableEdit.uid=response.data[0].user.uid;
@@ -165,6 +237,49 @@
 
 
       },
+      //取消
+      handelNo () {
+        this.dialogFormVisible = false;
+        this.$refs['addtable'].resetFields();
+      },
+      quxiao(){
+        this.dialogDelVisible = false;
+        this.$message('已取消操作');
+      },
+      // 重置
+      resetForm () {
+        this.$refs['addtable'].resetFields();
+        this.addtable.user.uname = '';
+        this.addtable.user.sex = '1';
+        this.addtable.user.phone = '';
+        this.addtable.user.rname = '';
+        this.addtable.user.dname = '';
+      },
+      //添加用户
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$axios.post('/api/manager/insertShift',{
+              did:parseInt(this.addtable.did),
+              uid:this.addtable.uid,
+              sdate:this.addtable.sdate,
+              pid:6
+            }).then(response=>{
+              if(response.data){
+                this.dialogFormVisible = false;
+                this.loading = true;
+                this.$message({message: '添加成功！',type: 'success'});
+                this.$refs['addtable'].resetFields();
+                this.flush(0);
+              }else{
+                this.$message.error('个人信息添加失败！');
+              }
+            });
+          } else {
+            return false;
+          }
+        });
+      },
       // 编辑表单的提交
       handleEditSubmit (tableEdit) {
         this.$refs[tableEdit].validate((valid) => {
@@ -173,10 +288,12 @@
               sid:parseInt(this.tableEdit.sid),
               did:parseInt(this.tableEdit.did),
               uid:this.tableEdit.uid,
+              sdate:this.tableEdit.sdate,
               pid:parseInt(this.tableEdit.pid==''?6:this.tableEdit.pid)
             }).then(response=>{
               if(response.data){
                 this.dialogFormEditVisible = false;
+                this.loading = true
                 this.$message({message: '修改成功！',type: 'success'});
                 this.flush(0);
               }else{
@@ -194,30 +311,45 @@
         this.did = '';
         this.sdate = '';
         this.loading = true;
-        this.$axios.get("")
-          .then((response)=>{
-            if(response.data){
-              this.$message({
-                message: '数据请求失败',
-                type: 'error'
-              });
-            }
-          })
         this.flush(0);
       },
       //得到对应用户信息
-      seluser(uid){
+      seluser(uid,state){
         this.$axios.get("/api/manager/getAllDutyInfo",{
           params:{
             uid:uid
           }
         }).then((response) =>{
-          this.tableEdit.user.rname = response.data.data[3][0].roleList[0].rname
-          this.tableEdit.user.dname = response.data.data[3][0].department.dname
-          this.tableEdit.user.phone = response.data.data[3][0].phone
-          this.tableEdit.user.sex = response.data.data[3][0].sex+""
-          this.tableEdit.user.uid = response.data.data[3][0].uid
+          if(state == 0){
+            this.tableEdit.user.rname = response.data.data[3][0].roleList[0].rname
+            this.tableEdit.user.dname = response.data.data[3][0].department.dname
+            this.tableEdit.user.phone = response.data.data[3][0].phone
+            this.tableEdit.user.sex = response.data.data[3][0].sex+""
+            this.tableEdit.user.uid = response.data.data[3][0].uid
+          }else{
+            this.addtable.user.rname = response.data.data[3][0].roleList[0].rname
+            this.addtable.user.dname = response.data.data[3][0].department.dname
+            this.addtable.user.phone = response.data.data[3][0].phone
+            this.addtable.user.sex = response.data.data[3][0].sex+""
+            this.addtable.user.uid = response.data.data[3][0].uid
+          }
+
         })
+      },
+      //选择星期
+      chooseWeek(){
+        this.loading = true
+        this.flush(0)
+      },
+      //选择科室
+      chooseDepart(){
+        this.loading = true
+        this.flush(0)
+      },
+      //查询
+      chaxun(){
+        this.loading = true
+        this.flush(0)
       },
       //加载数据
       flush(sid){
@@ -225,7 +357,7 @@
           params:{
             sid:sid,
             uname: this.uname,
-            sdate:this.sdate,
+            sdate:this.sdate == null ? '':this.sdate,
             did:this.did
           }
         }).then((response) => {             // mark
@@ -248,6 +380,7 @@
           this.loading = false;
         }, response => {
           this.$message({message: '数据请求失败',type: 'error'});
+          this.loading = false
         });
       }
     },
