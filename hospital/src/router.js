@@ -7,13 +7,11 @@ Vue.use(Router)
 
 //公共路由  静态
 export const constantRouterMap = [
-  {path:'/404',component: () => import('./components/common/404.vue')},
   {
     path:'/login',
     name:'Login',
     component:()=>import('./components/Login.vue')
-  }
-  ,
+  },
   {
     path: '/',
     name:'/',
@@ -91,7 +89,8 @@ export const constantRouterMap = [
     path: '/403',
     component: () => import('./components/common/403.vue'),
     meta: { title: '没有权限' }
-  }
+  },
+  {path:'/**',component: () => import('./components/common/404.vue')},
 ]
 
 

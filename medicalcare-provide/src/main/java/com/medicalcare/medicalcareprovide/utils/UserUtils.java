@@ -14,9 +14,9 @@ public class UserUtils {
             }
         }
     }
-    public static String getPassWord(String uname){
+    public static String getPassWord(String uname,String password){
         String algorithmName = "md5";
-        Object source = "123456";
+        Object source = password;
         Object salt = ByteSource.Util.bytes(uname);
         int hashIterations = 1024;
         SimpleHash simpleHash = new SimpleHash(algorithmName,source, salt, hashIterations);
