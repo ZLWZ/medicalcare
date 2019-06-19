@@ -5,6 +5,7 @@ import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareprovide.service.*;
 import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("manager")
+@RequiresPermissions(value = "/manager")
 public class DutyController {
     @Autowired
     private ShiftService shiftServiceImpl;

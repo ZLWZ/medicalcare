@@ -61,4 +61,12 @@ public interface UserService {
      */
     List<String> getAllAcount(String uid);
 
+    /**
+     * 查询指定的用户
+     * @param uid
+     * @return
+     */
+    User selUserById(String uid);
+
+
 }

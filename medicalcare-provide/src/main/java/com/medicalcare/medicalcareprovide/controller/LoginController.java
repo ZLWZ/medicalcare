@@ -2,6 +2,8 @@ package com.medicalcare.medicalcareprovide.controller;
 
 import com.medicalcare.entity.Menu;
 import com.medicalcare.entity.User;
+import com.medicalcare.medicalcareprovide.service.UserService;
+import com.medicalcare.medicalcareprovide.utils.UserUtils;
 import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
 import org.apache.shiro.SecurityUtils;
@@ -10,15 +12,21 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
+import sun.applet.Main;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
 @CrossOrigin
 public class LoginController {
+
+    @Resource
+    private UserService userServiceImpl;
 
     /**
      * 用户登录
@@ -64,5 +72,26 @@ public class LoginController {
     {
         String header = request.getHeader("Authoriztion");
         return code == 1 ? new Result(ResultCode.UNAUTHENTICATED) : new Result(ResultCode.UNAUTHORISE);
+    }
+
+    @PostMapping(value = "/verifyPassword")
+    public Result verifyPassword(@RequestBody Map map){
+        User user = userServiceImpl.selUserById(map.get("uid").toString());
+        if(user.getPassword().equals(UserUtils.getPassWord(user.getAcount(),map.get("password").toString()))){
+            return new Result(ResultCode.SUCCESS,"ok");
+        }else{
+            return new Result(ResultCode.SUCCESS,"密码错误");
+        }
+    }
+
+    @PostMapping(value = "/updatePassword")
+    public Result updatePassword(@RequestBody Map map){
+        User user = userServiceImpl.selUserById(map.get("uid").toString());
+        user.setPassword(UserUtils.getPassWord(user.getAcount(),map.get("password").toString()));
+        if(userServiceImpl.updateUser(user)){
+            return new Result(ResultCode.SUCCESS,"ok");
+        }else{
+            return new Result(ResultCode.SUCCESS,"修改失败");
+        }
     }
 }

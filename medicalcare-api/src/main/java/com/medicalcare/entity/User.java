@@ -32,7 +32,7 @@ public class User implements Serializable, AuthCachePrincipal {
   private String detials;
   private long did;
   private long eid;
-
+  private String portrait;
   private long state;
 
   @TableField(exist = false)

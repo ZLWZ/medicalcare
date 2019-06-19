@@ -28,15 +28,12 @@ const i18n = new VueI18n({
 
 router.beforeEach((to, from, next) => {
   let user = store.state.user;
-  console.log("=========================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-  console.log(user)
   if(user == null){
     user = sessionStorage.getItem("user");
     if(user != null){
       store.state.user = JSON.parse(Base64.decode(user));
       user = store.state.user;
       if(user.authoriztion){
-        console.log("请求:"+user.authoriztion)
         axios.defaults.headers.post['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.get['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.delete['Authoriztion'] = user.authoriztion;

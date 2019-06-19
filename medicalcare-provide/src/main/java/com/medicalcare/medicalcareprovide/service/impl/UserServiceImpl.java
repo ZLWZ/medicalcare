@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareprovide.mapper.UserMapper;
 import com.medicalcare.medicalcareprovide.service.UserService;
+import com.medicalcare.medicalcareprovide.utils.UserUtils;
 import com.medicalcare.util.PageResult;
 import org.springframework.stereotype.Service;
 import sun.security.util.Password;
@@ -97,5 +98,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getAllAcount(String uid) {
         return userMapper.getAllacount(uid);
+    }
+
+    @Override
+    public User selUserById(String uid) {
+        return userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getUid,uid));
+    }
+
+
+    public static void main(String[] args) {
+        String zhaohh = UserUtils.getPassWord("zhaohh", "111111");
+        System.out.println(zhaohh);
     }
 }

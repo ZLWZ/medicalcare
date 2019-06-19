@@ -9,6 +9,7 @@ import com.medicalcare.medicalcareprovide.utils.UserUtils;
 import com.medicalcare.util.PageResult;
 import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("manager")
+@RequiresPermissions(value = "/manager")
 public class InfoManagerController {
     @Autowired
     private DepartmentService departmentServiceImpl;//科室表
@@ -71,7 +73,7 @@ public class InfoManagerController {
         user.setUname(map.get("uname"));
         user.setAcount(map.get("acount"));
         user.setAddress(map.get("address"));
-        user.setPassword(UserUtils.getPassWord(user.getAcount()));
+        user.setPassword(UserUtils.getPassWord(user.getAcount(),"123456"));
         user.setIdcard(map.get("idcard"));
         user.setPhone(map.get("phone"));
         user.setDetials(map.get("detials"));

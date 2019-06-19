@@ -17,6 +17,7 @@
         <result property="did" column="did"></result>
         <result property="eid" column="eid"></result>
         <result property="state" column="state"></result>
+        <result property="portrait" column="portrait"></result>
         <association property="education" javaType="com.medicalcare.entity.Education">
             <id property="eid" column="eid"></id>
             <result property="ename" column="ename"></result>
