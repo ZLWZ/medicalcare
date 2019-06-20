@@ -8,7 +8,7 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
-        <div class="user-avator"><img src="../../assets/img/img.jpg"></div>
+        <div class="user-avator"><img :src="imgPath"></div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -101,6 +101,7 @@
         loading:false,
         closable:false,
         maskclosable:false,
+        img:require('@/assets/img/下载.png'),
         formCustom: {
           passwd: '',
           passwdCheck: '',
@@ -122,6 +123,10 @@
       }
     },
     computed:{
+      imgPath(){
+        let imgSrc = this.$store.state.user.portrait;
+        return require('@/assets/img/'+imgSrc+'.png');
+      },
       username(){
         return this.$store.state.user.uname;
       }
@@ -152,6 +157,11 @@
               password:this.formCustom.passwd
             }).then((data) => {
               if(data.data.data == "ok"){
+                this.$notify({
+                  title: '成功',
+                  message: '修改成功 请重新登录',
+                  type: 'success'
+                });
                 this.handleCommand("loginout");
               }else{
                 this.$Message.error(data.data.data);
