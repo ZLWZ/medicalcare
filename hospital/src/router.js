@@ -81,8 +81,12 @@ export const constantRouterMap = [
         path:'/delivery',
         component:()=> import('./components/page/medicine/Delivery'),
         meta: { title: '药物出药' }
+      },
+      {
+        path:'/personalCenter',
+        component:() => import('./components/page/personalCenter/PersonalCenter'),
+        meta: {title:'个人中心'}
       }
-
     ]
   },
   {

@@ -8,13 +8,14 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
-        <div class="user-avator"><img src="../../assets/img/img.jpg"></div>
+        <div class="user-avator"><img :src="imgPath"></div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item  command="personalCenter" >个人中心</el-dropdown-item>
             <el-dropdown-item command="openUpdatePassword">修改密码</el-dropdown-item>
             <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -101,6 +102,7 @@
         loading:false,
         closable:false,
         maskclosable:false,
+        img:require('@/assets/img/下载.png'),
         formCustom: {
           passwd: '',
           passwdCheck: '',
@@ -122,6 +124,11 @@
       }
     },
     computed:{
+      imgPath(){
+        let imgSrc = this.$store.state.user.portrait;
+        console.log(require('G:/img'+"/"+imgSrc))
+        return require('G:/img'+"/"+imgSrc)
+      },
       username(){
         return this.$store.state.user.uname;
       }
@@ -136,6 +143,8 @@
           this.$router.push('/login');
         }else if(command == 'openUpdatePassword'){
           this.updatePassword = true;
+        }else if(command == 'personalCenter'){
+
         }
       },
       // 侧边栏折叠
@@ -152,6 +161,11 @@
               password:this.formCustom.passwd
             }).then((data) => {
               if(data.data.data == "ok"){
+                this.$notify({
+                  title: '成功',
+                  message: '修改成功 请重新登录',
+                  type: 'success'
+                });
                 this.handleCommand("loginout");
               }else{
                 this.$Message.error(data.data.data);
