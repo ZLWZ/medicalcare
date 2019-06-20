@@ -68,5 +68,9 @@ public interface UserService {
      */
     User selUserById(String uid);
 
-
+    /**
+     * 根据科室得到医生
+     * @return
+     */
+    List<User> getUserByDid(Long did,Long rid);
 }

@@ -32,6 +32,11 @@
             <if test="rname != null and rname != ''">
                 and r.rname like "%"#{rname}"%"
             </if>
+            order by r.redate desc
         </where>
     </select>
+    <update id="updateRegister">
+        update register set rstatic = #{rstatic} where rid = #{rid}
+    </update>
+
 </mapper>

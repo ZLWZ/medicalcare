@@ -1,6 +1,7 @@
 package com.medicalcare.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -16,10 +17,10 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @TableName("information")
 public class Information implements Serializable {
-
+  @TableId("uid")
   private String uid;
   private java.sql.Timestamp leavedate;
   private String details;
-
-
+  @TableField(exist = false)
+  private User user;
 }

@@ -8,15 +8,12 @@ import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
 
-
     User selUser(@Param("name") String name);
 
     //得到除最高权限外的所有用户,分页+条件查询
     List<User> getAllUser(@Param("uid") String uid, @Param("current") Integer current, @Param("size") Integer size, @Param("uname") String uname, @Param("did") Integer did);
     //得到所有uid
     List<String> getAlluId();
-
-
     //得到所有身份证
     List<String> getAllIdcard();
     //得到所有手机号
@@ -29,4 +26,6 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> getUserByRid(@Param("uid") String uid, @Param("rids") Integer... rids);
     //修改用户启用禁用状态
     boolean updateUserState(@Param("uid") String uid, @Param("state") Long state);
+    //根据did得到用户
+    List<User> getUserByDid(@Param("did")Long did,@Param("rid")Long rid);
 }

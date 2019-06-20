@@ -9,4 +9,10 @@ import java.util.List;
  */
 public interface RegisterService {
     List<Register> getAllRegister(String rid, String rname);
+
+    Register getRegister(String rid);
+
+    boolean updateRegister(Register register);
+
+    boolean deleteRegister(String rid);
 }

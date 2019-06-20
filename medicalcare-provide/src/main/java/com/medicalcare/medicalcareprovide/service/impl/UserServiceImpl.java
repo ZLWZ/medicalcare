@@ -105,6 +105,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getUid,uid));
     }
 
+    @Override
+    public List<User> getUserByDid(Long did, Long rid) {
+        return userMapper.getUserByDid(did,rid);
+    }
+
 
     public static void main(String[] args) {
         String zhaohh = UserUtils.getPassWord("zhaohh", "111111");

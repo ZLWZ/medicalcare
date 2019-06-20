@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RegisterMapper extends BaseMapper<Register> {
     List<Register> getAllRegister(@Param("rid") String rid, @Param("rname") String rname);
+
+    boolean updateRegister(@Param("rid") String rid,@Param("rstatic") long rstatic);
 }
