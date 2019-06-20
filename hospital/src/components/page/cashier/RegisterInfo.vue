@@ -8,9 +8,10 @@
       <div class="clearance"></div>
       <el-input style="width: 200px;" placeholder="患者姓名" v-model="rname"></el-input>
       <div class="clearance"></div>
-      <el-button type="primary" icon="search" @click="flush">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="flush">搜索</el-button>
+      <el-button type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
     </div>
-    <el-table :data="tableData" border="true" style="width: 100%;font-size: 14px">
+    <el-table :data="tableData" border="true" v-loading="loading" style="width: 100%;font-size: 14px">
     <el-table-column type="expand">
       <template slot-scope="props">
         <el-form inline  label-width="150px" class="demo-table-expand">
@@ -50,21 +51,23 @@
     <el-table-column label="挂号日期" prop="redate"></el-table-column>
       <el-table-column align="center" label="操作">
         <template scope="scope">
-          <el-button size="small" type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.uid)"></el-button>
-          <el-button size="small" icon="el-icon-delete" circle type="danger" @click="handleDelete(scope.row.uid)"></el-button>
+          <el-button size="small" type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.rid)"></el-button>
+          <el-button size="small" icon="el-icon-delete" circle type="danger" @click="handleDelete(scope.row.rid)"></el-button>
         </template>
       </el-table-column>
   </el-table>
+    <!--修改模态框-->
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  //import {api} from '../../../global/api.js';
   export default {
     data () {
       return {
         name:'RegisterInfo',
         rid:'',//编号
+        loading:true,
         rname:'',//姓名
         tableData: []
       };
@@ -86,23 +89,26 @@
           resignation_reason: ''
         };
       },
-      handleDelete (index, row) {
-        let vm = this;
-        console.log('单个删除选择的row: ', index, '-----', row);
-        vm.table.splice(index, 1);
-        this.$message({
-          message: '删除成功！',
-          type: 'success'
-        });
+      handleEdit(rid){
+        alert(rid)
+      },
+      handleDelete(rid){
+        alert(rid)
+      },
+      refresh(){
+        this.rid = ''
+        this.rname = ''
+        this.flush()
       },
       flush(){
+        this.loading = true;
         this.$axios.get('/api/cashier/getAllRegister',{
           params:{
             rid:this.rid,
             rname:this.rname
           }
         }).then((response) => {             // mark
-          var td =this.tableData;
+          var td =[];
           response.data.forEach(function (item) {
             var register = {
               rid:item.rid,
@@ -130,6 +136,8 @@
             register.redate=y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
             td.push(register)
           })
+          this.tableData = td
+          this.loading = false
         }, response => {
           this.$message({message: '数据请求失败',type: 'error'});
         });
