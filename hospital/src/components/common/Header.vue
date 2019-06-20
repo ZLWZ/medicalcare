@@ -15,6 +15,7 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item  command="personalCenter" >个人中心</el-dropdown-item>
             <el-dropdown-item command="openUpdatePassword">修改密码</el-dropdown-item>
             <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -125,7 +126,8 @@
     computed:{
       imgPath(){
         let imgSrc = this.$store.state.user.portrait;
-        return require('@/assets/img/'+imgSrc+'.png');
+        console.log(require('G:/img'+"/"+imgSrc))
+        return require('G:/img'+"/"+imgSrc)
       },
       username(){
         return this.$store.state.user.uname;
@@ -141,6 +143,8 @@
           this.$router.push('/login');
         }else if(command == 'openUpdatePassword'){
           this.updatePassword = true;
+        }else if(command == 'personalCenter'){
+
         }
       },
       // 侧边栏折叠
