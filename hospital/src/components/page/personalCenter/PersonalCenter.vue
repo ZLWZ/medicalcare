@@ -125,13 +125,13 @@
         },
         handleSuccess(res, file){
           this.$refs.upload.clearFiles();
-          this.$Message.success('上传成功');
           user = sessionStorage.getItem("user");
           let user = JSON.parse(Base64.decode(user));
           user.portrait = file.name
           sessionStorage.setItem("user",Base64.encode(JSON.stringify(user)));
-          this.src = require("@/assets/img/"+file.name)
           this.$store.state.user.portrait = file.name;
+          this.src = require("@/assets/img/"+file.name)
+          this.$Message.success('上传成功');
         },
         handleError(file, fileList){
           this.$Message.error('上传失败');
