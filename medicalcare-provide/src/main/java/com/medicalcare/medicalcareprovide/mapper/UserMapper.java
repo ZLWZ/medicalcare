@@ -26,6 +26,7 @@ public interface UserMapper extends BaseMapper<User> {
     boolean updateUserState(@Param("uid") String uid, @Param("state") Long state);
     //根据did得到用户
     List<User> getUserByDid(@Param("did")Long did,@Param("rid")Long rid);
+
     //根据uid获取离职信息表中的数据
     User getInfoUser(@Param("uid") String uid);
 }
