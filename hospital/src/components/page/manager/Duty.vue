@@ -81,7 +81,7 @@
       </div>
     </el-dialog>
     <!--添加值班信息-->
-    <el-dialog title="添加值班" :visible.sync="dialogFormVisible" top="100px" width="35%">
+    <el-dialog title="添加值班" :visible.sync="dialogFormVisible" top="100px" width="34%">
       <el-form class="small-space" :rules="rules" :model="addtable" ref="addtable" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
         <el-form-item label="日期" prop="sdate">
           <el-date-picker v-model="addtable.sdate" value-format="yyyy-MM-dd" style="width: 62%" type="date" placeholder="选择日期"></el-date-picker>
@@ -119,7 +119,7 @@
       </div>
     </el-dialog>
     <!--删除值班信息-->
-    <el-dialog title="添加值班" :visible.sync="dialogDelVisible" top="290px" width="25%">
+    <el-dialog title="删除值班信息" :visible.sync="dialogDelVisible" top="290px" width="25%">
       <p style="margin: -20px 0;">是否删除该条值班记录？</p>
       <div slot="footer" class="dialog-footer" style="margin-top: -20px">
         <el-button @click="quxiao">取 消</el-button>
@@ -250,7 +250,7 @@
       resetForm () {
         this.$refs['addtable'].resetFields();
         this.addtable.user.uname = '';
-        this.addtable.user.sex = '1';
+        this.addtable.user.sex = '';
         this.addtable.user.phone = '';
         this.addtable.user.rname = '';
         this.addtable.user.dname = '';

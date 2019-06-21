@@ -116,6 +116,17 @@
             </if>
         </where>
     </select>
+    <select id="getUserByDid" resultMap="selUserMap">
+        select u.uid,u.uname from user u
+        inner join  user_role as r on u.uid = r.uid
+        <where>
+            <if test="did != 0">
+                u.did = #{did}
+            </if>
+            and r.rid = #{rid}
+        </where>
+
+    </select>
 
     <!--<update id="updateUser">-->
         <!--update user-->
