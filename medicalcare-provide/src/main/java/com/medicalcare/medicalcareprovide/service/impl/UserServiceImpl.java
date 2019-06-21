@@ -106,4 +106,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    public static void main(String[] args) {
+        String zhaohh = UserUtils.getPassWord("zhaohh", "111111");
+        System.out.println(zhaohh);
+    }
 }
