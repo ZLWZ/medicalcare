@@ -8,7 +8,7 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
-        <div class="user-avator"><img :src="imgPath"></div>
+        <!--<div class="user-avator"><img :src="imgPath"></div>-->
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -124,11 +124,11 @@
       }
     },
     computed:{
-      imgPath(){
-        let imgSrc = this.$store.state.user.portrait;
-        console.log(require('G:/img'+"/"+imgSrc))
-        return require('G:/img'+"/"+imgSrc)
-      },
+      // imgPath(){
+      //   let imgSrc = this.$store.state.user.portrait;
+      //   console.log(require('G:/img'+"/"+imgSrc))
+      //   return require('G:/img'+"/"+imgSrc)
+      // },
       username(){
         return this.$store.state.user.uname;
       }

@@ -14,7 +14,7 @@
       <el-button class="filter-item" type="primary" @click="dialogFormVisible = true"  icon="el-icon-edit">添加</el-button>
       <!--<el-button class="filter-item" type="danger" @click="handleDelAll"  icon="el-icon-delete">全部删除</el-button>-->
     </div>
-    <el-table v-loading="loading" ref="multipleTable" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px" @selection-change="handleSelectionChange">>
+    <el-table v-loading="loading" ref="multipleTable" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px" @selection-change="handleSelectionChange">
       <el-table-column align="center" type="selection" width="40"></el-table-column>
       <el-table-column align="center" label="工号" width="70" prop="uid">
         <template scope="scope">{{ scope.row.uid }}</template>

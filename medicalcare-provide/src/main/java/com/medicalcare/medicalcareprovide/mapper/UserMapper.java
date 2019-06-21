@@ -7,9 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
-
     User selUser(@Param("name") String name);
-
     //得到除最高权限外的所有用户,分页+条件查询
     List<User> getAllUser(@Param("uid") String uid, @Param("current") Integer current, @Param("size") Integer size, @Param("uname") String uname, @Param("did") Integer did);
     //得到所有uid
@@ -28,4 +26,6 @@ public interface UserMapper extends BaseMapper<User> {
     boolean updateUserState(@Param("uid") String uid, @Param("state") Long state);
     //根据did得到用户
     List<User> getUserByDid(@Param("did")Long did,@Param("rid")Long rid);
+    //根据uid获取离职信息表中的数据
+    User getInfoUser(@Param("uid") String uid);
 }

@@ -7,7 +7,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://62.234.54.171:3306/medicalcare
+    url: jdbc:mysql://62.234.54.171:3306/medicalcare?zeroDateTimeBehavior=convertToNull
     username: root
     password: root
     dbcp2:

@@ -110,6 +110,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserByDid(did,rid);
     }
 
+    @Override
+    public User getInfoUser(String uid) {
+        return userMapper.getInfoUser(uid);
+    }
+
 
     public static void main(String[] args) {
         String zhaohh = UserUtils.getPassWord("zhaohh", "111111");
