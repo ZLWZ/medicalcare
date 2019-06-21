@@ -57,7 +57,7 @@
                 if(data.data.code == 10000){
                   const user = data.data.data;
                   const baseUser = Base64.encode(JSON.stringify(user));
-                  sessionStorage.setItem("user",JSON.stringify(baseUser));
+                  sessionStorage.setItem("user",baseUser);
                   th.open1();
                   th.$router.push({path:'/'});
                 }else{

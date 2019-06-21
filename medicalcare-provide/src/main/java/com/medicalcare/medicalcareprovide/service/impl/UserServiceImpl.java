@@ -105,9 +105,4 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getUid,uid));
     }
 
-
-    public static void main(String[] args) {
-        String zhaohh = UserUtils.getPassWord("zhaohh", "111111");
-        System.out.println(zhaohh);
-    }
 }

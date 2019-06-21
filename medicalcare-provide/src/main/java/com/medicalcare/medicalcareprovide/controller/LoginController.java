@@ -1,6 +1,5 @@
 package com.medicalcare.medicalcareprovide.controller;
 
-import com.medicalcare.entity.Menu;
 import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareprovide.service.UserService;
 import com.medicalcare.medicalcareprovide.utils.UserUtils;
@@ -11,15 +10,19 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import sun.applet.Main;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
+import java.nio.file.Path;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @CrossOrigin
@@ -28,6 +31,10 @@ public class LoginController {
     @Resource
     private UserService userServiceImpl;
 
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+
+    @Value(value = "${filePath}")
+    private String filePath;
     /**
      * 用户登录
      * @param user
@@ -68,8 +75,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/unauthorized")
-    public Result unauthorized(@RequestParam("code") int code, HttpServletRequest request)
-    {
+    public Result unauthorized(@RequestParam("code") int code, HttpServletRequest request) {
         String header = request.getHeader("Authoriztion");
         return code == 1 ? new Result(ResultCode.UNAUTHENTICATED) : new Result(ResultCode.UNAUTHORISE);
     }
@@ -93,5 +99,48 @@ public class LoginController {
         }else{
             return new Result(ResultCode.SUCCESS,"修改失败");
         }
+    }
+
+
+    @GetMapping(value = "/selCurrentUser/{id}")
+    public Result selUser(@PathVariable(value = "id") String uid){
+        User user = userServiceImpl.selUserById(uid);
+        return new Result(ResultCode.SUCCESS,user);
+    }
+
+    @PostMapping(value = "/updatePortrait")
+    public Result updatePortrait(@RequestParam(value = "file",required = false) MultipartFile file,@RequestParam(value = "uid") String uid){
+        try {
+            if(file.isEmpty()){
+                return new Result(ResultCode.FAIL,"上传失败");
+            }
+            String fileName = file.getOriginalFilename();
+            log.info("文件名称"+fileName);
+            String substring = fileName.substring(fileName.lastIndexOf("."));
+            log.info("文件的后缀名为"+substring);
+            String path = this.filePath + fileName;
+            File dect = new File(path);
+            if(!dect.getParentFile().exists()){
+                dect.getParentFile().mkdirs();
+            }
+            User user = userServiceImpl.selUserById(uid);
+            user.setPortrait(fileName);
+            userServiceImpl.updateUser(user);
+            log.info("上传路径"+dect);
+            file.transferTo(dect);
+            log.info("上传成功");
+            return new Result(ResultCode.SUCCESS,"ok");
+        } catch (IOException e) {
+            log.info("上传失败"+e);
+        }
+        return new Result(ResultCode.SUCCESS,"上传失败");
+    }
+
+    @PostMapping(value="updateUser")
+    public Result updateUser(@RequestBody User user){
+        User users = userServiceImpl.selUserById(user.getUid());
+        users.setPhone(user.getPhone());
+        users.setAddress(user.getAddress());
+        return new Result(ResultCode.SUCCESS,userServiceImpl.updateUser(users));
     }
 }
