@@ -15,7 +15,7 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item  command="personalCenter">个人中心</el-dropdown-item>
+            <el-dropdown-item  command="personalCenter" >个人中心</el-dropdown-item>
             <el-dropdown-item command="openUpdatePassword">修改密码</el-dropdown-item>
             <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -36,6 +36,8 @@
             <FormItem label="确认密码" prop="passwdCheck">
               <Input type="password" v-model="formCustom.passwdCheck"></Input>
             </FormItem>
+
+
           </Form>
           <div slot="footer">
               <Button @click="handleReset('formCustom')" style="margin-left: 8px">取消</Button>
@@ -124,8 +126,8 @@
     computed:{
       imgPath(){
         let imgSrc = this.$store.state.user.portrait;
-        console.log(imgSrc)
-        return require('@/assets/img/'+imgSrc)
+        console.log(require('G:/img'+"/"+imgSrc))
+        return require('G:/img'+"/"+imgSrc)
       },
       username(){
         return this.$store.state.user.uname;
@@ -142,7 +144,7 @@
         }else if(command == 'openUpdatePassword'){
           this.updatePassword = true;
         }else if(command == 'personalCenter'){
-          this.$router.push('/personalCenter')
+
         }
       },
       // 侧边栏折叠

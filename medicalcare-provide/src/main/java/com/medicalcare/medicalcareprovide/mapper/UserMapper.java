@@ -26,11 +26,6 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> getUserByRid(@Param("uid") String uid, @Param("rids") Integer... rids);
     //修改用户启用禁用状态
     boolean updateUserState(@Param("uid") String uid, @Param("state") Long state);
-
-
-
     //根据did得到用户
     List<User> getUserByDid(@Param("did")Long did,@Param("rid")Long rid);
-
-    //    boolean updateUser(@Param("user") User user);
 }

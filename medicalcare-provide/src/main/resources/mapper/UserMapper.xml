@@ -127,6 +127,16 @@
         </where>
 
     </select>
+    <select id="getInfoUser" resultMap="selUserMap">
+        select u.uid,u.uname,u.age,u.sex,u.address,u.joindate,e.*,d.*,r.rid,r.rname from user u
+        inner join department d on u.did = d.did
+        inner join education e on u.eid = e.eid
+        inner join  user_role as ur on u.uid = ur.uid
+        inner join role as r on r.`rid` = ur.`rid`
+        <where>
+            u.uid = #{uid} and u.state = 3
+        </where>
+    </select>
 
     <!--<update id="updateUser">-->
         <!--update user-->

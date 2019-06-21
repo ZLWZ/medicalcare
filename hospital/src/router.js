@@ -31,12 +31,12 @@ export const constantRouterMap = [
       {
         path: '/infoManager',
         component: () => import('./components/page/manager/InfoManager'),
-        meta: { title: '人员信息管理' }
+        meta: { title: '员工管理' }
       },
       {
         path:'/resign',
         component:()=> import('./components/page/manager/Resign'),
-        meta: { title: '人员流动' }
+        meta: { title: '离职记录' }
       },
       {
         path: '/jurisdiction',
