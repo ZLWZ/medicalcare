@@ -6,21 +6,16 @@
     <div class="filter-container" style="text-align: center">
       <div class="block">
         <el-date-picker
-          unlink-panels="false"
           v-model="value1"
-          type="daterange"
+          type="datetimerange"
+          value-format="yyyy-MM-dd HH:mm:ss"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
+        <div class="clearance"></div>
+        <el-button class="filter-item" type="warning" icon="el-icon-search" @click="chaxun">搜索</el-button>
       </div>
-      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="uname"></el-input>
-      <div class="clearance"></div>
-      <el-select v-model="did" @change="seldid" filterable clearable placeholder="请选择科室">
-        <el-option v-for="item in department1" :key="item.did" :label="item.dname" :value="item.did"></el-option>
-      </el-select>
-      <div class="clearance"></div>
-      <el-button class="filter-item" type="warning" icon="el-icon-search" @click="chaxun">搜索</el-button>-->
     </div>
     <el-table :data="table" border tooltip-effect="dark" style="width: 100%;font-size: 14px" height="400" stripe :header-cell-style="getRowClass" v-loading="loading">
       <el-table-column align="center" label="工号" width="100" fixed>
@@ -64,9 +59,16 @@
         }
       },
       methods:{
-        flush(){
+        chaxun(){
+          console.log(typeof this.value1[0])
+          console.log(this.value1[1])
+        },
+        flush(begin,end){
           this.loading = true
-          this.$axios.get("/api/manager/getAllInformation").then((response)=>{
+          this.$axios.get("/api/manager/getAllInformation",{
+            begin:begin,
+            end:end
+          }).then((response)=>{
             this.table = response.data
             this.table.forEach(function (item) {
               item.user.sex = item.user.sex==1?'男':'女'
