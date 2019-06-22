@@ -33,6 +33,7 @@ router.beforeEach((to, from, next) => {
     if(user != null){
       store.state.user = JSON.parse(Base64.decode(user));
       user = store.state.user;
+      console.log(user)
       if(user.authoriztion){
         axios.defaults.headers.post['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.get['Authoriztion'] = user.authoriztion;

@@ -107,7 +107,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUserByDid(Long did, Long rid) {
-        return userMapper.getUserByDid(did,rid);
+        List<User> userByDid = userMapper.getUserByDid(did, rid);
+        return userByDid;
     }
 
     @Override

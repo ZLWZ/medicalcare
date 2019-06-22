@@ -138,4 +138,18 @@
         </where>
     </select>
 
+    <!--<update id="updateUser">-->
+        <!--update user-->
+        <!--<set>-->
+            <!--uid = #{user.uid}-->
+            <!--<if test="user.portrait != null and user.portrait != ''">-->
+                <!--portrait = #{user.portrait}-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--<where>-->
+            <!--<if test="user.uid != null and user.uid != ''">-->
+              <!--uid = #{user.uid}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</update>-->
 </mapper>
