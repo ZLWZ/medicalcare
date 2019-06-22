@@ -16,7 +16,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     private UserRoleMapper userRoleMapper;
     @Override
     public boolean insertUserRole(UserRole userRole) {
-        return userRoleMapper.insert(userRole)>1;
+        return userRoleMapper.insert(userRole)>0;
     }
 
     @Override
