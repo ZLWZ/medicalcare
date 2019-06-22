@@ -11,6 +11,7 @@ import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -23,6 +24,10 @@ import java.util.Map;
 @RequestMapping("manager")
 @RequiresPermissions(value = "/manager")
 public class InfoManagerController {
+
+    @Value("${imgPath}")
+    private String imgPath;
+
     @Autowired
     private DepartmentService departmentServiceImpl;//科室表
 
@@ -83,6 +88,7 @@ public class InfoManagerController {
         user.setDid(Long.parseLong(map.get("did")));
         user.setEid(Long.parseLong(map.get("eid")));
         user.setState(1);
+        user.setPortrait(imgPath);
         boolean a = userServiceImpl.insertUser(user);
         if(a){
             UserRole userRole = new UserRole();
