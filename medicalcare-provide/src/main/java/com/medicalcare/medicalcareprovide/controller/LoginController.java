@@ -13,6 +13,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,8 +109,8 @@ public class LoginController {
         return new Result(ResultCode.SUCCESS,user);
     }
 
-    @PostMapping(value = "/updatePortrait")
-    public Result updatePortrait(@RequestParam(value = "file",required = false) MultipartFile file,@RequestParam(value = "uid") String uid){
+    @PostMapping(value = "/updatePortrait",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result updatePortrait(@RequestPart(value = "file",required = false) MultipartFile file, @RequestParam(value = "uid") String uid){
         try {
             if(file.isEmpty()){
                 return new Result(ResultCode.FAIL,"上传失败");
