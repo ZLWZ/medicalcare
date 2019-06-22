@@ -6,7 +6,7 @@
     <div class="filter-container" style="text-align: center">
       <div class="block">
         <el-date-picker
-          v-model="value1"
+          v-model="value"
           type="datetimerange"
           value-format="yyyy-MM-dd HH:mm:ss"
           range-separator="至"
@@ -37,6 +37,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <!--删除信息-->
+    <el-dialog title="警告" :visible.sync="dialogDelVisible" top="290px" width="25%">
+      <p style="margin: -20px 0;">是否清空此人员的所有信息,删除不可恢复！！</p>
+      <div slot="footer" class="dialog-footer" style="margin-top: -20px">
+        <el-button @click="quxiao">取 消</el-button>
+        <el-button type="primary" @click="handelyes">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -55,30 +63,62 @@
             }
           },
           table: [],
-          value1:''
+          value:'',
+          uid:'',
+          dialogDelVisible:false
         }
       },
       methods:{
         chaxun(){
-          console.log(typeof this.value1[0])
-          console.log(this.value1[1])
+           this.loading = true
+          var val = JSON.stringify(this.value)
+          if(val!=""&&val!="null"){
+            val = JSON.parse(val)
+            this.flush(val[0],val[1])
+          }else{
+            this.flush('','')
+          }
+        },
+        handleDelete(uid){
+          this.uid = uid
+          this.dialogDelVisible = true
+        },
+        handelyes(){
+          this.$axios.get("/api/manager/deleteInformation",{params:{uid:this.uid}})
+            .then((response)=>{
+              if(response.data){
+                this.$message({message: '删除成功！',type: 'success'});
+                this.loading = true;
+                this.flush('','');
+              }else{
+                this.$message('删除失败');
+              }
+              this.dialogDelVisible = false
+            })
+        },
+        quxiao(){
+          this.dialogDelVisible = false;
+          this.$message('已取消操作');
         },
         flush(begin,end){
           this.loading = true
-          this.$axios.get("/api/manager/getAllInformation",{
-            begin:begin,
-            end:end
-          }).then((response)=>{
+          this.$axios.get("/api/manager/getAllInformation",{params:{
+              begin:begin,
+              end:end
+          }}).then((response)=>{
             this.table = response.data
             this.table.forEach(function (item) {
               item.user.sex = item.user.sex==1?'男':'女'
             })
             this.loading = false
-          })
+          }), response => {
+            this.$message({message: '数据请求失败',type: 'error'});
+            this.loading = false
+          }
         }
       },
       created() {
-        this.flush();
+        this.flush('','');
       }
     }
 </script>

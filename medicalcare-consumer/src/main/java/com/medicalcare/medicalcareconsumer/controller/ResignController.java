@@ -4,10 +4,7 @@ import com.medicalcare.entity.Information;
 import com.medicalcare.medicalcareconsumer.service.RegisterInfoService;
 import com.medicalcare.medicalcareconsumer.service.ResignService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +15,12 @@ public class ResignController {
     @Autowired
     private ResignService resignService;
     @RequestMapping(method = RequestMethod.GET,value = "/getAllInformation")
-    public List<Information> getAllInformation(){
-        return resignService.getAllInformation();
+    public List<Information> getAllInformation(@RequestParam("begin")String begin,@RequestParam("end")String end){
+        return resignService.getAllInformation(begin,end);
     }
+    @RequestMapping(method = RequestMethod.GET,value = "/deleteInformation")
+    public boolean deleteInformation(@RequestParam("uid") String uid){
+        return resignService.deleteInformation(uid);
+    }
+
 }
