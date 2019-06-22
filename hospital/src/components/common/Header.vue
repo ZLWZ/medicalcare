@@ -126,8 +126,8 @@
     computed:{
       imgPath(){
         let imgSrc = this.$store.state.user.portrait;
-        console.log(require('G:/img'+"/"+imgSrc))
-        return require('G:/img'+"/"+imgSrc)
+        console.log(require('@/assets/img'+"/"+imgSrc))
+        return require('@/assets/img'+"/"+imgSrc)
       },
       username(){
         return this.$store.state.user.uname;
@@ -144,7 +144,7 @@
         }else if(command == 'openUpdatePassword'){
           this.updatePassword = true;
         }else if(command == 'personalCenter'){
-
+          this.$router.push("/personalCenter")
         }
       },
       // 侧边栏折叠
