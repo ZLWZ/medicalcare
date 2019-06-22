@@ -13,6 +13,8 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,11 +32,12 @@ import java.util.Map;
 @Component
 @ConfigurationProperties(prefix = "spring.redis")
 public class ShiroConfig {
+
     private String host = "62.234.54.171";
 
     private int port = 6379;
 
-
+    private final static Logger log = LoggerFactory.getLogger(ShiroConfig.class);
 
 
     @Bean(name = "getMyRealm")
@@ -75,12 +78,14 @@ public class ShiroConfig {
     @Bean(name = "defaultAdvisorAutoProxyCreator")
     @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        log.info("启用shiro注解");
         return new DefaultAdvisorAutoProxyCreator();
     }
 
     //配置shirofilter(过滤器)
     @Bean(name = "shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(){
+        log.info("shiroFilter过滤器进行加载");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(this.securityManager());
         shiroFilterFactoryBean.setLoginUrl("/unauthorized?code=1");
@@ -113,6 +118,7 @@ public class ShiroConfig {
 
     //redis的控制器
     public RedisManager redisManager(){
+        log.info("redis进行创建");
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(this.host);
         redisManager.setPort(this.port);

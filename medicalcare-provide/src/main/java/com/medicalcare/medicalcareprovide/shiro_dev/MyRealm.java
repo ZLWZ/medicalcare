@@ -13,6 +13,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 public class MyRealm extends AuthorizingRealm {
+
+    private final static Logger log = LoggerFactory.getLogger(MyRealm.class);
 
     public void setName(String name){
         super.setName("cyRealm");
@@ -44,6 +48,7 @@ public class MyRealm extends AuthorizingRealm {
         String acount = user.getAcount();
         Set<String> setRole = new HashSet<String>();//角色
         Set<String> setMenu = new HashSet<String>();//权限
+        log.info("进行授权");
         for (Role role : user.getRoleList()){
             setRole.add(role.getRname());
         }
@@ -59,6 +64,7 @@ public class MyRealm extends AuthorizingRealm {
             }
 
         }
+        log.info("授权成功");
         info.addRoles(setRole);//角色
         info.addStringPermissions(setMenu);//权限
         return info;
@@ -71,6 +77,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
+        log.info("正在进行用户认证");
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
         User user = userServiceImpl.selUser(username);
@@ -79,6 +86,7 @@ public class MyRealm extends AuthorizingRealm {
             menu.setMenus(menus.isEmpty() ? null : menus);
         }
         if(user == null){
+            log.info("用户认证认证失败");
             throw new UnknownAccountException("用户不存在");
         }
         ByteSource byteSource =  ByteSource.Util.bytes(username);
