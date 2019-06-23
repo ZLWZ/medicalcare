@@ -1,5 +1,5 @@
 <template>
-  <div class="turnOver">
+  <div class="registerInfo">
     <div class="title">
       <p>挂号信息记录</p>
     </div>
@@ -136,22 +136,6 @@
       };
     },
     methods: {
-      formClear () {
-        this.form = {
-          name: '',
-          age: '',
-          sex: '',
-          department: '',
-          address: '',
-          seniority: '',
-          number: '',
-          position: '',
-          processor: '',
-          hiredate: '',
-          resignation_time: '',
-          resignation_reason: ''
-        };
-      },
       handleEdit(rid){
         this.dialogFormEditVisible = true
         this.$axios.get("/api/cashier/getAllInfo",{params:{did:0}}).then((response) =>{
@@ -265,7 +249,7 @@
 </script>
 
 <style scoped="scoped">
-  .turnOver .title p{
+  .registerInfo .title p{
     font-size:24px;
     text-align:center;
     margin:25px 0;
