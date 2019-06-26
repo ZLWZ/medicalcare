@@ -15,4 +15,6 @@ public interface RegisterService {
     boolean updateRegister(Register register);
 
     boolean deleteRegister(String rid);
+
+    boolean addRegister(Register register);
 }

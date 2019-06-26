@@ -26,7 +26,6 @@
       <el-table-column align="center" prop="user.age" label="年龄" width="80"></el-table-column>
       <el-table-column align="center" prop="history" label="工龄" width="100"></el-table-column>
       <el-table-column align="center" prop="user.department.dname" label="科室" width="120"></el-table-column>
-      <el-table-column align="center" prop="user.roleList[0].rname" label="职位" width="120"></el-table-column>
       <el-table-column align="center" prop="user.address" label="地址" width="180"></el-table-column>
       <el-table-column align="center" prop="user.joindate" label="入职日期" width="200"></el-table-column>
       <el-table-column align="center" prop="leavedate" label="离职日期" width="200"></el-table-column>
@@ -109,6 +108,10 @@
             this.table = response.data
             this.table.forEach(function (item) {
               item.user.sex = item.user.sex==1?'男':'女'
+              var startDate = new Date(item.user.joindate);
+              var endDate = new Date(item.leavedate);
+              var ms = endDate.getTime() - startDate.getTime();
+              item.history = Math.floor(ms/1000/60/60/24)+"天"
             })
             this.loading = false
           }), response => {

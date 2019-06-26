@@ -1,6 +1,5 @@
 package com.medicalcare.medicalcareprovide.utils;
 
-import com.medicalcare.util.IdWorker;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
@@ -23,5 +22,4 @@ public class UserUtils {
         SimpleHash simpleHash = new SimpleHash(algorithmName,source, salt, hashIterations);
         return simpleHash.toString();
     }
-
 }

@@ -31,4 +31,9 @@ public class RegisterServiceImpl implements RegisterService {
     public boolean deleteRegister(String rid) {
         return registerMapper.updateRegister(rid,3);
     }
+
+    @Override
+    public boolean addRegister(Register register) {
+        return registerMapper.insert(register)>0;
+    }
 }
