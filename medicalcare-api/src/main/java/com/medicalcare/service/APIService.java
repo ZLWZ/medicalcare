@@ -33,5 +33,6 @@ public interface APIService {
     @GetMapping("/duty/api")
     public Result duty();
 
-
+    @GetMapping("/doctor/api")
+    public Result doctor();
 }

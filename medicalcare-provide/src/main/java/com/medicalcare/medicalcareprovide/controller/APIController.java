@@ -82,7 +82,11 @@ public class APIController {
         return new Result(ResultCode.SUCCESS);
     }
 
-
+    @GetMapping("/doctor/api")
+    @RequiresPermissions("doctor")
+    public Result doctor(){
+        return new Result(ResultCode.SUCCESS);
+    }
 
 
 
