@@ -25,14 +25,17 @@
         inner join department d on r.did = d.did
         inner join user u on u.uid = r.uid
         <where>
-            r.rstatic = 1
+            r.rstatic between 1 and 2
             <if test="rid != null and rid != ''">
                 and r.rid like "%"#{rid}"%"
             </if>
             <if test="rname != null and rname != ''">
                 and r.rname like "%"#{rname}"%"
             </if>
-            order by r.redate desc
+            order by r.rstatic,r.redate desc
+            <if test="current != -1 and size != -1">
+                limit #{current},#{size}
+            </if>
         </where>
     </select>
     <update id="updateRegister">

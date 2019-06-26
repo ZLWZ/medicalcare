@@ -216,11 +216,13 @@
         this.$axios.get('/api/cashier/getAllRegister',{
           params:{
             rid:this.rid,
-            rname:this.rname
+            rname:this.rname,
+            current:-1,
+            size:-1,
           }
         }).then((response) => {             // mark
           var td =[],th = this;
-          response.data.forEach(function (item) {
+          response.data.rows.forEach(function (item) {
             var register = {
               rid:item.rid,
               rname:item.rname,

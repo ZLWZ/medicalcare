@@ -2,6 +2,7 @@ package com.medicalcare.medicalcareconsumer.controller;
 
 import com.medicalcare.entity.Register;
 import com.medicalcare.medicalcareconsumer.service.RegisterInfoService;
+import com.medicalcare.util.PageResult;
 import com.medicalcare.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ public class RegisterInfoController {
     @Autowired
     private RegisterInfoService registerInfoService;
     @RequestMapping(method = RequestMethod.GET,value = "getAllRegister")
-    public List<Register> getAllRegister (@RequestParam("rid") String rid,@RequestParam("rname") String rname){
-        return registerInfoService.getAllRegister(rid,rname);
+    public PageResult<Register> getAllRegister (@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("rid") String rid, @RequestParam("rname") String rname){
+        return registerInfoService.getAllRegister(current,size,rid,rname);
     }
     @RequestMapping(value = "getAllInfo",method = RequestMethod.GET)
     public Result getAllInfo(@RequestParam("did") Long did){

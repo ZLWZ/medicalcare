@@ -7,6 +7,7 @@ import com.medicalcare.medicalcareprovide.service.DepartmentService;
 import com.medicalcare.medicalcareprovide.service.InformationService;
 import com.medicalcare.medicalcareprovide.service.RegisterService;
 import com.medicalcare.medicalcareprovide.service.UserService;
+import com.medicalcare.util.PageResult;
 import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,8 +29,8 @@ public class RegisterInfoController {
     private UserService userServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET,value = "getAllRegister")
-    public List<Register> getAllRegister(@RequestParam("rid") String rid,@RequestParam("rname") String rname){
-        return registerServiceImpl.getAllRegister(rid,rname);
+    public PageResult<Register> getAllRegister(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("rid") String rid, @RequestParam("rname") String rname){
+        return registerServiceImpl.getAllRegister(current,size,rid,rname);
     }
     @RequestMapping(value = "getAllInfo",method = RequestMethod.GET)
     public Result getAllInfo(@RequestParam("did") Long did){

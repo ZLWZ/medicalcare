@@ -1,10 +1,13 @@
 package com.medicalcare.medicalcareprovide.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.medicalcare.entity.Register;
 import com.medicalcare.medicalcareprovide.mapper.RegisterMapper;
 import com.medicalcare.medicalcareprovide.service.RegisterService;
+import com.medicalcare.util.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -13,8 +16,15 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private RegisterMapper registerMapper;
     @Override
-    public List<Register> getAllRegister(String rid, String rname) {
-        return registerMapper.getAllRegister(rid,rname);
+    public PageResult<Register> getAllRegister(Integer current,Integer size,String rid, String rname) {
+        PageResult<Register> pageResult = new PageResult<Register>();
+        pageResult.setRows(registerMapper.getAllRegister((current-1)*size,size,rid,rname));
+        QueryWrapper<Register> queryWrapper = new QueryWrapper<Register>();
+        queryWrapper.lambda().between(Register::getRstatic,1,2);
+        if(!StringUtils.isEmpty(rid))queryWrapper.lambda().like(Register::getRid,rid);
+        if(!StringUtils.isEmpty(rname))queryWrapper.lambda().like(Register::getRname,rname);
+        pageResult.setTotal(registerMapper.selectCount(queryWrapper).longValue());
+        return pageResult;
     }
 
     @Override

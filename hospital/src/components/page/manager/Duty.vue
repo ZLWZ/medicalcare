@@ -414,12 +414,10 @@
     text-align: center;
     margin: 30px auto;
   }
-  .duty .title{
-    display:block;
-    text-align: center;
+  .duty .title p{
     font-size:24px;
-    font-weight:600;
-    line-height:80px;
+    text-align:center;
+    margin:25px 0;
   }
 
 

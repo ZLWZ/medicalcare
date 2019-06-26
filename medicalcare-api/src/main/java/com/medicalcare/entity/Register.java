@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,7 +29,8 @@ public class Register implements Serializable {
   private double rmoney;
   private double rprice;
   private long rstatic;
-
+  @TableField(exist = false)
+  private List<Pregdetils> pregdetils;
   @TableField(exist = false)
   private Department department;
   @TableField(exist = false)
