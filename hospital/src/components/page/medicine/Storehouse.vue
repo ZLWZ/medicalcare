@@ -80,6 +80,7 @@
     </el-col>
       <el-col :span="5">
         <el-button style="margin-top:10px;" type="primary" round @click="conditionSelect">查询</el-button>
+        <el-button type="success" round>添加药物</el-button>
       </el-col>
     </el-row>
     <!--表格数据展示-->
@@ -251,12 +252,6 @@
             mkdate : this.mkdate,//生产日期
             leavedate : this.leavedate, //过期日期
             joindate : this.joindate, //进药日期
-            // mkStartDate: this.mkdate[0], //生产开始日期
-            // mkStopDate: this.mkdate[1], //生产结束日期
-            // leaveStartDate:this.leavedate[0], //过期开始日期
-            // leaveStopDate:this.leavedate[1], //过期结束日期
-            // joinStartDate : this.joindate[0], //进药开始日期
-            // joinStopDate : this.joindate[1], //进药结束日期
             ktype:this.ktype,//中/西药
             pageSize : this.pageSize, //显示条数
             page : this.page  //当前页数
