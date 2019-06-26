@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.KcdrugsMapper">
+    <sql id="KcdrugsField">
+      id,k.dname kdname,num,ktype,money,mkdate,joindate,leavedate,details
+    </sql>
+    <resultMap id="selAllPageKcdrugsMap" type="com.medicalcare.entity.Kcdrugs">
+        <id column="id" property="id"></id>
+        <result column="kdname" property="dname"></result>
+        <result column="num" property="num"></result>
+        <result column="ktype" property="ktype"></result>
+        <result column="money" property="money"></result>
+        <result column="mkdate" property="mkdate"></result>
+        <result column="joindate" property="joindate"></result>
+        <result column="leavedate" property="leavedate"></result>
+        <result column="details" property="details"></result>
+        <result column="cid" property="cid"></result>
+        <result column="did" property="did"></result>
+        <result column="sid" property="sid"></result>
+        <association property="company" javaType="com.medicalcare.entity.Company">
+            <id property="cid" column="cid"></id>
+            <result property="cname" column="cname"></result>
+        </association>
+        <association property="specifi" javaType="com.medicalcare.entity.Specifi">
+            <id  column="sid" property="sid"></id>
+            <result column="sname" property="sname"></result>
+        </association>
+        <association property="dosage" javaType="com.medicalcare.entity.Dosage">
+            <id  column="did" property="did"></id>
+            <result column="ddname" property="dname"></result>
+        </association>
+    </resultMap>
+    <select id="selAllPageKcdrugs" resultMap="selAllPageKcdrugsMap" parameterType="map">
+      select <include refid="KcdrugsField"></include>,c.cid,c.cname,s.sid,s.sname,d.did,d.dname ddname
+      from kcdrugs as k inner join company as c on k.cid = c.cid
+      inner join specifi as s on k.sid = s.sid inner join dosage as d on k.did = d.did
+      <where>
+          <if test="map.did != null and map.did.size() > 0">
+            and k.did in
+            <foreach item="did" collection="map.did" index="index" open="(" separator="," close=")">
+                #{did}
+            </foreach>
+          </if>
+          <if test="map.cid != null and map.cid.size() > 0">
+              and k.cid in
+              <foreach item="cid" collection="map.cid" index="index" open="(" separator="," close=")">
+                  #{cid}
+              </foreach>
+          </if>
+          <if test="map.sid != null and map.sid.size() > 0">
+              and k.sid in
+              <foreach item="sid" collection="map.sid" index="index" open="(" separator="," close=")">
+                  #{sid}
+              </foreach>
+          </if>
+          <if test="map.mkStartDate != null and map.mkStopDate != null">
+            and k.mkdate between #{map.mkStartDate} and #{map.mkStopDate}
+          </if>
+          <if test="map.leaveStartDate != null and map.leaveStopDate != null">
+              and k.leavedate between #{map.leaveStartDate} and #{map.leaveStopDate}
+          </if>
+          <if test="map.joinStartDate != null and map.joinStopDate != null">
+              and k.joindate between #{map.joinStartDate} and #{map.joinStopDate}
+          </if>
+          <if test="map.ktype != null and map.ktype != ''">
+              and k.ktype = #{map.ktype}
+          </if>
+          <if test="map.name != null and map.name != ''">
+              and k.dname like concat('%',#{map.name},'%')
+          </if>
+      </where>
+      order by k.num asc
+      limit #{map.page},#{map.pageSize}
+    </select>
+</mapper>

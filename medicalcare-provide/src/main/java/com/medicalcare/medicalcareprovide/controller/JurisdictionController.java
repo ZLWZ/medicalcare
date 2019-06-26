@@ -97,7 +97,7 @@ public class JurisdictionController {
                 setDescribe(StringUtils.isEmpty(describe) ? "这个人很懒什么也没有说" : describe)
                 .setCreationTime(date).setChangeTime(date);
         Object objIds = map.get("ids");
-            if(objIds != null){
+        if(objIds != null){
             List<Integer> ids = (List<Integer>) objIds;
             roleServiceImpl.addRole(role);
             for (int id : ids){

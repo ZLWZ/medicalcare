@@ -2,6 +2,7 @@ package com.medicalcare.medicalcareconsumer.controller;
 
 import com.medicalcare.medicalcareconsumer.service.JurisdictionService;
 import com.medicalcare.util.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 @CrossOrigin
 public class JurisdictionController {
 
-    @Resource
+    @Autowired
     private JurisdictionService jurisdictionService;
 
 

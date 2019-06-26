@@ -1,9 +1,9 @@
 package com.medicalcare.medicalcareconsumer.config;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

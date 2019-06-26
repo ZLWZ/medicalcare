@@ -23,9 +23,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 @CrossOrigin
@@ -89,14 +91,23 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(this.securityManager());
         shiroFilterFactoryBean.setLoginUrl("/unauthorized?code=1");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized?code=2");
         Map<String,String> map = new LinkedHashMap<String,String>();
         map.put("/logout","logout");
         map.put("/login","anon");
-        map.put("/unauthorized","anon");
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+        Properties properties=new Properties();
+        //这里的 /unauthorized 是页面，不是访问的路径
+        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/unauthorized?code=2");//发生错误跳转的页面
+        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","/unauthorized?code=2");//
+        simpleMappingExceptionResolver.setExceptionMappings(properties);
+        return simpleMappingExceptionResolver;
     }
 
     //配置对shiro注解的支持
@@ -129,6 +140,8 @@ public class ShiroConfig {
     public RedisSessionDAO redisSessionDAO(){
         RedisSessionDAO redisSessionDAO = new  RedisSessionDAO();
         redisSessionDAO.setRedisManager(this.redisManager());
+        //session在redis中的保存时间,最好大于session会话超时时间
+        redisSessionDAO.setExpire(12000);
         return redisSessionDAO;
     }
 
@@ -138,6 +151,18 @@ public class ShiroConfig {
         mySessionManager.setSessionDAO(this.redisSessionDAO());
         mySessionManager.setSessionIdCookieEnabled(false);
         mySessionManager.setSessionIdUrlRewritingEnabled(false);
+        //全局会话超时时间（单位毫秒），默认30分钟  暂时设置为10秒钟 用来测试
+        mySessionManager.setGlobalSessionTimeout(1800000);
+        //是否开启删除无效的session对象  默认为true
+        mySessionManager.setDeleteInvalidSessions(true);
+        //是否开启定时调度器进行检测过期session 默认为true
+        mySessionManager.setSessionValidationSchedulerEnabled(true);
+        //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
+        //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
+        //暂时设置为 5秒 用来测试
+        mySessionManager.setSessionValidationInterval(3600000);
+        //取消url 后面的 JSESSIONID
+        mySessionManager.setSessionIdUrlRewritingEnabled(false);
         return mySessionManager;
     }
 
@@ -145,6 +170,8 @@ public class ShiroConfig {
     public RedisCacheManager redisCacheManager(){
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(this.redisManager());
+        //用户权限信息缓存时间
+        redisCacheManager.setExpire(200000);
         return redisCacheManager;
     }
 }

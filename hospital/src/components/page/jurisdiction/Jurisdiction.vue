@@ -4,7 +4,7 @@
     <div class="title">
       <p>角色管理</p>
     </div>
-    <div class="filter-container " >
+    <div class="filter-container">
       <el-row :gutter="20" >
         <el-col :span="4.5" :offset="4"><el-input style="width: 200px;" class="filter-item" placeholder="名称" v-model="rname">
         </el-input></el-col>
@@ -341,11 +341,11 @@
           current:1
         }
       }).then((data) => {
-        this.table = data.data.data.rows;
-        this.searchList = data.data.data.rows;
-        this.total = data.data.data.total;
-        this.currentPage = 1;
-        this.loading = false
+          this.table = data.data.data.rows;
+          this.searchList = data.data.data.rows;
+          this.total = data.data.data.total;
+          this.currentPage = 1;
+          this.loading = false
       },data => {
         this.$message({
               message: '数据请求失败',

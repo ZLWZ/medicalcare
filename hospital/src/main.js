@@ -26,42 +26,43 @@ const i18n = new VueI18n({
   messages
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to,form,next) => {
   let user = store.state.user;
-  if(user == null){
+  if(user == null || sessionStorage.getItem("user") == null){
     user = sessionStorage.getItem("user");
     if(user != null){
       store.state.user = JSON.parse(Base64.decode(user));
       user = store.state.user;
-      console.log(user)
       if(user.authoriztion){
         axios.defaults.headers.post['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.get['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.delete['Authoriztion'] = user.authoriztion;
         axios.defaults.headers.put['Authoriztion'] = user.authoriztion;
-        axios.get("/api/api").then(data => {
-          if(data.data.code == 10002){
-            sessionStorage.removeItem("user");
-            next("/login")
-          }else if(data.data.code == 10003){
-            next("/")
-          }
-        })
-        if(to.path == "/login"){
-          next("/");
-        }
-      }else{
-        next("/login")
-      }
+        if(to.path == "/login") next("/");
+      }else next("/login")
     }else{
       if(to.path != "/login"){
+        axios.defaults.headers.post['Authoriztion'] = "";
+        axios.defaults.headers.get['Authoriztion'] = "";
+        axios.defaults.headers.delete['Authoriztion'] = "";
+        axios.defaults.headers.put['Authoriztion'] = "";
         next("/login")
       }
     }
   }
+  if(to.path != "/login" && to.path != "/302" && to.path != "/404"){
+    axios.get("/api"+to.path+"/api").then(data => {
+      console.log(data)
+      if(data.data.code == 10002){
+        sessionStorage.removeItem("user");
+        next("/login")
+      }else if(data.data == "未授权"){
+        next("/302")
+      }
+    })
+  }
   next(true);
-});
-
+})
 
 
 Vue.config.productionTip = false;

@@ -44,29 +44,30 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        User user = (User)principalCollection.getPrimaryPrincipal();SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        User user = (User)principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         String acount = user.getAcount();
         Set<String> setRole = new HashSet<String>();//角色
         Set<String> setMenu = new HashSet<String>();//权限
         log.info("进行授权");
-        for (Role role : user.getRoleList()){
-            setRole.add(role.getRname());
-        }
-        for(Menu menu : user.getMenuList()){
-            if(StringUtils.isEmpty(menu.getLink())){
-                for(Menu menu1 : menu.getMenus()){
-                    if(!StringUtils.isEmpty(menu1.getLink())){
+        if(user != null){
+            if(user.getMenuList() != null && !user.getMenuList().isEmpty()){
+                for(Menu menu : user.getMenuList()){
+                    if(StringUtils.isEmpty(menu.getLink())){
+                        for(Menu menu1 : menu.getMenus()){
+                            if(!StringUtils.isEmpty(menu1.getLink())){
+                                System.out.println(menu1.getLink());
+                                setMenu.add(menu1.getLink());
+                            }
+                        }
+                    }else{
                         setMenu.add(menu.getLink());
                     }
                 }
-            }else{
-                setMenu.add(menu.getLink());
             }
-
         }
         log.info("授权成功");
-        info.addRoles(setRole);//角色
-        info.addStringPermissions(setMenu);//权限
+        info.setStringPermissions(setMenu);//权限
         return info;
     }
 
@@ -80,14 +81,20 @@ public class MyRealm extends AuthorizingRealm {
         log.info("正在进行用户认证");
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
-        User user = userServiceImpl.selUser(username);
-        for(Menu menu : user.getMenuList()){
-            List<Menu> menus = menuServiceImpl.selMenuList(username, menu.getMid());
-            menu.setMenus(menus.isEmpty() ? null : menus);
-        }
-        if(user == null){
+        User userNoe = userServiceImpl.selectOne(new User().setAcount(username));
+        if(userNoe == null){
             log.info("用户认证认证失败");
             throw new UnknownAccountException("用户不存在");
+        }
+        User user = userServiceImpl.selUser(username);
+        if(user == null){
+            user = userNoe;
+        }
+        if(user.getMenuList() != null && !user.getMenuList().isEmpty()){
+            for(Menu menu : user.getMenuList()){
+                List<Menu> menus = menuServiceImpl.selMenuList(username, menu.getMid());
+                menu.setMenus(menus.isEmpty() ? null : menus);
+            }
         }
         ByteSource byteSource =  ByteSource.Util.bytes(username);
         return new SimpleAuthenticationInfo(user, user.getPassword(),byteSource ,getName());

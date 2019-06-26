@@ -5,6 +5,7 @@ import com.medicalcare.medicalcareconsumer.service.LoginService;
 import com.medicalcare.util.Result;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 public class LoginController {
-    @Resource
+    @Autowired
     private LoginService loginService;
 
     /**

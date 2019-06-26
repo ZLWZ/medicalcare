@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DosageService {
 
-    List<Dosage> query();
+    List<Dosage> selAllDosage();
 
 }

@@ -2,14 +2,17 @@ package com.medicalcare.medicalcareprovide;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.medicalcare.entity.Kcdrugs;
 import com.medicalcare.entity.Menu;
 import com.medicalcare.entity.Role;
 import com.medicalcare.entity.User;
+import com.medicalcare.medicalcareprovide.mapper.KcdrugsMapper;
 import com.medicalcare.medicalcareprovide.mapper.MenuMapper;
 import com.medicalcare.medicalcareprovide.mapper.UserMapper;
 import com.medicalcare.medicalcareprovide.service.MenuService;
 import com.medicalcare.medicalcareprovide.service.RoleService;
 import com.medicalcare.medicalcareprovide.service.UserService;
+import com.netflix.ribbon.proxy.annotation.Var;
 import io.jsonwebtoken.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
@@ -42,15 +45,6 @@ public class MedicalcareProvideApplicationTests {
     private MenuService menuServiceImpl;
 
 
-    @Test
-    public void addRole(){
-        Role role = new Role();
-        role.setRname("测试").setChangeTime(new Date()).setCreationTime(new Date()).setDescribe("什么也不能干");
-
-       roleServiceImpl.addRole(role);
-        System.out.println("\r\r\r");
-        System.out.println(role);
-    }
 
     @Test
     public void menu(){

@@ -2,11 +2,8 @@ package com.medicalcare.medicalcareconsumer.service;
 
 import com.medicalcare.util.Result;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.Date;
 import java.util.Map;
 
 @FeignClient(value = "MEDICALCARE-PROVIDE/jurisdiction")
