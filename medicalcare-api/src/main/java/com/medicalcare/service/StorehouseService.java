@@ -11,7 +11,7 @@ import java.util.Map;
 public interface StorehouseService {
 
     @PostMapping(value = "/selAllPageKcdrugs")
-    public Result selAllPageKcdrugs(Map map);
+    public Result selAllPageKcdrugs(Map<String,Object> map);
 
 
     @GetMapping(value = "/selList")
