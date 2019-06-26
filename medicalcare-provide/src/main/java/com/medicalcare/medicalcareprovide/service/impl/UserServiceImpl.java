@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Override
+    public User selectOne(User user) {
+        return userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getAcount,user.getAcount()));
+    }
+
     /**
      * 按照用户名进行查询
      * @param username

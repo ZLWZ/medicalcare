@@ -8,8 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.crazycake.shiro.AuthCachePrincipal;
+import sun.net.www.http.HttpClient;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -53,4 +60,6 @@ public class User implements Serializable, AuthCachePrincipal {
   public String getAuthCacheKey() {
     return null;
   }
+
+
 }

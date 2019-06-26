@@ -25,7 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/jurisdiction")
 @CrossOrigin
-@RequiresPermissions(value = "/jurisdiction")
 public class JurisdictionController {
     @Resource
     private RoleService roleServiceImpl;
@@ -38,6 +37,7 @@ public class JurisdictionController {
 
     @Resource
     private UserRoleService userRoleServiceImpl;
+
     /**
      * 查询角色
      * @param rname
@@ -46,6 +46,7 @@ public class JurisdictionController {
      * @param current
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/selAllRole",method = RequestMethod.GET)
     public Result selAllRole(@RequestParam(value = "rname",required = false) String rname,
                              @RequestParam(value = "startTime",required = false)
@@ -64,6 +65,7 @@ public class JurisdictionController {
      * @param id
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/selRoleId/{id}",method = RequestMethod.GET)
     public Result selRoleId(@PathVariable("id") long id){
         Role role = roleServiceImpl.selRoleId(id);
@@ -75,6 +77,7 @@ public class JurisdictionController {
      * 查询所有的菜单
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/selAllMenu",method = RequestMethod.GET)
     public Result selRoleId(){
         return new Result(ResultCode.SUCCESS,menuServiceImpl.selAllMenu(0));
@@ -84,11 +87,12 @@ public class JurisdictionController {
      * 按照id查询菜单
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/selAllMenu/{rid}",method = RequestMethod.GET)
     public Result selUpdateRoleId(@PathVariable(value = "rid") int rid){
         return new Result(ResultCode.SUCCESS,menuServiceImpl.selHaveAll(rid));
     }
-
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/addRole",method = RequestMethod.POST)
     public Result addRole(@RequestBody Map map){
         Date date = new Date();
@@ -97,7 +101,7 @@ public class JurisdictionController {
                 setDescribe(StringUtils.isEmpty(describe) ? "这个人很懒什么也没有说" : describe)
                 .setCreationTime(date).setChangeTime(date);
         Object objIds = map.get("ids");
-        if(objIds != null){
+        if(objIds != null && !"".equals(objIds)){
             List<Integer> ids = (List<Integer>) objIds;
             roleServiceImpl.addRole(role);
             for (int id : ids){
@@ -113,6 +117,7 @@ public class JurisdictionController {
      * @param map
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/updRoleMenu",method = RequestMethod.PUT)
     public Result updRoleMenu(@RequestBody Map map){
         List<Integer> ids = (List<Integer>) map.get("ids");
@@ -130,12 +135,12 @@ public class JurisdictionController {
                 .setRname(map.get("rname").toString()).setRid((int) map.get("rid")));
         return new Result(ResultCode.SUCCESS);
     }
-
     /**
      * 删除角色
      * @param rid
      * @return
      */
+    @RequiresPermissions(value = "jurisdiction")
     @RequestMapping(value = "/deleteRole/{rid}",method = RequestMethod.DELETE)
     public Result deleteRole(@PathVariable(value = "rid") long rid){
         List<UserRole> userRoles = userRoleServiceImpl.selAllRid(rid);

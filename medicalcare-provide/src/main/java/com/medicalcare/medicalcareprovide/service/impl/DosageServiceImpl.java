@@ -17,7 +17,7 @@ public class DosageServiceImpl implements DosageService {
 
 
     @Override
-    public List<Dosage> query() {
+    public List<Dosage> selAllDosage() {
         return dosageMapper.selectList(null);
     }
 }

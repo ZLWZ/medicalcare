@@ -129,6 +129,7 @@
         this.$refs.form.resetFields();
       },
       submitUpdate(){
+        this.loading = true;
         this.$refs.form.validate((valid) => {
           if (valid) {
             this.$axios.put("api/jurisdiction/updRoleMenu", {
@@ -141,6 +142,7 @@
                 message: '修改成功',
                 type: 'success'
               });
+              this.loading = false;
               this.$emit("updateDataRole",this.form)
             },data => {
               this.$message.error('修改失败请检查网络设置');

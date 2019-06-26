@@ -6,6 +6,8 @@ import com.medicalcare.util.PageResult;
 import java.util.List;
 
 public interface UserService {
+
+    User selectOne(User user);
     /*按照用户名进行查询*/
     User selUser(String username);
     /*得到除root外的用户信息+分页+条件*/

@@ -1,24 +1,22 @@
 package com.medicalcare.medicalcareconsumer.controller;
 
-import com.medicalcare.entity.Department;
-import com.medicalcare.entity.Role;
 import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareconsumer.service.InfoManagerService;
 import com.medicalcare.util.PageResult;
 import com.medicalcare.util.Result;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/manager")
 @CrossOrigin
 public class InfoManagerController {
-    @Resource
+    @Autowired
     private InfoManagerService infoManagerService;
+
     //得到页面3个下拉框的内容
     @RequestMapping(method = RequestMethod.GET, value="getAllInfo")
     public Result getAllInfo(){

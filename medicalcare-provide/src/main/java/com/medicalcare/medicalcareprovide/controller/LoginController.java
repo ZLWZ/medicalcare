@@ -78,7 +78,8 @@ public class LoginController {
     @RequestMapping(value = "/unauthorized")
     public Result unauthorized(@RequestParam("code") int code, HttpServletRequest request) {
         String header = request.getHeader("Authoriztion");
-        return code == 1 ? new Result(ResultCode.UNAUTHENTICATED) : new Result(ResultCode.UNAUTHORISE);
+        System.out.println("===============================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        return code == 1 ? new Result(ResultCode.UNAUTHENTICATED,"未登录") : new Result(ResultCode.UNAUTHORISE,"未授权");
     }
 
     @PostMapping(value = "/verifyPassword")

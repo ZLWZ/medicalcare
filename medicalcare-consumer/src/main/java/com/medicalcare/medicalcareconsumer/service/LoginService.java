@@ -2,25 +2,12 @@ package com.medicalcare.medicalcareconsumer.service;
 
 import com.medicalcare.entity.User;
 import com.medicalcare.util.Result;
-import com.medicalcare.util.ResultCode;
-import feign.codec.Encoder;
-import feign.form.spring.SpringFormEncoder;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.Map;
 
 @FeignClient("MEDICALCARE-PROVIDE")
