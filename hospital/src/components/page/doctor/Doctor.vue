@@ -97,6 +97,7 @@
           tableData1:[],
           tableData2:[],
           rid:'',
+          rrid:'',
           title:'',
           rname:'',
           size:5,//每页条数
@@ -123,6 +124,7 @@
         },
         showdialog(rid,state){
           this.dialogFormVisible = !this.dialogFormVisible
+          this.rrid = rid
           if(state==1){
             this.showstate = true
             this.title = '诊断'
@@ -180,8 +182,8 @@
             this.$message({message: '该药单为空,不可提交！！',type: 'warning'})
           }else{
             this.$axios.post("/api/doctor/addDrugs",{
-              data:JSON.stringify(td2),
-
+              drugs:this.tableData2,
+              rid:this.rrid
             }).then((response)=>{
               if(response.data){
                 this.$message({message: '药单已开出,处理完成！',type: 'success'})
