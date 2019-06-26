@@ -6,18 +6,17 @@
     </div>
     <!--条件查询-->
     <el-row :gutter="20" type="flex" justify="center">
-      <!--名称-->
-      <el-col :span="5">
-        名称:
-        <el-input style="width: 200px;" placeholder="请输入名称" v-model="name" clearable></el-input>
+      <!--过期日期-->
+      <el-col :span="9" >
+        <div class="block">
+          <span class="demonstration">过期日期:</span>
+          <el-date-picker v-model="leavedate" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+          </el-date-picker>
+          <!--<el-date-picker v-model="leaveStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
+          <!--<el-date-picker v-model="leaveStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
+        </div>
       </el-col>
-      <!--规格查询-->
-      <el-col :span="5">
-        规格:
-        <el-select v-model="sid" multiple placeholder="请选择规格">
-          <el-option v-for="item in specifis" :key="item.sid" :label="item.sname" :value="item.sid"></el-option>
-        </el-select>
-      </el-col>
+
       <!--剂型查询-->
       <el-col :span="5">
         剂型:
@@ -38,21 +37,23 @@
       <el-col :span="9">
         <div class="block">
           <span class="demonstration">生产日期:</span>
-          <el-date-picker v-model="mkdate" type="datetimerange" style="margin-top: 10px" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+          <el-date-picker v-model="mkdate" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
           </el-date-picker>
           <!--<el-date-picker v-model="mkStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
           <!--<el-date-picker v-model="mkStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
         </div>
       </el-col>
-      <!--过期日期-->
-      <el-col :span="9" >
-        <div class="block">
-          <span class="demonstration">过期日期:</span>
-          <el-date-picker v-model="leavedate" type="datetimerange" style="margin-top: 10px" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
-          </el-date-picker>
-          <!--<el-date-picker v-model="leaveStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
-          <!--<el-date-picker v-model="leaveStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
-        </div>
+      <!--名称-->
+      <el-col :span="5">
+        名称:
+        <el-input style="width: 200px;" placeholder="请输入名称" v-model="name" clearable></el-input>
+      </el-col>
+      <!--规格查询-->
+      <el-col :span="5">
+        规格:
+        <el-select v-model="sid" multiple placeholder="请选择规格">
+          <el-option v-for="item in specifis" :key="item.sid" :label="item.sname" :value="item.sid"></el-option>
+        </el-select>
       </el-col>
 
 
@@ -69,15 +70,15 @@
         </div>
       </el-col>
     <!--中/西药-->
-    <el-col :span="6">
+    <el-col :span="5">
       <div class="block">
-        <span class="demonstration">中西药:</span>
+        <span class="demonstration">类型:</span>
         <el-select v-model="ktype" style="margin-top:10px;" clearable placeholder="请选择中/西药">
           <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
     </el-col>
-      <el-col :span="3">
+      <el-col :span="5">
         <el-button style="margin-top:10px;" type="primary" round @click="conditionSelect">查询</el-button>
       </el-col>
     </el-row>
