@@ -38,8 +38,8 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public boolean deleteRegister(String rid) {
-        return registerMapper.updateRegister(rid,3);
+    public boolean updateRstatic(String rid,Integer rstatic,Double rprice) {
+        return registerMapper.updateRegister(rid,rstatic,rprice);
     }
 
     @Override

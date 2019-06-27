@@ -1,6 +1,7 @@
 package com.medicalcare.medicalcareconsumer.service;
 
 import com.medicalcare.entity.Drugs;
+import com.medicalcare.entity.Pregdetils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,4 +19,7 @@ public interface DoctorService {
 
     @RequestMapping(method = RequestMethod.POST,value = "addDrugs")
     boolean addDrugs(@RequestBody Map map);
+
+    @RequestMapping(method = RequestMethod.GET,value = "getAllPregdetils")
+    List<Pregdetils> getAllPregdetils(@RequestParam("rid")String rid);
 }

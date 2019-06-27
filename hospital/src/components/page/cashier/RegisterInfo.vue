@@ -49,10 +49,10 @@
     <el-table-column label="患者姓名" prop="rname"></el-table-column>
     <el-table-column label="身份证号" prop="idcard"></el-table-column>
     <el-table-column label="挂号日期" prop="redate"></el-table-column>
-      <el-table-column label="状态" prop="rstatic"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column align="center" label="状态" prop="rstatic"></el-table-column>
+      <el-table-column align="center" label="操作">
         <template scope="scope">
-          <el-button size="small" type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row.rid)"></el-button>
+          <el-button size="small" type="primary" v-if="scope.row.rstatic == '未处理'" icon="el-icon-edit" circle @click="handleEdit(scope.row.rid)"></el-button>
           <el-button size="small" icon="el-icon-delete" circle type="danger" @click="handleDelete(scope.row.rid)"></el-button>
         </template>
       </el-table-column>

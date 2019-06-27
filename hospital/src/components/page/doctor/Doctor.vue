@@ -23,8 +23,8 @@
       <el-table-column align="center" prop="rstatic" label="状态" show-overflow-tooltip></el-table-column>
       <el-table-column align="center" label="操作" width="200">
         <template scope="scope">
-          <el-button size="small" type="primary" @click="showdialog(scope.row.rid,1)">诊断</el-button>
-          <el-button size="small" type="success" @click="showdialog(scope.row.rid,2)">详情</el-button>
+          <el-button size="small" v-if="scope.row.rstatic == '未处理'" type="primary" @click="showdialog(scope.row,1)">诊断</el-button>
+          <el-button size="small" v-if="scope.row.rstatic == '已处理'" type="success" @click="showdialog(scope.row,2)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -34,8 +34,32 @@
       </el-pagination>
     </div>
     <!--查看详情-->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" top="30px" width="50%">
-      <div v-if="!showstate"><diagnose></diagnose></div>
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" top="30px" width="55%">
+      <div v-if="!showstate">
+        <div style="margin-top: -20px">
+          <label class="lab">挂号序号：<span>{{details.rid}}</span></label>
+          <label class="lab">挂号日期：<span>{{details.redate}}</span></label>
+          <hr class="hr">
+          <label class="lab">患者姓名：<span>{{details.rname}}</span></label>
+          <label class="lab">科室：<span>{{details.department.dname}}</span></label>
+          <label class="lab">医生：<span>{{details.user.uname}}</span></label>
+          <hr class="hr">
+          <h5 class="prescriptionC-title">R</h5>
+          <el-table :data="pregdetils" height="350px" style="width: 80%; margin: 0 auto;">
+            <el-table-column prop="rdname" label="药品名称">
+            </el-table-column>
+            <el-table-column prop="dmoney" label="单价（元）">
+            </el-table-column>
+            <el-table-column prop="number" label="数量">
+            </el-table-column>
+            <el-table-column prop="zmoney" label="总价（元）">
+            </el-table-column>
+          </el-table>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogFormVisible = !dialogFormVisible" style="margin-right: 50px">确 定</el-button>
+          </div>
+        </div>
+      </div>
       <div v-if="showstate">
         <div style="margin-top: -20px">
           <el-table :data="tableData2" :default-sort = "{prop: 'id', order: 'ascending'}" style="width: 100%" height="240px" :header-cell-style="getRowClass">
@@ -94,6 +118,8 @@
           dialogFormVisible:false,
           loading:true,
           table:[],
+          details:{},
+          pregdetils:[],
           tableData1:[],
           tableData2:[],
           rid:'',
@@ -122,9 +148,9 @@
           this.current = val;
           this.flush();
         },
-        showdialog(rid,state){
+        showdialog(row,state){
           this.dialogFormVisible = !this.dialogFormVisible
-          this.rrid = rid
+          this.rrid = row.rid
           if(state==1){
             this.showstate = true
             this.title = '诊断'
@@ -134,6 +160,11 @@
           if(state==2){
             this.title = '药方单'
             this.showstate = false
+            this.details = row
+            this.$axios.get("/api/doctor/getAllPregdetils",{params:{rid:row.rid}}).then((response)=>{
+                this.pregdetils = response.data
+            })
+
           }
         },
         quxiao(){
@@ -187,6 +218,8 @@
             }).then((response)=>{
               if(response.data){
                 this.$message({message: '药单已开出,处理完成！',type: 'success'})
+                this.flush()
+                this.dialogFormVisible = !this.dialogFormVisible
               }else{
                 this.$message.error('未知异常，稍后重试！')
               }
@@ -218,7 +251,6 @@
              }
            }).then((response) => {             // mark
              this.total = response.data.total
-
              response.data.rows.forEach(function (item) {
                item.rstatic = item.rstatic == 1?'未处理':'已处理'
              })
@@ -266,5 +298,22 @@
     width: 700px;
     text-align: center;
     margin: 30px auto;
+  }
+  .hr{
+    border-top: 1px solid #4A7C32;
+  }
+  .lab{
+    display: inline-block;
+    font-size: 16px;
+    width: 240px;
+    margin: 10px 10px 0;
+    font-weight: 200;
+  }
+  .lab span{
+    font-weight: 600;
+  }
+  .prescriptionC-title{
+    font-size: 26px;
+    margin-left: 20px;
   }
 </style>

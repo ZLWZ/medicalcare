@@ -3,6 +3,9 @@ package com.medicalcare.medicalcareprovide.utils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UserUtils {
     public static String getuId(){
         int uid = (int)(Math.random()*1000000);
@@ -22,4 +25,11 @@ public class UserUtils {
         SimpleHash simpleHash = new SimpleHash(algorithmName,source, salt, hashIterations);
         return simpleHash.toString();
     }
+
+
+    public static String getrId() {
+        SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmss");
+        return format.format(new Date());
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.medicalcare.medicalcareconsumer.controller;
 
 import com.medicalcare.entity.Drugs;
+import com.medicalcare.entity.Pregdetils;
 import com.medicalcare.medicalcareconsumer.service.DoctorService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,10 @@ public class DoctorController {
     boolean addDrugs(@RequestBody Map map){
         return doctorService.addDrugs(map);
     }
+
+    @RequestMapping(method = RequestMethod.GET,value = "getAllPregdetils")
+    List<Pregdetils> getAllPregdetils(@RequestParam("rid")String rid){
+        return doctorService.getAllPregdetils(rid);
+    }
+
 }

@@ -39,7 +39,10 @@
         </where>
     </select>
     <update id="updateRegister">
-        update register set rstatic = #{rstatic} where rid = #{rid}
+        update register set rstatic = #{rstatic},rprice = #{rprice}
+        <where>
+            rid = #{rid}
+        </where>
     </update>
 
 </mapper>
