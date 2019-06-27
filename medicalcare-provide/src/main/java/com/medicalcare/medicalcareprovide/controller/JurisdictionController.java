@@ -152,6 +152,5 @@ public class JurisdictionController {
         }else{
             return new Result(ResultCode.FAIL,"删除失败，该角色正在被使用");
         }
-
     }
 }
