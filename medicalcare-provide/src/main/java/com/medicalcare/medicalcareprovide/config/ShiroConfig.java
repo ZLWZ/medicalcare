@@ -94,6 +94,7 @@ public class ShiroConfig {
         Map<String,String> map = new LinkedHashMap<String,String>();
         map.put("/logout","logout");
         map.put("/login","anon");
+        map.put("/unauthorized","anon");
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
