@@ -21,7 +21,7 @@ public class RegisterVisiController {
     private RegisterService registerServiceImpl;
     @RequestMapping(value = "addRegister",method = RequestMethod.POST)
     public boolean addRegister(@RequestBody Register register){
-        register.setRid(UserUtils.getuId());
+        register.setRid(UserUtils.getrId());
         register.setRedate(new Timestamp(new Date().getTime()));
         register.setRprice(0);
         register.setRstatic(1L);

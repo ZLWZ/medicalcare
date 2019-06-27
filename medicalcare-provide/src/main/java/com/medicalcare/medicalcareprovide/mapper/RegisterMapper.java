@@ -9,5 +9,5 @@ import java.util.List;
 public interface RegisterMapper extends BaseMapper<Register> {
     List<Register> getAllRegister(@Param("current") Integer current,@Param("size") Integer size,@Param("rid") String rid, @Param("rname") String rname);
 
-    boolean updateRegister(@Param("rid") String rid,@Param("rstatic") long rstatic);
+    boolean updateRegister(@Param("rid") String rid,@Param("rstatic") long rstatic,@Param("rprice") Double rprice);
 }

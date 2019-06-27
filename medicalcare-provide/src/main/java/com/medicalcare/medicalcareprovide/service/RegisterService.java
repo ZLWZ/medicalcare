@@ -15,7 +15,7 @@ public interface RegisterService {
 
     boolean updateRegister(Register register);
 
-    boolean deleteRegister(String rid);
+    boolean updateRstatic(String rid,Integer rstatic,Double rprice);
 
     boolean addRegister(Register register);
 }

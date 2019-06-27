@@ -52,6 +52,6 @@ public class RegisterInfoController {
 
     @RequestMapping(value = "deleteRegister",method = RequestMethod.GET)
     public boolean deleteRegister(@RequestParam("rid") String rid){
-        return registerServiceImpl.deleteRegister(rid);
+        return registerServiceImpl.updateRstatic(rid,3,0D);
     }
 }
