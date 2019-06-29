@@ -9,7 +9,7 @@ import java.util.List;
  * 挂号信息记录
  */
 public interface RegisterService {
-    PageResult<Register> getAllRegister(Integer current,Integer size,String rid, String rname);
+    PageResult<Register> getAllRegister(Integer end,Integer current,Integer size,String rid, String rname);
 
     Register getRegister(String rid);
 

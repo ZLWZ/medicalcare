@@ -16,13 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("manager")
+@RequiresPermissions("manager")
 public class ResignController {
     @Autowired
     private InformationService informationServiceImpl;
     @Autowired
     private UserService userService;
     @RequestMapping(method = RequestMethod.GET,value = "/getAllInformation")
-    @RequiresPermissions("manager")
     public List<Information> getAllInformation(@RequestParam("begin")String begin, @RequestParam("end")String end){
         List<Information> allInformation = informationServiceImpl.getAllInformation(begin,end);
         for (Information info : allInformation){
@@ -31,7 +31,6 @@ public class ResignController {
         return allInformation;
     }
     @RequestMapping(method = RequestMethod.GET,value = "/deleteInformation")
-    @RequiresPermissions("manager")
     public boolean deleteInformation(@RequestParam("uid") String uid){
         if(informationServiceImpl.deleteInformation(uid)){
             if(userService.deleteUser(uid)){

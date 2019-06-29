@@ -22,7 +22,7 @@ public class DoctorController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "addDrugs")
-    boolean addDrugs(@RequestBody Map map){
+    boolean addDrugs(@RequestBody Map<String,Object> map){
         return doctorService.addDrugs(map);
     }
 

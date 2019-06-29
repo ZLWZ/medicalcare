@@ -16,8 +16,8 @@ public class RegisterInfoController {
     @Autowired
     private RegisterInfoService registerInfoService;
     @RequestMapping(method = RequestMethod.GET,value = "getAllRegister")
-    public PageResult<Register> getAllRegister (@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("rid") String rid, @RequestParam("rname") String rname){
-        return registerInfoService.getAllRegister(current,size,rid,rname);
+    public PageResult<Register> getAllRegister (@RequestParam("end") Integer end,@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("rid") String rid, @RequestParam("rname") String rname){
+        return registerInfoService.getAllRegister(end,current,size,rid,rname);
     }
     @RequestMapping(value = "getAllInfo",method = RequestMethod.GET)
     public Result getAllInfo(@RequestParam("did") Long did){

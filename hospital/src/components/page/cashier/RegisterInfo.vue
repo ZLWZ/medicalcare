@@ -219,6 +219,7 @@
             rname:this.rname,
             current:-1,
             size:-1,
+            end:0
           }
         }).then((response) => {             // mark
           var td =[],th = this;

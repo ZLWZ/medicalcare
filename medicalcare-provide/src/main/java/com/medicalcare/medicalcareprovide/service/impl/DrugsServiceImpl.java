@@ -24,4 +24,9 @@ public class DrugsServiceImpl implements DrugsService {
         queryWrapper.lambda().like(Drugs::getDname,dname);
         return drugsMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public Drugs getDrugsByid(long did) {
+        return drugsMapper.selectById(did);
+    }
 }

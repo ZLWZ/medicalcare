@@ -16,9 +16,9 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private RegisterMapper registerMapper;
     @Override
-    public PageResult<Register> getAllRegister(Integer current,Integer size,String rid, String rname) {
+    public PageResult<Register> getAllRegister(Integer end,Integer current,Integer size,String rid, String rname) {
         PageResult<Register> pageResult = new PageResult<Register>();
-        pageResult.setRows(registerMapper.getAllRegister((current-1)*size,size,rid,rname));
+        pageResult.setRows(registerMapper.getAllRegister(end,(current-1)*size,size,rid,rname));
         QueryWrapper<Register> queryWrapper = new QueryWrapper<Register>();
         queryWrapper.lambda().between(Register::getRstatic,1,2);
         if(!StringUtils.isEmpty(rid))queryWrapper.lambda().like(Register::getRid,rid);

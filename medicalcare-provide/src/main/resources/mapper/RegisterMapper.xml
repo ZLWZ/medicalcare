@@ -25,7 +25,10 @@
         inner join department d on r.did = d.did
         inner join user u on u.uid = r.uid
         <where>
-            r.rstatic between 1 and 2
+            r.rstatic != 3
+            <if test="end != 0">
+                and r.rstatic != 1
+            </if>
             <if test="rid != null and rid != ''">
                 and r.rid like "%"#{rid}"%"
             </if>

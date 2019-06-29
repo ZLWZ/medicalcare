@@ -21,7 +21,7 @@ public class Procdetils implements Serializable {
   private long number;
   private double dmoney;
   private double zmoney;
-
+  private long did;
 
 
 }

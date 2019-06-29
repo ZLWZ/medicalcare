@@ -16,6 +16,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("doctor")
+@RequiresPermissions("doctor")
 public class DoctorController {
     @Autowired
     private DrugsService drugsServiceImpl;
@@ -24,12 +25,10 @@ public class DoctorController {
     @Autowired
     private RegisterService registerServiceImpl;
     @RequestMapping(method = RequestMethod.GET,value = "getAllDrugs")
-    @RequiresPermissions("doctor")
     public List<Drugs> getAllDrugs(@RequestParam("dname")String dname){
         return drugsServiceImpl.getAllDrugs(dname);
     }
     @RequestMapping(method = RequestMethod.POST,value = "addDrugs")
-    @RequiresPermissions("doctor")
     public boolean addDrugs(@RequestBody Map<String,Object> map){
         String drugs = JSONArray.toJSONString(map.get("drugs"));
         List<Pregdetils> objects = JSON.parseArray(drugs,Pregdetils.class);
@@ -38,6 +37,7 @@ public class DoctorController {
         double rprice = 0;
         for (Pregdetils l : objects){
             rprice += l.getZmoney();
+            l.setRid(rid);
             flag = pregdetilsServiceImpl.addPregdetils(l);
         }
         if(flag){
@@ -47,9 +47,7 @@ public class DoctorController {
         }
     }
     @RequestMapping(method = RequestMethod.GET,value = "getAllPregdetils")
-    @RequiresPermissions("doctor")
     List<Pregdetils> getAllPregdetils(@RequestParam("rid")String rid){
         return pregdetilsServiceImpl.getAllPregdetils(rid);
     }
-
 }

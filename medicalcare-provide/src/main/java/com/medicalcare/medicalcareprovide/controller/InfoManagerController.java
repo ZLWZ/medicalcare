@@ -22,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("manager")
+@RequiresPermissions("manager")
 public class InfoManagerController {
 
     @Value("${imgPath}")
@@ -47,7 +48,6 @@ public class InfoManagerController {
 
     //得到页面3个下拉框的内容
     @RequestMapping(value = "getAllInfo",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public  Result getAllDepartment(){
         List<List> list = new ArrayList<>();
         list.add(departmentServiceImpl.getAllDepartment());
@@ -57,14 +57,12 @@ public class InfoManagerController {
     }
     //得到所有用户信息
     @RequestMapping(value = "getAllUser",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public PageResult<User> getAllUser(@RequestParam("uid") String uid,@RequestParam("current") Integer current,@RequestParam("size") Integer size,@RequestParam("uname") String uname,@RequestParam("did") String did){
         PageResult<User> allUser = userServiceImpl.getAllUser( uid,current, size, uname, did);
         return allUser;
     }
     //添加用户
     @RequestMapping(value = "insertUser",method = RequestMethod.POST)
-    @RequiresPermissions("manager")
     public boolean insertUser(@RequestBody Map<String,String> map){
         User user = new User();
         List<String> alluId = userServiceImpl.getAlluId();
@@ -107,7 +105,6 @@ public class InfoManagerController {
     }
     //修改用户
     @RequestMapping(value = "updateUser",method = RequestMethod.POST)
-    @RequiresPermissions("manager")
     public boolean updateUser(@RequestBody Map<String,String> map){
         User user = new User();
         user.setUid(map.get("uid"));
@@ -138,19 +135,16 @@ public class InfoManagerController {
     }
     //修改用户状态
     @RequestMapping(value = "updateUserState",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean updateUserState(@RequestParam("uid") String uid,@RequestParam("state") Long state){
         return userServiceImpl.updateUserState(uid,state);
     }
     //删除用户
     @RequestMapping(value = "deleteUser",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean deleteUser(@RequestParam("uid") String uid){
         return userServiceImpl.deleteUser(uid);
     }
     //删除所选中用户
     @RequestMapping(value = "deleteAllUser",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean deleteAllUser(@RequestParam("uids") String uids){
         String[] split = uids.split(";");
         for (int i = 0;i<split.length;i++){
@@ -162,25 +156,21 @@ public class InfoManagerController {
     }
     //检验身份证
     @RequestMapping(value = "checkID",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean checkID(@RequestParam("idcard") String idcard){
         return userServiceImpl.getAllID().contains(idcard);
     }
     //检验手机号
     @RequestMapping(value = "checkPhone",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean checkPhone(@RequestParam("phone") String phone,@RequestParam("uid")String uid){
         return userServiceImpl.getAllPhone(uid).contains(phone);
     }
     //检验用户名
     @RequestMapping(value = "checkAcount",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean checkAcount(@RequestParam("acount") String acount,@RequestParam("uid")String uid){
         return userServiceImpl.getAllAcount(uid).contains(acount);
     }
     //办理离职
     @RequestMapping(value = "leave",method = RequestMethod.GET)
-    @RequiresPermissions("manager")
     public boolean leave(@RequestParam("uid") String uid,@RequestParam("details") String details){
         Information information = new Information();
         information.setUid(uid);

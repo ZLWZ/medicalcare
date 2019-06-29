@@ -14,7 +14,7 @@ import java.util.List;
 @FeignClient("MEDICALCARE-PROVIDE/cashier")
 public interface RegisterInfoService {
     @RequestMapping(method = RequestMethod.GET,value = "getAllRegister")
-    PageResult<Register> getAllRegister(@RequestParam("current") Integer current, @RequestParam("size") Integer size,@RequestParam("rid") String rid, @RequestParam("rname") String rname);
+    PageResult<Register> getAllRegister(@RequestParam("end") Integer end,@RequestParam("current") Integer current, @RequestParam("size") Integer size,@RequestParam("rid") String rid, @RequestParam("rname") String rname);
 
     @RequestMapping(value = "getAllInfo",method = RequestMethod.GET)
     Result getAllInfo(@RequestParam("did") Long did);
