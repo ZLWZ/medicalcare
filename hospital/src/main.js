@@ -52,10 +52,11 @@ router.beforeResolve((to,form,next) => {
   }
   if(to.path != "/login" && to.path != "/403" && to.path != "/404"){
     axios.get("/api"+to.path+"/api").then(data => {
+      console.log(data.data.code)
       if(data.data.code == 10002){
         sessionStorage.removeItem("user");
         next("/login")
-      }else if(data.data == "未授权"){
+      }else if(data.data.code == 10003){
         next("/403")
       }
       next(true);
