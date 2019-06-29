@@ -23,7 +23,6 @@ public class MySessionManager extends DefaultWebSessionManager {
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
         String id = WebUtils.toHttp(request).getHeader("Authoriztion");
-        System.out.println("请求头"+id);
         if(StringUtils.isEmpty(id)){
             return super.getSessionId(request,response);
         }else{

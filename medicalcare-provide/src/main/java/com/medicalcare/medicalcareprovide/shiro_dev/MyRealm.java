@@ -47,7 +47,6 @@ public class MyRealm extends AuthorizingRealm {
         User user = (User)principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         String acount = user.getAcount();
-        Set<String> setRole = new HashSet<String>();//角色
         Set<String> setMenu = new HashSet<String>();//权限
         log.info("进行授权");
         if(user != null){
@@ -67,7 +66,7 @@ public class MyRealm extends AuthorizingRealm {
             }
         }
         log.info("授权成功");
-        info.setStringPermissions(setMenu);//权限
+//        info.setStringPermissions(setMenu);//权限
         return info;
     }
 

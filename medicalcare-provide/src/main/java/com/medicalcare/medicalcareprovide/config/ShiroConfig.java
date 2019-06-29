@@ -91,25 +91,16 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(this.securityManager());
         shiroFilterFactoryBean.setLoginUrl("/unauthorized?code=1");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized?code=2");
         Map<String,String> map = new LinkedHashMap<String,String>();
+        map.put("/unauthorized","anon");
         map.put("/logout","logout");
         map.put("/login","anon");
-        map.put("/unauthorized","anon");
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
 
-    @Bean
-    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
-        Properties properties=new Properties();
-        //这里的 /unauthorized 是页面，不是访问的路径
-        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/unauthorized?code=2");//发生错误跳转的页面
-        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","/unauthorized?code=2");//
-        simpleMappingExceptionResolver.setExceptionMappings(properties);
-        return simpleMappingExceptionResolver;
-    }
 
     //配置对shiro注解的支持
     @Bean
