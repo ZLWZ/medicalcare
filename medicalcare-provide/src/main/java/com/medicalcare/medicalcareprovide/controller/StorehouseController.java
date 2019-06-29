@@ -22,7 +22,7 @@ import java.util.Map;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/Storehouse")
-@RequiresPermissions(value = "/Storehouse")
+@RequiresPermissions("storehouse")
 public class StorehouseController {
 
     @Resource
@@ -38,6 +38,7 @@ public class StorehouseController {
     private SpecifiService specifiServiceImpl;
 
     @PostMapping(value = "/selAllPageKcdrugs")
+    @RequiresPermissions("storehouse")
     public Result selAllPageKcdrugs(@RequestBody(required = false) Map<String,Object> map){
         int page = Integer.parseInt(map.get("page").toString());
         int pageSize = Integer.parseInt(map.get("pageSize").toString());
@@ -65,6 +66,7 @@ public class StorehouseController {
 
 
     @GetMapping(value = "/selList")
+    @RequiresPermissions("storehouse")
     public Result selList(){
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("dosage",dosageServiceImpl.selAllDosage());

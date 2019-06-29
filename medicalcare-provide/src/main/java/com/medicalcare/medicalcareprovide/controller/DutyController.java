@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("manager")
-@RequiresPermissions(value = "/manager")
 public class DutyController {
     @Autowired
     private ShiftService shiftServiceImpl;
@@ -31,6 +30,7 @@ public class DutyController {
     @Autowired
     private DetailsSeivice detailsSeiviceImpl;
     @RequestMapping(value = "getAllDutyInfo",method = RequestMethod.GET)
+    @RequiresPermissions("manager")
     public  Result getAllDutyInfo(@RequestParam("uid")String uid){
         List<List> list = new ArrayList<>();
         list.add(partiServiceImpl.getAllParti());
@@ -40,6 +40,7 @@ public class DutyController {
         return new Result(ResultCode.SUCCESS,list);
     }
     @RequestMapping(value = "getAllDuty",method = RequestMethod.GET)
+    @RequiresPermissions("manager")
     public List<Shift> getAllDuty(@RequestParam("sid") String sid,@RequestParam("uname") String uname,@RequestParam("sdate") String sdate,@RequestParam("did") String did){
         List<Shift> allShift = shiftServiceImpl.getAllShift();
         List<String> uids = new ArrayList<String>();
@@ -56,14 +57,17 @@ public class DutyController {
         return getDuty(allShift,sid,uname,sdate,did);
     }
     @RequestMapping(value = "updateShift",method = RequestMethod.POST)
+    @RequiresPermissions("manager")
     public boolean updateShift(@RequestBody Shift shift){
         return shiftServiceImpl.updateShift(shift);
     }
     @RequestMapping(value = "insertShift",method = RequestMethod.POST)
+    @RequiresPermissions("manager")
     public boolean insertShift(@RequestBody Shift shift){
         return shiftServiceImpl.insertShift(shift);
     }
     @RequestMapping(value = "deleteShift",method = RequestMethod.GET)
+    @RequiresPermissions("manager")
     public boolean deleteShift(@RequestParam("sid") long sid){
         return shiftServiceImpl.deleteShift(sid);
     }
