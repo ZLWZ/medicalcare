@@ -29,4 +29,9 @@ public class DrugsServiceImpl implements DrugsService {
     public Drugs getDrugsByid(long did) {
         return drugsMapper.selectById(did);
     }
+
+    @Override
+    public boolean updateDrugs(Drugs drugs) {
+        return drugsMapper.updateById(drugs)>0;
+    }
 }

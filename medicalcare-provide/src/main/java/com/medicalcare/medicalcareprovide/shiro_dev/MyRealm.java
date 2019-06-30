@@ -66,7 +66,7 @@ public class MyRealm extends AuthorizingRealm {
             }
         }
         log.info("授权成功");
-//        info.setStringPermissions(setMenu);//权限
+        info.setStringPermissions(setMenu);//权限
         return info;
     }
 

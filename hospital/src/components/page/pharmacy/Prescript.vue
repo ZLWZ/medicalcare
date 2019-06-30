@@ -56,27 +56,55 @@
       <el-table-column align="center" label="创建日期" prop="redate"></el-table-column>
       <el-table-column align="center" label="操作" width="210">
         <template scope="scope">
-          <el-button type="primary" @click="outyao(scope.row)">出药</el-button>
+          <el-button type="primary" v-if="scope.row.pstate == 0" @click="outyao(scope.row,1)">出药</el-button>
+          <el-button type="success" v-if="scope.row.pstate == 1" @click="outyao(scope.row,2)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="出药" :visible.sync="dialogFormVisible" top="70px" width="55%">
-      <el-table :data="tableData" @selection-change="handleSelectionChange" :default-sort = "{prop: 'did', order: 'ascending'}" style="width: 100%" height="240px" :header-cell-style="getRowClass">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
-        <el-table-column align="center" sortable prop="did" label="编号"></el-table-column>
-        <el-table-column align="center" prop="rdname" label="药名"></el-table-column>
-        <el-table-column align="center" prop="dmoney" label="单价"></el-table-column>
-        <el-table-column align="center" label="数量">
-          <template scope="scope">
-            <el-input-number v-model="scope.row.number" @change="handleChange(scope.row)" :min="1" :max="10" size="mini" style="width: 100px"></el-input-number>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="zmoney" label="总价"></el-table-column>
-      </el-table>
-      <div style="margin-top: 20px">
-        <el-button type="primary" style="float: right;margin-left: 20px" @click="submit">确定</el-button>
-        <el-button type="danger" style="float: right" @click="quxiao">取消</el-button>
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" top="150px" width="55%">
+      <div  v-if="showstate">
+        <el-table :data="tableData" @selection-change="handleSelectionChange" :default-sort = "{prop: 'did', order: 'ascending'}" style="width: 100%" height="240px" :header-cell-style="getRowClass">
+          <el-table-column type="selection" width="55">
+          </el-table-column>
+          <el-table-column align="center" sortable prop="did" label="编号"></el-table-column>
+          <el-table-column align="center" prop="rdname" label="药名"></el-table-column>
+          <el-table-column align="center" prop="dmoney" label="单价"></el-table-column>
+          <el-table-column align="center" label="数量">
+            <template scope="scope">
+              <el-input-number v-model="scope.row.number" @change="handleChange(scope.row)" :min="1" :max="10" size="mini" style="width: 100px"></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="zmoney" label="总价"></el-table-column>
+        </el-table>
+        <div style="margin-top: 20px">
+          <el-button type="primary" style="float: right;margin-left: 20px" @click="submit">确定</el-button>
+          <el-button type="danger" style="float: right" @click="quxiao">取消</el-button>
+          <div style="clear: both"></div>
+        </div>
+      </div>
+      <div v-if="!showstate" style="width: 100%;margin-top: -20px">
+        <div style="float:left;width: 49%;">
+          <h2 style="text-align: center;margin-bottom: 20px;">预处理药方</h2>
+          <el-table :data="tableData"  show-summary @selection-change="handleSelectionChange" :default-sort = "{prop: 'did', order: 'ascending'}" style="width: 100%" height="248px" :header-cell-style="getRowClass">
+            <el-table-column align="center" prop="rdname" label="药名" width="130px"></el-table-column>
+            <el-table-column align="center" prop="dmoney" label="单价"></el-table-column>
+            <el-table-column align="center" prop="number" label="数量"></el-table-column>
+            <el-table-column align="center" prop="zmoney" label="总价"></el-table-column>
+          </el-table>
+        </div>
+        <div style="float:left;width: 0.3%;background: #6f7180;height: 250px;margin: 50px 0.85%"></div>
+        <div style="float:right;width: 49%;">
+          <h2 style="text-align: center;margin-bottom: 20px;">实际处理药方</h2>
+          <el-table :data="tableData2" show-summary @selection-change="handleSelectionChange" :default-sort = "{prop: 'did', order: 'ascending'}" style="width: 100%" height="248px" :header-cell-style="getRowClass">
+            <el-table-column align="center" prop="rdname" label="药名" width="130px"></el-table-column>
+            <el-table-column align="center" prop="dmoney" label="单价"></el-table-column>
+            <el-table-column align="center" prop="number" label="数量"></el-table-column>
+            <el-table-column align="center" prop="zmoney" label="总价"></el-table-column>
+          </el-table>
+        </div>
+        <div>
+          <el-button style="float: right;margin:20px 10px 0 0" @click="dialogFormVisible = !dialogFormVisible" type="primary">确定</el-button>
+        </div>
         <div style="clear: both"></div>
       </div>
     </el-dialog>
@@ -99,10 +127,13 @@
           rid:'',
           rrid:'',
           rname:'',
+          title:'',
+          showstate:true,
           dialogFormVisible:false,
           loading:'',
           table:[],
           tableData:[],
+          tableData2:[],
           multipleSelection: []
         }
       },
@@ -112,10 +143,22 @@
           this.rname = ''
           this.flush()
         },
-        outyao(row){
+        outyao(row,state){
           this.dialogFormVisible = !this.dialogDelVisible
           this.rrid = row.rid
-          this.tableData = row.pregdetils
+          if(state==1){
+            this.showstate = true
+            this.title = '出药'
+            this.tableData = row.pregdetils
+          }
+          if(state==2){
+            this.title = '详情'
+            this.showstate = false
+            this.tableData = row.pregdetils
+            this.$axios.get("/api/pharmacy/selProcdetils",{params:{rid:this.rrid}}).then((response)=>{
+              this.tableData2 = response.data
+            })
+          }
         },
         quxiao(){
           this.dialogFormVisible = !this.dialogFormVisible
@@ -125,7 +168,6 @@
           if(this.multipleSelection.length == 0){
             this.$message({message: '请选择药品',type: 'warning'});
           }else{
-            console.log(this.multipleSelection)
             this.$axios.post("/api/pharmacy/checkNum",{checknum:this.multipleSelection}).then((response)=>{
               if(response.data != ''){
                 this.$message({message: response.data,type: 'warning'});
@@ -136,6 +178,8 @@
                 }).then((response)=>{
                   if(response.data){
                     this.$message({message: '配药成功！',type: 'success'});
+                    this.quxiao();
+                    this.flush();
                   }else{
                     this.$message.error("未知异常，稍后重试！！")
                   }
@@ -149,7 +193,6 @@
         },
         handleSelectionChange(val){
           this. multipleSelection = val
-          console.log(val)
         },
         accMul(arg1, arg2) {
           var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
@@ -179,6 +222,7 @@
               item.rstatic = item.rstatic == 1?'未处理':'已处理'
             })
             this.table = response.data.rows
+            console.log(this.table)
             this.loading = false;
           })
         }

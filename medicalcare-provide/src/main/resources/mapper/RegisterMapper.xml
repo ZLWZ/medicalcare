@@ -11,6 +11,7 @@
         <result column="rmoney" property="rmoney"></result>
         <result column="rprice" property="rprice"></result>
         <result column="rstatic" property="rstatic"></result>
+        <result column="pstate" property="pstate"></result>
         <association property="department" javaType="com.medicalcare.entity.Department">
             <id column="did" property="did"></id>
             <result column="dname" property="dname"></result>
@@ -43,6 +44,12 @@
     </select>
     <update id="updateRegister">
         update register set rstatic = #{rstatic},rprice = #{rprice}
+        <where>
+            rid = #{rid}
+        </where>
+    </update>
+    <update id="updatePstate">
+        update register set pstate = #{pstate},rprice = #{rprice}
         <where>
             rid = #{rid}
         </where>

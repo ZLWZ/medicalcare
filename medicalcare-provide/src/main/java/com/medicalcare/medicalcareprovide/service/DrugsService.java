@@ -8,4 +8,6 @@ public interface DrugsService {
     List<Drugs> getAllDrugs(String dname);
 
     Drugs getDrugsByid(long did);
+
+    boolean updateDrugs(Drugs drugs);
 }

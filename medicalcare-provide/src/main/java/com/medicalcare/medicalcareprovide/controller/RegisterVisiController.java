@@ -25,6 +25,7 @@ public class RegisterVisiController {
         register.setRedate(new Timestamp(new Date().getTime()));
         register.setRprice(0);
         register.setRstatic(1L);
+        register.setPstate(0L);
         return registerServiceImpl.addRegister(register);
     }
 }

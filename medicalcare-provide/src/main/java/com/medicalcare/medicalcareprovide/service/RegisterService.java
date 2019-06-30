@@ -18,4 +18,6 @@ public interface RegisterService {
     boolean updateRstatic(String rid,Integer rstatic,Double rprice);
 
     boolean addRegister(Register register);
+
+    boolean updatePstate(String rid,Double rprice,long pstate);
 }

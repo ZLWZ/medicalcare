@@ -29,6 +29,7 @@ public class Register implements Serializable {
   private double rmoney;
   private double rprice;
   private long rstatic;
+  private long pstate;
   @TableField(exist = false)
   private List<Pregdetils> pregdetils;
   @TableField(exist = false)

@@ -46,4 +46,9 @@ public class RegisterServiceImpl implements RegisterService {
     public boolean addRegister(Register register) {
         return registerMapper.insert(register)>0;
     }
+
+    @Override
+    public boolean updatePstate(String rid,Double rprice,long pstate) {
+        return registerMapper.updatePstate(rid,rprice,pstate);
+    }
 }

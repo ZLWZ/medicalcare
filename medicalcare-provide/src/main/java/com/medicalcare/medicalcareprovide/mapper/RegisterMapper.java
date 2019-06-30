@@ -10,4 +10,6 @@ public interface RegisterMapper extends BaseMapper<Register> {
     List<Register> getAllRegister(@Param("end") Integer end,@Param("current") Integer current,@Param("size") Integer size,@Param("rid") String rid, @Param("rname") String rname);
 
     boolean updateRegister(@Param("rid") String rid,@Param("rstatic") long rstatic,@Param("rprice") Double rprice);
+
+    boolean updatePstate(@Param("rid") String rid,@Param("rprice") Double rprice,@Param("pstate") long pstate);
 }
