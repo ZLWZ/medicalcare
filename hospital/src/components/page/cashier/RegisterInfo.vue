@@ -222,6 +222,7 @@
           }
         }).then((response) => {             // mark
           var td =[],th = this;
+          console.log(response)
           response.data.rows.forEach(function (item) {
             var register = {
               rid:item.rid,

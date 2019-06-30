@@ -43,11 +43,16 @@
           <!--<el-date-picker v-model="mkStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
         </div>
       </el-col>
-      <!--名称-->
+      <!--中/西药-->
       <el-col :span="5">
-        名称:
-        <el-input style="width: 200px;" placeholder="请输入名称" v-model="name" clearable></el-input>
+        <div class="block">
+          <span class="demonstration">类型:</span>
+          <el-select v-model="ktype"  clearable placeholder="请选择中/西药">
+            <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </div>
       </el-col>
+
       <!--规格查询-->
       <el-col :span="5">
         规格:
@@ -69,18 +74,14 @@
           <!--<el-date-picker v-model="joinStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
         </div>
       </el-col>
-    <!--中/西药-->
-    <el-col :span="5">
-      <div class="block">
-        <span class="demonstration">类型:</span>
-        <el-select v-model="ktype" style="margin-top:10px;" clearable placeholder="请选择中/西药">
-          <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </div>
-    </el-col>
-      <el-col :span="5">
-        <el-button style="margin-top:10px;" type="primary" round @click="conditionSelect">查询</el-button>
-        <el-button type="success" round>添加药物</el-button>
+      <!--名称-->
+      <el-col :span="5" style="margin-top:10px;">
+        名称:
+        <el-input style="width: 200px;" placeholder="请输入名称" v-model="name" clearable></el-input>
+      </el-col>
+      <el-col :span="4" :offset="1">
+        <el-button style="margin-top:10px;" type="primary"  @click="conditionSelect">查询</el-button>
+        <el-button type="success" @click="dialogVisible = true">添加药物</el-button>
       </el-col>
     </el-row>
     <!--表格数据展示-->
@@ -118,14 +119,27 @@
         </el-pagination>
       </el-col>
     </el-row>
+    <el-dialog
+      title="添加药物"
+      :visible.sync="dialogVisible"
+      width="75%"
+      :before-close="handleClose">
+      <span slot="footer" class="dialog-footer">
+        <add-kcdrugs ref="kcdrugs" v-on:success="success(res)"></add-kcdrugs>
+  </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+    import AddKcdrugs from './AddKcdrugs'
     export default {
       name: "Storehouse",
+      components:{AddKcdrugs},
       data() {
         return {
+          dialogVisible: false, //添加弹框
           name:'', //商品名称
           sid:'', //规格id
           did:'', //剂型id
@@ -201,6 +215,9 @@
         }
       },
       methods: {
+        success(res){
+          this.dialogVisible  = res;
+        },
         deleteRow(index, rows) {
           rows.splice(index, 1);
         },
@@ -262,6 +279,15 @@
           }).catch(data => {
 
           })
+        },
+        handleClose(done) { //开启弹框
+          this.$confirm('确认关闭？')
+            .then(_ => {
+              console.log(11);
+              this.$refs.kcdrugs.cancel();
+              done();
+            })
+            .catch(_ => {});
         }
       },
       created(){

@@ -27,10 +27,12 @@ const i18n = new VueI18n({
 })
 
 router.beforeResolve((to,form,next) => {
+  console.log(1)
+  console.log(user == null && sessionStorage.getItem("user") != null)
   let user = store.state.user;
-  if(user == null || sessionStorage.getItem("user") == null){
+  if(user == null){
     user = sessionStorage.getItem("user");
-    if(user != null){
+    if(user != null ){
       store.state.user = JSON.parse(Base64.decode(user));
       user = store.state.user;
       if(user.authoriztion){
@@ -50,8 +52,9 @@ router.beforeResolve((to,form,next) => {
       }
     }
   }
-  if(to.path != "/login" && to.path != "/403" && to.path != "/404"){
-    axios.get("/api"+to.path+"/api").then(data => {
+  let path = to.path.trim();
+  if(path != "/login" && path != "/403" && path != "/404" && path != "/personalCenter" && path != "/" ){
+    axios.get("/api"+path+"/api").then(data => {
       console.log(data.data.code)
       if(data.data.code == 10002){
         sessionStorage.removeItem("user");

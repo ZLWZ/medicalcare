@@ -1,5 +1,7 @@
 package com.medicalcare.medicalcareprovide.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.medicalcare.entity.Kcdrugs;
 import com.medicalcare.medicalcareprovide.service.CompanyService;
 import com.medicalcare.medicalcareprovide.service.DosageService;
@@ -12,6 +14,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +77,18 @@ public class StorehouseController {
         map.put("company",companyServiceImpl.selAllCompany());
         map.put("specifi",specifiServiceImpl.selAllSpecifi());
         return new Result(ResultCode.SUCCESS,map);
+    }
+
+    @PostMapping(value = "/addKcdrugs")
+    public Result addKcdrugs(@RequestBody(required = false) Map<String,Object> map){
+        String kcdrugss = JSONArray.toJSONString(map.get("kcdrugss"));
+        List<Kcdrugs> kcdrugs = JSON.parseArray(kcdrugss, Kcdrugs.class);
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        for (Kcdrugs k : kcdrugs){
+            k.setJoindate(timestamp);
+        }
+        kcdrugsServiceImpl.addKcdrugs(kcdrugs);
+        return new Result(ResultCode.SUCCESS);
     }
 
 }

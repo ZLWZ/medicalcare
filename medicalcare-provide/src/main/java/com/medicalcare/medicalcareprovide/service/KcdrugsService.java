@@ -12,4 +12,8 @@ public interface KcdrugsService {
 
 
     long selKcdrugsCount(Map<String,Object> map);
+
+
+    int addKcdrugs(List<Kcdrugs> kcdrugs);
+
 }

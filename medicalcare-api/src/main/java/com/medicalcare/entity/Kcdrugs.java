@@ -30,11 +30,11 @@ public class Kcdrugs implements Serializable {
   private long did;
   private double money;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp mkdate;
+  private java.sql.Timestamp mkdate; //生产日期
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp joindate;
+  private java.sql.Timestamp joindate; //进货日期
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp leavedate;
+  private java.sql.Timestamp leavedate; //过期日期
   private String details;
 
   /**

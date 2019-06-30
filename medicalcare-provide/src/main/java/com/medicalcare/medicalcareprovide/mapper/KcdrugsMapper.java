@@ -10,4 +10,6 @@ import java.util.Map;
 public interface KcdrugsMapper extends BaseMapper<Kcdrugs> {
 
     List<Kcdrugs> selAllPageKcdrugs(@Param("map") Map<String,Object> map);
+
+    int addKcdrugs(@Param("kcdrugs") List<Kcdrugs> kcdrugs);
 }
