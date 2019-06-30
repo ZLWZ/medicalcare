@@ -1,6 +1,7 @@
 package com.medicalcare.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,12 @@ public class Drugs implements Serializable {
   private long sid;
   private long did;
   private long cid;
-
+  @TableField(exist = false)
+  private Specifi specifi;
+  @TableField(exist = false)
+  private Dosage dosage;
+  @TableField(exist = false)
+  private Company company;
 
 
 }

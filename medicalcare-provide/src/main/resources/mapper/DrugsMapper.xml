@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medicalcare.medicalcareprovide.mapper.DrugsMapper">
+    <resultMap id="getDrugs" type="com.medicalcare.entity.Drugs">
+        <id column="id" property="id"></id>
+        <result column="dname" property="dname"></result>
+        <result column="did" property="did"></result>
+        <result column="cid" property="cid"></result>
+        <result column="sid" property="sid"></result>
+        <result column="num" property="num"></result>
+        <result column="money" property="money"></result>
+        <result column="dtype" property="dtype"></result>
+        <result column="kstate" property="kstate"></result>
+        <association property="company" javaType="com.medicalcare.entity.Company">
+            <id property="cid" column="cid"></id>
+            <result property="cname" column="cname"></result>
+        </association>
+        <association property="specifi" javaType="com.medicalcare.entity.Specifi">
+            <id  column="sid" property="sid"></id>
+            <result column="sname" property="sname"></result>
+        </association>
+        <association property="dosage" javaType="com.medicalcare.entity.Dosage">
+            <id  column="did" property="did"></id>
+            <result column="ddname" property="dname"></result>
+        </association>
+    </resultMap>
+    <select id="getAllDrugs" resultMap="getDrugs">
+        select * from drugs d
+        inner join specifi s on d.sid = s.sid
+        inner join dosage o on d.did = o.did
+        inner join company c on d.cid = c.cid
+        <where>
+            <if test="dname != null and dname != ''">
+                and d.dname like "%"#{dname}"%"
+            </if>
+            <if test="dtype != 0">
+                and d.dtype = #{dtype}
+            </if>
+            <if test="cid != 0">
+                and d.cid = #{cid}
+            </if>
+            <if test="did != 0">
+                and d.did = #{did}
+            </if>
+            <if test="sid != 0">
+                and d.sid = #{sid}
+            </if>
+        </where>
+        order by d.id limit #{current},#{size}
+    </select>
+</mapper>
