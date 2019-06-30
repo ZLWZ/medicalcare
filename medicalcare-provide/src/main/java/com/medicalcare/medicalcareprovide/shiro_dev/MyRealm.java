@@ -6,6 +6,7 @@ import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareprovide.mapper.MenuMapper;
 import com.medicalcare.medicalcareprovide.service.MenuService;
 import com.medicalcare.medicalcareprovide.service.UserService;
+import com.medicalcare.medicalcareprovide.utils.UserUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -30,7 +31,6 @@ public class MyRealm extends AuthorizingRealm {
         super.setName("cyRealm");
     }
 
-
     @Resource
     private UserService userServiceImpl;
 
@@ -46,7 +46,6 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user = (User)principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        String acount = user.getAcount();
         Set<String> setMenu = new HashSet<String>();//权限
         log.info("进行授权");
         if(user != null){
@@ -55,7 +54,6 @@ public class MyRealm extends AuthorizingRealm {
                     if(StringUtils.isEmpty(menu.getLink())){
                         for(Menu menu1 : menu.getMenus()){
                             if(!StringUtils.isEmpty(menu1.getLink())){
-                                System.out.println(menu1.getLink());
                                 setMenu.add(menu1.getLink());
                             }
                         }

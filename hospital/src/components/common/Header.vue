@@ -125,9 +125,12 @@
     },
     computed:{
       imgPath(){
-        let imgSrc = this.$store.state.user.portrait;
-        console.log(require('@/assets/img'+"/"+imgSrc))
-        return require('@/assets/img'+"/"+imgSrc)
+        if(this.$store.state.user){
+          let imgSrc = this.$store.state.user.portrait;
+          console.log(require('@/assets/img'+"/"+imgSrc))
+          return require('@/assets/img'+"/"+imgSrc)
+        }
+
       },
       username(){
         return this.$store.state.user.uname;

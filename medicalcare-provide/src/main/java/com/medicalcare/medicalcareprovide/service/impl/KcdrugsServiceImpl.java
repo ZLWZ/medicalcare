@@ -48,4 +48,10 @@ public class KcdrugsServiceImpl implements KcdrugsService {
         return kcdrugsMapper.selectCount(lambda);
     }
 
+    @Override
+    public int addKcdrugs(List<Kcdrugs> kcdrugs) {
+        return kcdrugsMapper.addKcdrugs(kcdrugs);
+    }
+
+
 }
