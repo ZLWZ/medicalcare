@@ -15,16 +15,17 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("cashier")
+@RequiresPermissions("cashier")
 public class RegisterVisiController {
     @Autowired
     private RegisterService registerServiceImpl;
     @RequestMapping(value = "addRegister",method = RequestMethod.POST)
-    @RequiresPermissions("cashier")
     public boolean addRegister(@RequestBody Register register){
         register.setRid(UserUtils.getrId());
         register.setRedate(new Timestamp(new Date().getTime()));
         register.setRprice(0);
         register.setRstatic(1L);
+        register.setPstate(0L);
         return registerServiceImpl.addRegister(register);
     }
 }

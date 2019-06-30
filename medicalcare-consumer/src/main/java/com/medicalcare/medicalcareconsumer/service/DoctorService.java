@@ -18,8 +18,9 @@ public interface DoctorService {
     List<Drugs> getAllDrugs(@RequestParam("dname")String dname);
 
     @RequestMapping(method = RequestMethod.POST,value = "addDrugs")
-    boolean addDrugs(@RequestBody Map map);
+    boolean addDrugs(@RequestBody Map<String,Object> map);
 
     @RequestMapping(method = RequestMethod.GET,value = "getAllPregdetils")
     List<Pregdetils> getAllPregdetils(@RequestParam("rid")String rid);
+
 }

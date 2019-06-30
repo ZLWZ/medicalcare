@@ -62,8 +62,8 @@
       </div>
       <div v-if="showstate">
         <div style="margin-top: -20px">
-          <el-table :data="tableData2" :default-sort = "{prop: 'id', order: 'ascending'}" style="width: 100%" height="240px" :header-cell-style="getRowClass">
-            <el-table-column align="center" sortable prop="id" label="编号"></el-table-column>
+          <el-table :data="tableData2" :default-sort = "{prop: 'did', order: 'ascending'}" style="width: 100%" height="240px" :header-cell-style="getRowClass">
+            <el-table-column align="center" sortable prop="did" label="编号"></el-table-column>
             <el-table-column align="center" prop="rdname" label="药名"></el-table-column>
             <el-table-column align="center" prop="dmoney" label="单价"></el-table-column>
             <el-table-column align="center" label="数量">
@@ -101,7 +101,6 @@
 </template>
 
 <script>
-    import diagnose from './Diagnose'
     export default {
       name: "doctor",
       data(){
@@ -180,7 +179,7 @@
             }
           })
           let tt = {
-            id:row.id,
+            did:row.id,
             rdname:row.dname,
             dmoney:row.money,
             dtype:row.dtype,
@@ -197,7 +196,7 @@
             }
           })
           let tt = {
-            id:row.id,
+            id:row.did,
             dname:row.rdname,
             money:row.dmoney,
             dtype:row.dtype
@@ -248,6 +247,7 @@
                rname:this.rname,
                current:this.current,
                size:this.size,
+               end:0
              }
            }).then((response) => {             // mark
              this.total = response.data.total
@@ -270,9 +270,6 @@
       created() {
         this.flush();
         this.getAllDrugs();
-      },
-      components:{
-        diagnose
       }
     }
 </script>
