@@ -112,7 +112,7 @@
         <el-col :span="3" :offset="13">
           <el-button type="danger" @click="handleReset()">清除</el-button>
           <el-button type="success" @click="handleSubmit()">添加</el-button></el-col>
-        <el-button type="success" @click="c()">c</el-button>
+        <!--<el-button type="success" @click="c()">c</el-button>-->
       </el-row>
     </Form>
 </div>
@@ -263,7 +263,8 @@
         console.log(this.tableDatas)
         if(this.tableDatas.length > 0){
           this.$axios.post("api/Storehouse/addKcdrugs",{
-            kcdrugss:this.tableDatas
+            kcdrugss:this.tableDatas,
+            uid:this.$store.state.user.uid
           }).then(data => {
             if(data.data.code == 10000){
               this.$emit('success',false)
@@ -306,21 +307,18 @@
             this.tableData.num = this.num;
             this.tableData.money = this.money;
             this.tableData.totalPrice = this.totalPrice;
-
             console.log(this.tableDatas.length)
             let f = true;
             for(let i = 0 ; i < this.tableDatas.length;i++){
-              console.log(this.tableDatas[i].dname == this.tableData.dname && this.tableDatas[i].mkdate == this.tableData.mkdate
-                && this.tableDatas[i].leavedate == this.tableData.leavedate && this.tableDatas[i].sid == this.tableData.sid
-                && this.tableDatas[i].cid == this.tableData.cid && this.tableDatas[i].did == this.tableData.did
-                && this.tableDatas[i].ktype == this.tableData.ktype && this.tableDatas[i].money == this.tableData.money)
               if(this.tableDatas[i].dname == this.tableData.dname && this.tableDatas[i].mkdate == this.tableData.mkdate
               && this.tableDatas[i].leavedate == this.tableData.leavedate && this.tableDatas[i].sid == this.tableData.sid
               && this.tableDatas[i].cid == this.tableData.cid && this.tableDatas[i].did == this.tableData.did
                 && this.tableDatas[i].ktype == this.tableData.ktype && this.tableDatas[i].money == this.tableData.money){
                 f = false;
-                this.tableDatas[i].totalPrice +=this.tableData.totalPrice;
-                this.tableDatas[i].num += this.tableData.num;
+                this.tableData.totalPrice += this.tableDatas[i].totalPrice;
+                this.tableData.num += this.tableDatas[i].num;
+                this.tableDatas.splice(i,1)
+                this.tableDatas.splice(i,0,this.tableData);
               }
             }
             if(f){

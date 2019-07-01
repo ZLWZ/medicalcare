@@ -1,7 +1,5 @@
 package com.medicalcare.medicalcareconsumer.service;
 
-import com.medicalcare.entity.Department;
-import com.medicalcare.entity.Role;
 import com.medicalcare.entity.User;
 import com.medicalcare.util.PageResult;
 import com.medicalcare.util.Result;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient("MEDICALCARE-PROVIDE/manager")

@@ -8,11 +8,11 @@ module.exports={
     hotOnly : false,//热模块更新，自带热更新，热更新可以对新添加的模块进行配置
     proxy: {
       '/api': {
-        target: 'http://localhost:9001',
+        target: 'http://localhost:8001',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': 'http://localhost:9001'  //通过pathRewrite重写地址，将前缀/api转为/
+          '^/api': 'http://localhost:8001'  //通过pathRewrite重写地址，将前缀/api转为/
         }
       }
     }

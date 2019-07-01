@@ -27,4 +27,10 @@ public class StorehouseController {
     public Result selList(){
         return storehouseService.selList();
     }
+
+
+    @PostMapping(value = "/addKcdrugs")
+    Result addKcdrugs(@RequestBody(required = false) Map<String,Object> map){
+        return storehouseService.addKcdrugs(map);
+    }
 }

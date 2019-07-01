@@ -2,6 +2,7 @@ package com.medicalcare.medicalcareprovide.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.medicalcare.entity.Kcdrugs;
 import com.medicalcare.medicalcareprovide.mapper.KcdrugsMapper;
 import com.medicalcare.medicalcareprovide.service.KcdrugsService;
@@ -51,6 +52,11 @@ public class KcdrugsServiceImpl implements KcdrugsService {
     @Override
     public int addKcdrugs(List<Kcdrugs> kcdrugs) {
         return kcdrugsMapper.addKcdrugs(kcdrugs);
+    }
+
+    @Override
+    public int delKcdrugs() {
+        return kcdrugsMapper.delete(new UpdateWrapper<Kcdrugs>().lambda().lt(Kcdrugs::getNum,0));
     }
 
 

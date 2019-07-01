@@ -2,7 +2,6 @@ package com.medicalcare.medicalcareconsumer.service;
 
 import com.medicalcare.entity.Drugs;
 import com.medicalcare.entity.Pregdetils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

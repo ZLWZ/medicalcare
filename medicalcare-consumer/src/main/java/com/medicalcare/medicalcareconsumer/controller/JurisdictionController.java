@@ -2,7 +2,6 @@ package com.medicalcare.medicalcareconsumer.controller;
 
 import com.medicalcare.medicalcareconsumer.service.JurisdictionService;
 import com.medicalcare.util.Result;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,6 @@ public class JurisdictionController {
      * @param current
      * @return
      */
-    @RequiresPermissions("jurisdiction")
     @RequestMapping(value = "/selAllRole",method = RequestMethod.GET)
     public Result selAllRole(@RequestParam(value = "rname",required = false) String rname,
                              @RequestParam(value = "startTime",required = false) String startTime,
