@@ -4,6 +4,7 @@ package com.medicalcare.medicalcareconsumer.controller;
 import com.medicalcare.service.APIService;
 import com.medicalcare.util.Result;
 import com.medicalcare.util.ResultCode;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

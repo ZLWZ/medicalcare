@@ -8,7 +8,7 @@
       <div class="clearance"></div>
       <el-input style="width: 200px;" placeholder="患者姓名" v-model="rname"></el-input>
       <div class="clearance"></div>
-      <el-button type="primary" icon="el-icon-search" @click="flush">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="sele">搜索</el-button>
       <el-button type="danger" icon="el-icon-refresh" @click="refresh">重置</el-button>
     </div>
     <el-table v-loading="loading" ref="table" :data="table" border tooltip-effect="dark" stripe :header-cell-style="getRowClass" style="width: 100%;font-size: 14px">
@@ -134,6 +134,10 @@
         refresh(){
           this.rid = ''
           this.rname = ''
+          this.flush()
+        },
+        sele(){
+          this.current = 1;
           this.flush()
         },
         //总条数切换
