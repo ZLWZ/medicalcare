@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DrugsServiceImpl implements DrugsService {
@@ -27,14 +28,22 @@ public class DrugsServiceImpl implements DrugsService {
     }
 
     @Override
-    public PageResult<Drugs> getAllDrugs(Drugs drugs, Integer current, Integer size) {
+    public PageResult<Drugs> getAllDrugs(Map<String,String> map) {
+        String dname = (String)map.get("dname");
+        Long dtype = Long.parseLong(map.get("dtype"));
+        Long cid =  Long.parseLong(map.get("cid"));
+        Long did =  Long.parseLong(map.get("did"));
+        Long sid =  Long.parseLong(map.get("sid"));
+        Integer current =  Integer.parseInt(map.get("current"));
+        Integer size =  Integer.parseInt(map.get("size"));
         PageResult<Drugs> result = new PageResult<Drugs>();
-        result.setRows(drugsMapper.getAllDrugs(drugs.getDname(),drugs.getDtype(),drugs.getCid(),drugs.getDid(),drugs.getSid(),current,size));
+        result.setRows(drugsMapper.getAllDrugs(dname,dtype,cid,did,sid,(current-1)*size,size));
         QueryWrapper<Drugs> queryWrapper = new QueryWrapper<Drugs>();
-        if(!StringUtils.isEmpty(drugs.getDname()))queryWrapper.lambda().like(Drugs::getDname,drugs.getDname());
-        if(drugs.getCid()!= 0)queryWrapper.lambda().eq(Drugs::getCid,drugs.getCid());
-        if(drugs.getDid()!= 0)queryWrapper.lambda().eq(Drugs::getDid,drugs.getDid());
-        if(drugs.getSid()!= 0)queryWrapper.lambda().eq(Drugs::getSid,drugs.getSid());
+        if(!StringUtils.isEmpty(dname))queryWrapper.lambda().like(Drugs::getDname,dname);
+        if(dtype!=0)queryWrapper.lambda().eq(Drugs::getDtype,dtype);
+        if(cid!= 0)queryWrapper.lambda().eq(Drugs::getCid,cid);
+        if(did!= 0)queryWrapper.lambda().eq(Drugs::getDid,did);
+        if(sid!= 0)queryWrapper.lambda().eq(Drugs::getSid,sid);
         result.setTotal(drugsMapper.selectCount(queryWrapper).longValue());
         return result;
     }
@@ -47,5 +56,10 @@ public class DrugsServiceImpl implements DrugsService {
     @Override
     public boolean updateDrugs(Drugs drugs) {
         return drugsMapper.updateById(drugs)>0;
+    }
+
+    @Override
+    public boolean updateDrugState(Long id, Long kstate) {
+        return drugsMapper.updateDrugState(id,kstate);
     }
 }

@@ -21,15 +21,16 @@
         </association>
         <association property="dosage" javaType="com.medicalcare.entity.Dosage">
             <id  column="did" property="did"></id>
-            <result column="ddname" property="dname"></result>
+            <result column="odname" property="dname"></result>
         </association>
     </resultMap>
     <select id="getAllDrugs" resultMap="getDrugs">
-        select * from drugs d
+        select d.*,s.*,c.*,o.did,o.dname odname from drugs d
         inner join specifi s on d.sid = s.sid
         inner join dosage o on d.did = o.did
         inner join company c on d.cid = c.cid
         <where>
+            d.kstate between 1 and 2
             <if test="dname != null and dname != ''">
                 and d.dname like "%"#{dname}"%"
             </if>
@@ -48,4 +49,7 @@
         </where>
         order by d.id limit #{current},#{size}
     </select>
+    <update id="updateDrugState">
+      update drugs set kstate = #{kstate} where id = #{id}
+    </update>
 </mapper>

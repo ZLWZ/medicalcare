@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient("MEDICALCARE-PROVIDE/pharmacy")
 public interface InquiriesService {
     @RequestMapping(method = RequestMethod.POST,value = "getAllDrugs")
-    public PageResult<Drugs> getAllDrugs(@RequestParam("current") Integer current, @RequestParam("size") Integer size,@RequestBody Drugs drugs);
+    public PageResult<Drugs> getAllDrugs(@RequestBody Map<String,String> map);
+
+    @RequestMapping(method = RequestMethod.GET,value = "updateDrugState")
+    public boolean updateDrugState(@RequestParam("id")Long id,@RequestParam("kstate")Long kstate);
 }
