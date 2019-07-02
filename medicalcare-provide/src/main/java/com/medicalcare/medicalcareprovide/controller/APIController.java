@@ -81,7 +81,6 @@ public class APIController {
     public Result duty(){
         return new Result(ResultCode.SUCCESS);
     }
-
     @GetMapping("/doctor/api")
     @RequiresPermissions("doctor")
     public Result doctor(){

@@ -10,7 +10,7 @@
       <el-col :span="9" >
         <div class="block">
           <span class="demonstration">过期日期:</span>
-          <el-date-picker v-model="leavedate" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+          <el-date-picker v-model="leavedate" type="daterange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
           </el-date-picker>
           <!--<el-date-picker v-model="leaveStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
           <!--<el-date-picker v-model="leaveStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
@@ -37,7 +37,7 @@
       <el-col :span="9">
         <div class="block">
           <span class="demonstration">生产日期:</span>
-          <el-date-picker v-model="mkdate" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+          <el-date-picker v-model="mkdate" type="daterange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
           </el-date-picker>
           <!--<el-date-picker v-model="mkStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
           <!--<el-date-picker v-model="mkStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
@@ -68,7 +68,7 @@
       <el-col :span="9" >
         <div class="block">
           <span class="demonstration">进货日期:</span>
-          <el-date-picker v-model="joindate" type="datetimerange" style="margin-top: 10px" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+          <el-date-picker v-model="joindate" type="daterange" style="margin-top: 10px" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
           </el-date-picker>
           <!--<el-date-picker v-model="joinStartDate" type="datetime" style="margin-top: 10px" placeholder="开始时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
           <!--<el-date-picker v-model="joinStopDate" type="datetime" style="margin-top: 10px" placeholder="结束时间" align="right" :picker-options="pickerOptions"></el-date-picker>-->
@@ -97,12 +97,12 @@
       <el-table-column prop="mkdate" label="生产日期" width="120"></el-table-column>
       <el-table-column prop="joindate" label="进药日期" width="120"></el-table-column>
       <el-table-column prop="leavedate" label="过期日期" width="120"></el-table-column>
-      <el-table-column prop="details" label="描述" width="120"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
-        <template slot-scope="scope">
-          <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">移除</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column fixed="right" prop="user.acount" label="操作人" width="120"></el-table-column>
+      <!--<el-table-column fixed="right" label="操作" width="120">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">移除</el-button>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
     </el-table>
     <!--分页-->
     <el-row :gutter="20" type="flex"  style="margin-top: 20px" justify="center">

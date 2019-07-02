@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -29,14 +30,18 @@ public class Kcdrugs implements Serializable {
   private long sid;
   private long did;
   private double money;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp mkdate; //生产日期
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp joindate; //进货日期
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-  private java.sql.Timestamp leavedate; //过期日期
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  private Date mkdate; //生产日期
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  private Date joindate; //进货日期
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  private Date leavedate; //过期日期
   private String details;
 
+  private String uid;
+
+  @TableField(exist = false)
+  private User user;
   /**
    * 厂家表
    */

@@ -16,4 +16,6 @@ public interface KcdrugsService {
 
     int addKcdrugs(List<Kcdrugs> kcdrugs);
 
+
+    int delKcdrugs();
 }

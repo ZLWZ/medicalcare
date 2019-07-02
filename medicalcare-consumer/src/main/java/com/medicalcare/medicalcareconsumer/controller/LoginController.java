@@ -3,14 +3,10 @@ package com.medicalcare.medicalcareconsumer.controller;
 import com.medicalcare.entity.User;
 import com.medicalcare.medicalcareconsumer.service.LoginService;
 import com.medicalcare.util.Result;
-import feign.codec.Encoder;
-import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
