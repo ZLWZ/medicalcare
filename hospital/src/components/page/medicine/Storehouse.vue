@@ -216,6 +216,7 @@
       },
       methods: {
         success(res){
+          this.selectPage();
           this.dialogVisible  = res;
         },
         deleteRow(index, rows) {

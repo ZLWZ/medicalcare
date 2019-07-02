@@ -45,7 +45,7 @@ public class KcdrugsServiceImpl implements KcdrugsService {
         if(leavedateList != null && !leavedateList.isEmpty())lambda.between(Kcdrugs::getLeavedate,leavedateList.get(0),leavedateList.get(1));
         if(joindateList != null && !joindateList.isEmpty())lambda.between(Kcdrugs::getJoindate,joindateList.get(0),joindateList.get(1));
         if(name != null && !"".equals(name)) lambda.like(Kcdrugs::getDname,name);
-        if(name != null && !"".equals(ktype)) lambda.eq(Kcdrugs::getKtype,ktype);
+        if(ktype != null && !"".equals(ktype)) lambda.eq(Kcdrugs::getKtype,ktype);
         return kcdrugsMapper.selectCount(lambda);
     }
 

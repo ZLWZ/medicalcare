@@ -12,5 +12,5 @@ import java.util.Map;
 public interface WasteService {
 
     @PostMapping("/selWaste")
-    Result selStock(@RequestBody Map<Object,String> map);
+    Result selStock(Map<String,Object> map);
 }

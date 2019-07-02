@@ -20,7 +20,7 @@ public class WasteController {
 
 
     @PostMapping("/selWaste")
-    public Result selStock(@RequestBody Map<Object,String> map){
+    public Result selStock(@RequestBody(required = false) Map<String,Object> map){
         return wasteService.selStock(map);
     }
 

@@ -8,7 +8,7 @@
         <id column="id" property="id"></id>
         <result column="ksname" property="sname"></result>
         <result column="num" property="num"></result>
-        <result column="ktype" property="stype"></result>
+        <result column="stype" property="stype"></result>
         <result column="dmoney" property="dmoney"></result>
         <result column="zmoney" property="zmoney"></result>
         <result column="mkdate" property="mkdate"></result>
@@ -69,7 +69,7 @@
             <if test="map.joinStartDate != null and map.joinStopDate != null">
                 and k.joindate between #{map.joinStartDate} and #{map.joinStopDate}
             </if>
-            <if test="map.ktype != null and map.ktype != ''">
+            <if test="map.stype != null and map.stype != ''">
                 and k.stype = #{map.stype}
             </if>
             <if test="map.name != null and map.name != ''">

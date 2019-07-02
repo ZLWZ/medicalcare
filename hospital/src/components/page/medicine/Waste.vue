@@ -47,7 +47,7 @@
       <el-col :span="5">
         <div class="block">
           <span class="demonstration">类型:</span>
-          <el-select v-model="ktype"  clearable placeholder="请选择中/西药">
+          <el-select v-model="stype"  clearable placeholder="请选择中/西药">
             <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -88,7 +88,7 @@
       <el-table-column fixed prop="id" label="药品id" width="150"></el-table-column>
       <el-table-column prop="sname" label="药品名称" width="120"></el-table-column>
       <el-table-column prop="num" label="药库存数量" width="120"></el-table-column>
-      <el-table-column prop="ktype" :formatter="kTypeIf" label="中/西药" width="120"></el-table-column>
+      <el-table-column prop="stype" :formatter="kTypeIf" label="中/西药" width="120"></el-table-column>
       <el-table-column prop="company.cname" label="厂家" width="300"></el-table-column>
       <el-table-column prop="specifi.sname" label="规格" width="120"></el-table-column>
       <el-table-column prop="dosage.dname" label="剂型" width="120"></el-table-column>
@@ -144,7 +144,7 @@
         specifis:[], //规格集合
         dosages:[], //剂型集合
         companys:[], //厂家集合
-        ktype:'', //中/西药
+        stype:'', //中/西药
         tableData: [],
         page: 1,
         total:1, //总条数
@@ -216,6 +216,7 @@
         this.selectPage();
       },
       kTypeIf(row, column, value){
+        console.log(value)
         switch (value) {
           case 1:
             return '中药'
@@ -235,7 +236,7 @@
           mkdate : this.mkdate,//生产日期
           leavedate : this.leavedate, //过期日期
           joindate : this.joindate, //进药日期
-          ktype:this.ktype,//中/西药
+          stype:this.stype,//中/西药
           pageSize : this.pageSize, //显示条数
           page : this.page  //当前页数
         }).then(data => {
@@ -245,6 +246,7 @@
         }).catch(data => {
 
         })
+
       },
       handleClose(done) { //开启弹框
         this.$confirm('确认关闭？')
@@ -262,6 +264,7 @@
         page:this.page,
         pageSize:this.pageSize,
       }).then(data => {
+        console.log(data)
         this.tableData = data.data.data.rows
         this.total = data.data.data.total
         this.$axios.get("/api/Storehouse/selList").then(data => {

@@ -38,7 +38,7 @@ public class StockServiceImpl implements StockService {
         List<String> leavedateList = (List<String>)map.get("leavedate");
         List<String> joindateList = (List<String>) map.get("joindate");
         Object name = map.get("name");
-        Object ktype = map.get("ktype");
+        Object ktype = map.get("stype");
         if(sid != null && !sid.isEmpty())lambda.in(Stock::getSid,sid);
         if(cid != null && !cid.isEmpty())lambda.in(Stock::getCid,cid);
         if(did != null && !did.isEmpty())lambda.in(Stock::getDid,did);
@@ -46,7 +46,7 @@ public class StockServiceImpl implements StockService {
         if(leavedateList != null && !leavedateList.isEmpty())lambda.between(Stock::getLeavedate,leavedateList.get(0),leavedateList.get(1));
         if(joindateList != null && !joindateList.isEmpty())lambda.between(Stock::getJoindate,joindateList.get(0),joindateList.get(1));
         if(name != null && !"".equals(name)) lambda.like(Stock::getSname,name);
-        if(name != null && !"".equals(ktype)) lambda.eq(Stock::getStype,ktype);
+        if(ktype != null && !"".equals(ktype)) lambda.eq(Stock::getStype,ktype);
         return stockMapper.selectCount(lambda);
     }
 }

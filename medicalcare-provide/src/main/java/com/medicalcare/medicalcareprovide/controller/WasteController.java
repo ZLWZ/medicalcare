@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.crypto.MacSpi;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +23,11 @@ public class WasteController {
 
     @RequiresPermissions("waste")
     @PostMapping("/selWaste")
-    public Result selStock(@RequestBody Map<String,Object> map){
+    public Result selStock(@RequestBody(required = false) Map<String,Object> map){
         int page = Integer.parseInt(map.get("page").toString());
         int pageSize = Integer.parseInt(map.get("pageSize").toString());
         map.put("page",(page - 1) * pageSize);
+        map.put("pageSize",pageSize);
         List<String> mkdateList = (List<String>) map.get("mkdate");
         List<String> leavedateList = (List<String>)map.get("leavedate");
         List<String> joindateList = (List<String>) map.get("joindate");
