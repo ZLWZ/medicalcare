@@ -62,4 +62,11 @@ public class DrugsServiceImpl implements DrugsService {
     public boolean updateDrugState(Long id, Long kstate) {
         return drugsMapper.updateDrugState(id,kstate);
     }
+
+    @Override
+    public List<Drugs> getDrugDefi() {
+        QueryWrapper<Drugs> queryWrapper = new QueryWrapper<Drugs>();
+        queryWrapper.lambda().lt(Drugs::getNum,10);
+        return drugsMapper.selectList(queryWrapper);
+    }
 }

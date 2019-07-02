@@ -16,4 +16,6 @@ public interface DrugsService {
     boolean updateDrugs(Drugs drugs);
 
     boolean updateDrugState(Long id, Long kstate);
+
+    List<Drugs> getDrugDefi();
 }

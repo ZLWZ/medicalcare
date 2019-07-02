@@ -10,5 +10,5 @@ public interface SpecifiService {
     List<Specifi> selAllSpecifi();
 
 
-
+    Specifi selBysid(long sid);
 }

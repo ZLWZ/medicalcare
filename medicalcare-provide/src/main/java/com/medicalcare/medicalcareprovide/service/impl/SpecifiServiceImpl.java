@@ -1,5 +1,6 @@
 package com.medicalcare.medicalcareprovide.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.medicalcare.entity.Specifi;
 import com.medicalcare.medicalcareprovide.mapper.SpecifiMapper;
 import com.medicalcare.medicalcareprovide.service.SpecifiService;
@@ -17,5 +18,10 @@ public class SpecifiServiceImpl implements SpecifiService {
     @Override
     public List<Specifi> selAllSpecifi() {
         return specifiMapper.selectList(null);
+    }
+
+    @Override
+    public Specifi selBysid(long sid) {
+        return specifiMapper.selectOne(new QueryWrapper<Specifi>().lambda().eq(Specifi::getSid,sid));
     }
 }

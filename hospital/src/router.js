@@ -80,7 +80,7 @@ export const constantRouterMap = [
       {
         path:'/delivery',
         component:()=> import('./components/page/medicine/Delivery'),
-        meta: { title: '药物出药' }
+        meta: { title: '药库出药' }
       },
       {
         path:'/personalCenter',
