@@ -16,8 +16,14 @@ export const constantRouterMap = [
     path: '/',
     name:'/',
     component: () => import('./components/common/Home'),
+    redirect:'/',
     meta: { title: '自述文件' },
     children:[
+      {
+        path: '/',
+        component: () => import('./components/ShouYe'),
+        meta: { title: '首页' }
+      },
       {
         path: '/doctor',
         component: () => import('./components/page/doctor/Doctor'),

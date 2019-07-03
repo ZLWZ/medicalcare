@@ -30,6 +30,7 @@ public class Apply implements Serializable {
   private long sid; //规格
   private long num; //申请数量
   private long did; //申请科室
+  private long xnum;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   private java.sql.Timestamp mkdate; //申请时间
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")

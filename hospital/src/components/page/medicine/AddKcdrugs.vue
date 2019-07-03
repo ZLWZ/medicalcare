@@ -1,103 +1,103 @@
 <template>
   <div>
-  <el-table
-    :data="tableDatas"
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="商品名称:"><span>{{ props.row.dname }}</span></el-form-item>
-          <el-form-item label="厂家:"><span>{{ props.row.company.cname }}</span></el-form-item>
-          <el-form-item label="生产日期:"><span>{{ props.row.mkdate }}</span></el-form-item>
-          <el-form-item label="过期日期:"><span>{{ props.row.leavedate }}</span></el-form-item>
-          <el-form-item label="数量:"><span>{{ props.row.num }}</span></el-form-item>
-          <el-form-item label="单价:"><span>{{ props.row.money }}</span></el-form-item>
-          <el-form-item label="总价:"><span>{{ props.row.totalPrice }}</span></el-form-item>
-          <el-form-item label="规格:"><span>{{ props.row.specifi.sname }}</span></el-form-item>
-          <el-form-item label="剂型:"><span>{{ props.row.dosage.dname }}</span></el-form-item>
-          <el-form-item label="类型:"><span>{{ obtainKname(props.row.ktype) }}</span></el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column label="商品名称" prop="dname"></el-table-column>
-    <el-table-column label="数量" prop="num"></el-table-column>
-    <el-table-column label="单价" prop="money"></el-table-column>
-    <el-table-column label="总价" prop="totalPrice"></el-table-column>
-    <el-table-column label="厂家" prop="company.cname"></el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button size="mini" @click="deleteTableData(scope.row,scope.$index)">删除</el-button>
-        <!--<el-button size="mini" type="danger">修改</el-button>-->
-      </template>
-    </el-table-column>
-  </el-table>
+    <el-table
+      :data="tableDatas"
+      style="width: 100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="商品名称:"><span>{{ props.row.dname }}</span></el-form-item>
+            <el-form-item label="厂家:"><span>{{ props.row.company.cname }}</span></el-form-item>
+            <el-form-item label="生产日期:"><span>{{ props.row.mkdate }}</span></el-form-item>
+            <el-form-item label="过期日期:"><span>{{ props.row.leavedate }}</span></el-form-item>
+            <el-form-item label="数量:"><span>{{ props.row.num }}</span></el-form-item>
+            <el-form-item label="单价:"><span>{{ props.row.money }}</span></el-form-item>
+            <el-form-item label="总价:"><span>{{ props.row.totalPrice }}</span></el-form-item>
+            <el-form-item label="规格:"><span>{{ props.row.specifi.sname }}</span></el-form-item>
+            <el-form-item label="剂型:"><span>{{ props.row.dosage.dname }}</span></el-form-item>
+            <el-form-item label="类型:"><span>{{ obtainKname(props.row.ktype) }}</span></el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column label="商品名称" prop="dname"></el-table-column>
+      <el-table-column label="数量" prop="num"></el-table-column>
+      <el-table-column label="单价" prop="money"></el-table-column>
+      <el-table-column label="总价" prop="totalPrice"></el-table-column>
+      <el-table-column label="厂家" prop="company.cname"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="deleteTableData(scope.row,scope.$index)">删除</el-button>
+          <!--<el-button size="mini" type="danger">修改</el-button>-->
+        </template>
+      </el-table-column>
+    </el-table>
     <el-row style="margin-top: 10px">
       <el-col :span="3" :offset="21">
         <el-button type="danger" @click="cancel()">取消</el-button>
         <el-button type="success" @click="subimtFcdrugs()">提交</el-button>
       </el-col>
     </el-row>
-  <el-divider></el-divider>
+    <el-divider></el-divider>
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-    <el-row>
-      <el-col :span="6" >
-        <FormItem label="名称:" prop="name">
-          <el-input style="width: 200px;" placeholder="请输入名称" v-model="formValidate.name" clearable></el-input>
-        </FormItem>
-      </el-col>
-      <el-col :span="6">
-          <FormItem label="生产日期:" prop="mkdate">
-          <el-date-picker v-model="formValidate.mkdate" type="date" placeholder="选择生产日期" align="right" style="width: 200px;" :picker-options="pickerOptions"></el-date-picker>
+      <el-row>
+        <el-col :span="6" >
+          <FormItem label="名称:" prop="name">
+            <el-input style="width: 200px;" placeholder="请输入名称" v-model="formValidate.name" clearable></el-input>
           </FormItem>
-      </el-col>
-      <el-col :span="6">
-        <FormItem label="过期日期:" prop="leavedate">
-          <el-date-picker v-model="formValidate.leavedate" type="date" placeholder="选择过期日期" align="right" style="width: 200px;" :picker-options="leavedateOptions">
-          </el-date-picker>
-        </FormItem>
-      </el-col>
-      <!--中/西药-->
-      <el-col :span="6" >
-        <div class="block">
-          <FormItem label="类型:" prop="ktype">
-            <el-select v-model="formValidate.ktype"  clearable placeholder="请选择中/西药">
-              <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-col>
+        <el-col :span="6">
+          <FormItem label="生产日期:" prop="mkdate">
+            <el-date-picker v-model="formValidate.mkdate" type="date" placeholder="选择生产日期" align="right" style="width: 200px;" :picker-options="pickerOptions"></el-date-picker>
+          </FormItem>
+        </el-col>
+        <el-col :span="6">
+          <FormItem label="过期日期:" prop="leavedate">
+            <el-date-picker v-model="formValidate.leavedate" type="date" placeholder="选择过期日期" align="right" style="width: 200px;" :picker-options="leavedateOptions">
+            </el-date-picker>
+          </FormItem>
+        </el-col>
+        <!--中/西药-->
+        <el-col :span="6" >
+          <div class="block">
+            <FormItem label="类型:" prop="ktype">
+              <el-select v-model="formValidate.ktype"  clearable placeholder="请选择中/西药">
+                <el-option v-for="item in kTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </FormItem>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <!--剂型查询-->
+        <el-col :span="6">
+          <FormItem label="剂型:" prop="did">
+            <el-select v-model="formValidate.did"  placeholder="请选择剂型">
+              <el-option v-for="item in dosages" :key="item.did" :label="item.dname" :value="item.did"></el-option>
             </el-select>
           </FormItem>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <!--剂型查询-->
-      <el-col :span="6">
-        <FormItem label="剂型:" prop="did">
-        <el-select v-model="formValidate.did"  placeholder="请选择剂型">
-          <el-option v-for="item in dosages" :key="item.did" :label="item.dname" :value="item.did"></el-option>
-        </el-select>
-        </FormItem>
-      </el-col>
-      <!--厂家查询-->
-      <el-col :span="6">
-        <FormItem label="厂家:" prop="cid">
-        <el-select v-model="formValidate.cid"  placeholder="请选择厂家">
-          <el-option v-for="item in companys" :key="item.cid" :label="item.cname" :value="item.cid"></el-option>
-        </el-select>
-        </FormItem>
-      </el-col>
-      <!--规格查询-->
-      <el-col :span="6">
-        <FormItem label="规格:" prop="sid">
-        <el-select v-model="formValidate.sid"  placeholder="请选择规格">
-          <el-option v-for="item in specifis" :key="item.sid" :label="item.sname" :value="item.sid"></el-option>
-        </el-select>
-        </FormItem>
-      </el-col>
-      <el-col :span="6">
-        <FormItem label="数量:" prop="num">
-        <el-input-number v-model="num" style="width: 200px"  :min="1"  label="描述文字"></el-input-number>
-        </FormItem>
-      </el-col>
-    </el-row>
+        </el-col>
+        <!--厂家查询-->
+        <el-col :span="6">
+          <FormItem label="厂家:" prop="cid">
+            <el-select v-model="formValidate.cid"  placeholder="请选择厂家">
+              <el-option v-for="item in companys" :key="item.cid" :label="item.cname" :value="item.cid"></el-option>
+            </el-select>
+          </FormItem>
+        </el-col>
+        <!--规格查询-->
+        <el-col :span="6">
+          <FormItem label="规格:" prop="sid">
+            <el-select v-model="formValidate.sid"  placeholder="请选择规格">
+              <el-option v-for="item in specifis" :key="item.sid" :label="item.sname" :value="item.sid"></el-option>
+            </el-select>
+          </FormItem>
+        </el-col>
+        <el-col :span="6">
+          <FormItem label="数量:" prop="num">
+            <el-input-number v-model="num" style="width: 200px"  :min="1"  label="描述文字"></el-input-number>
+          </FormItem>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="6">
           <FormItem label="单价:" prop="money">
@@ -106,7 +106,7 @@
         </el-col>
         <el-col :span="2">
           <FormItem label="总价:" prop="money">
-          {{CalculationTotalPrice}}
+            {{CalculationTotalPrice}}
           </FormItem>
         </el-col>
         <el-col :span="3" :offset="13">
@@ -115,7 +115,7 @@
         <!--<el-button type="success" @click="c()">c</el-button>-->
       </el-row>
     </Form>
-</div>
+  </div>
 
 </template>
 
@@ -288,8 +288,8 @@
       },
       handleReset(){
         this.num=1, //数量
-        this.money=1.00, //单
-        this.$refs.formValidate.resetFields();
+          this.money=1.00, //单
+          this.$refs.formValidate.resetFields();
       },
       handleSubmit () {
         this.$refs.formValidate.validate((valid) => {
@@ -311,8 +311,8 @@
             let f = true;
             for(let i = 0 ; i < this.tableDatas.length;i++){
               if(this.tableDatas[i].dname == this.tableData.dname && this.tableDatas[i].mkdate == this.tableData.mkdate
-              && this.tableDatas[i].leavedate == this.tableData.leavedate && this.tableDatas[i].sid == this.tableData.sid
-              && this.tableDatas[i].cid == this.tableData.cid && this.tableDatas[i].did == this.tableData.did
+                && this.tableDatas[i].leavedate == this.tableData.leavedate && this.tableDatas[i].sid == this.tableData.sid
+                && this.tableDatas[i].cid == this.tableData.cid && this.tableDatas[i].did == this.tableData.did
                 && this.tableDatas[i].ktype == this.tableData.ktype && this.tableDatas[i].money == this.tableData.money){
                 f = false;
                 this.tableData.totalPrice += this.tableDatas[i].totalPrice;

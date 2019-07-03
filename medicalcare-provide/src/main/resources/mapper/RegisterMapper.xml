@@ -36,7 +36,7 @@
             <if test="rname != null and rname != ''">
                 and r.rname like "%"#{rname}"%"
             </if>
-            order by r.rstatic,r.redate desc
+            order by r.rstatic,r.pstate,r.redate desc
             <if test="current != -1 and size != -1">
                 limit #{current},#{size}
             </if>

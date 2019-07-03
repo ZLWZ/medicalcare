@@ -11,4 +11,6 @@ public interface DrugsMapper extends BaseMapper<Drugs> {
                 @Param("did") Long did,@Param("sid") Long sid,@Param("current") Integer current,@Param("size") Integer size);
 
     boolean updateDrugState(@Param("id")Long id,@Param("kstate") Long kstate);
+
+    boolean updateNum(@Param("num")long num,@Param("dname")String dname,@Param("dtype") Long dtype,@Param("sid") Long sid);
 }

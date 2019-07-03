@@ -18,4 +18,8 @@ public interface KcdrugsService {
 
 
     int delKcdrugs();
+
+    boolean outYao(Kcdrugs kcdrugs);
+
+    boolean chuYao(Kcdrugs kcdrugs);
 }

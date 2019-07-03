@@ -9,5 +9,5 @@ public interface ApplyService {
 
     boolean insertApply(Map<String, Object> map);
 
-    List<Apply> getAllApply();
+    List<Apply> getAllApply(String begin,String end);
 }

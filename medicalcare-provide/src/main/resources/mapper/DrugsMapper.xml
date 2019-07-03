@@ -52,4 +52,7 @@
     <update id="updateDrugState">
       update drugs set kstate = #{kstate} where id = #{id}
     </update>
+    <update id="updateNum">
+      update drugs set num = num + #{num}  where dname = #{dname}  and dtype = #{dtype}  and sid = #{sid}
+    </update>
 </mapper>
