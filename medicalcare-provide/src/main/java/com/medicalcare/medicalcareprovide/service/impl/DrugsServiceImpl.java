@@ -69,4 +69,9 @@ public class DrugsServiceImpl implements DrugsService {
         queryWrapper.lambda().lt(Drugs::getNum,10);
         return drugsMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public List<Drugs> getTongJi() {
+        return drugsMapper.getTongJi();
+    }
 }

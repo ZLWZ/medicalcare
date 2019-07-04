@@ -16,4 +16,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     Role selRoleId(@Param("rid") long rid);
 
     int updateRoleId(@Param("role") Role role);
+
+    List<Role> getTongJi();
 }

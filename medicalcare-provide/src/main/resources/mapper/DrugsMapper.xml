@@ -55,4 +55,11 @@
     <update id="updateNum">
       update drugs set num = num + #{num}  where dname = #{dname}  and dtype = #{dtype}  and sid = #{sid}
     </update>
+    <resultMap id="tongJi" type="com.medicalcare.entity.Drugs">
+        <result column="dtype" property="dtype"></result>
+        <result column="con" property="num"></result>
+    </resultMap>
+    <select id="getTongJi" resultMap="tongJi">
+        select dtype,COUNT(*) con from drugs group by dtype;
+    </select>
 </mapper>

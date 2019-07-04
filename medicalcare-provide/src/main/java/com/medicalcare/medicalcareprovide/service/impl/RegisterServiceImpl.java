@@ -1,5 +1,7 @@
 package com.medicalcare.medicalcareprovide.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.medicalcare.entity.Register;
 import com.medicalcare.medicalcareprovide.mapper.RegisterMapper;
@@ -9,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -50,5 +54,16 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public boolean updatePstate(String rid,Double rprice,long pstate) {
         return registerMapper.updatePstate(rid,rprice,pstate);
+    }
+
+    @Override
+    public List<Integer> getReg(Map<String, Object> map, long pstate) {
+        String data = JSONArray.toJSONString(map.get("data"));
+        List<String> list = JSON.parseArray(data, String.class);
+        List<Integer> ll = new ArrayList<>();
+        for (String s : list){
+            ll.add( registerMapper.selectCount(new QueryWrapper<Register>().lambda().likeRight(Register::getRedate, s).eq(Register::getPstate,pstate)));
+        }
+        return ll;
     }
 }

@@ -64,5 +64,10 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.delete(new UpdateWrapper<Role>().lambda().eq(Role::getRid,rid)) > 0;
     }
 
+    @Override
+    public List<Role> getTongJi() {
+        return roleMapper.getTongJi();
+    }
+
 
 }

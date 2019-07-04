@@ -10,6 +10,7 @@ public interface KcdrugsService {
 
     List<Kcdrugs> selAllPageKcdrugs(Map<String,Object> map);
 
+    List<Kcdrugs> getTongJi();
 
     long selKcdrugsCount(Map<String,Object> map);
 

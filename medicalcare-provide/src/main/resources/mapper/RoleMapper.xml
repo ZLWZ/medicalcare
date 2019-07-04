@@ -24,4 +24,15 @@
       update role set `rname` = #{role.rname},`describe` = #{role.describe},`change_time` = #{role.changeTime}
       where `rid` = #{role.rid}
     </update>
+    <resultMap id="tongJi" type="com.medicalcare.entity.Role">
+        <id column="con" property="rid"></id>
+        <result column="rname" property="rname"></result>
+    </resultMap>
+    <select id="getTongJi" resultMap="tongJi">
+        SELECT r.rname,ROUND((COUNT(ur.uid)/(SELECT COUNT(1) FROM user_role ur INNER JOIN role r ON ur.rid = r.rid
+        WHERE r.rname != '超级管理'))*100,2) con FROM user_role ur
+        INNER JOIN role r ON ur.rid = r.rid
+        GROUP BY r.rname HAVING r.rname != '超级管理'
+        ORDER BY con DESC;
+    </select>
 </mapper>

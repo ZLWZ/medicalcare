@@ -38,46 +38,7 @@
     data() {
       return {
         collapse: false,
-        items: [
-          {
-            icon: 'el-icon-user-solid',
-            index: '1',
-            title: '人员管理',
-            subs: [
-              {
-                index: 'infoManager',
-                title: '人员信息管理'
-              },
-              {
-                index: 'duty',
-                title: '值班管理'
-              }
-            ]
-          },
-          {
-            icon: 'el-icon-user',
-            index: '2',
-            title: '医生'
-          },
-          {
-            icon: 'el-icon-coin',
-            index: '3',
-            title: '前台收银',
-            subs: []
-          },
-          {
-            icon: 'el-icon-first-aid-kit',
-            index: '4',
-            title: '药师',
-            subs: []
-          },
-          {
-            icon: 'el-icon-s-home',
-            index: '5',
-            title: '药库管理',
-            subs: []
-          }
-        ]
+        items: []
       }
     },
     computed:{

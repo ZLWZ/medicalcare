@@ -18,4 +18,6 @@ public interface DrugsService {
     boolean updateDrugState(Long id, Long kstate);
 
     List<Drugs> getDrugDefi();
+
+    List<Drugs> getTongJi();
 }

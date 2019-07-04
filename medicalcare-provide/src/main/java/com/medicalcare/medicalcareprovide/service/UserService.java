@@ -38,4 +38,6 @@ public interface UserService {
     List<User> getUserByDid(Long did,Long rid);
     /*得到人员流动表中的数据*/
     User getInfoUser(String uid);
+
+    List<User> getTongJi();
 }

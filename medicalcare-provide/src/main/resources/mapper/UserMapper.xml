@@ -136,18 +136,13 @@
             u.uid = #{uid} and u.state = 3
         </where>
     </select>
-    <!--<update id="updateUser">-->
-        <!--update user-->
-        <!--<set>-->
-            <!--uid = #{user.uid}-->
-            <!--<if test="user.portrait != null and user.portrait != ''">-->
-                <!--portrait = #{user.portrait}-->
-            <!--</if>-->
-        <!--</set>-->
-        <!--<where>-->
-            <!--<if test="user.uid != null and user.uid != ''">-->
-              <!--uid = #{user.uid}-->
-            <!--</if>-->
-        <!--</where>-->
-    <!--</update>-->
+    <resultMap id="tongJi" type="com.medicalcare.entity.User">
+        <result column="dname" property="uname"></result>
+        <result column="con" property="age"></result>
+    </resultMap>
+    <select id="getTongJi" resultMap="tongJi">
+        select d.dname,COUNT(u.did) con from user u
+        inner join department d on u.did = d.did
+        group by d.dname;
+    </select>
 </mapper>

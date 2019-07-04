@@ -86,4 +86,11 @@
           #{k.dname},#{k.num},#{k.ktype},#{k.money},#{k.mkdate},#{k.joindate},#{k.leavedate},#{k.details},#{k.cid},#{k.did},#{k.sid},#{k.uid}
       </foreach>
     </insert>
+    <resultMap id="tongJi" type="com.medicalcare.entity.Kcdrugs">
+        <result column="ktype" property="ktype"></result>
+        <result column="con" property="num"></result>
+    </resultMap>
+    <select id="getTongJi" resultMap="tongJi">
+        select ktype,COUNT(*) con from kcdrugs group by ktype;
+    </select>
 </mapper>

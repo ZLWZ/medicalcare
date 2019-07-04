@@ -22,4 +22,6 @@ public interface RoleService {
     boolean updateRoleId(Role role);
 
     boolean deleteRole(long rid);
+
+    List<Role> getTongJi();
 }

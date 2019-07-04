@@ -13,13 +13,14 @@ import { messages } from './components/common/i18n';
 import { Base64 } from 'js-base64';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-
+import echarts from 'echarts'
 
 window.Vue = Vue
 Vue.use(ElementUI,{
   size: 'small'
 });
 Vue.use(iView);
+Vue.prototype.$echarts = echarts
 
 const i18n = new VueI18n({
   locale: 'zh',

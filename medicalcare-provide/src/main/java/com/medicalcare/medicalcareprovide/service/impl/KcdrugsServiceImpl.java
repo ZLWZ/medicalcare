@@ -37,6 +37,11 @@ public class KcdrugsServiceImpl implements KcdrugsService {
         return kcdrugsMapper.selAllPageKcdrugs(map);
     }
 
+    @Override
+    public List<Kcdrugs> getTongJi() {
+        return kcdrugsMapper.getTongJi();
+    }
+
 
     @Override
     public long selKcdrugsCount(Map<String, Object> map) {
